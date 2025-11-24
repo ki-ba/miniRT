@@ -13,4 +13,8 @@
 #ifndef PARSING_H
 # define PARSING_H
 
+# include "libft.h"
+
+// t_list	list_spheres(int fd);
+int		has_correct_extension(char *filename);
 #endif
