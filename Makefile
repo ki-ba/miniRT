@@ -29,7 +29,7 @@ TEST_SUBDIRS = $(addprefix tests/, $(SUBDIRS))
 
 # SOURCE FILES #
 
-PARSING_FILENAMES = parsing.c parsing2.c
+PARSING_FILENAMES = parsing.c
 # CATEGORY_FILENAMES = filename.c
 
 PARSING_SRC = $(addprefix $(SRC_DIR)$(PARSING_DIR), $(PARSING_FILENAMES))
