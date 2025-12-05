@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ctype.c                                         :+:      :+:    :+:   */
+/*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 12:44:02 by kbarru            #+#    #+#             */
-/*   Updated: 2025/01/27 23:17:57 by kbarru           ###   ########lyon.fr   */
+/*   Created: 2025/12/04 12:44:54 by kbarru            #+#    #+#             */
+/*   Updated: 2025/12/04 14:16:32 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef OBJECTS_H
+# define OBJECTS_H
 
-#include "libft.h"
+# include "miniRT.h"
 
-int	ft_isdigit(int c)
-{
-	return (c >= '0' && c <= '9');
-}
+t_plane		*create_plane(char **specs);
+t_cylinder	*create_cylinder(char **specs);
+t_sphere	*create_sphere(char **specs);
+t_light		*create_light(char **light_arr);
 
-int	ft_isascii(int c)
-{
-	return (c >= 0 && c <= 127);
-}
-
-int	ft_isalpha(int c)
-{
-	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
-}
-
-int	ft_isalnum(int c)
-{
-	return (ft_isalpha(c) || ft_isdigit(c));
-}
-
-int	ft_iswhitespace(int c)
-{
-	return ((c >= 9 && c <= 13) || c == 32);
-}
+#endif

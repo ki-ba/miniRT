@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ctype.c                                         :+:      :+:    :+:   */
+/*   objects_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 12:44:02 by kbarru            #+#    #+#             */
-/*   Updated: 2025/01/27 23:17:57 by kbarru           ###   ########lyon.fr   */
+/*   Created: 2025/12/04 14:23:41 by kbarru            #+#    #+#             */
+/*   Updated: 2025/12/04 14:26:11 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "miniRT.h"
+#include "unity.h"
+#include "objects.h"
 
-int	ft_isdigit(int c)
-{
-	return (c >= '0' && c <= '9');
-}
+// TODO: Add more tests for object creation functions
 
-int	ft_isascii(int c)
+void	test_create_light_success(void)
 {
-	return (c >= 0 && c <= 127);
-}
+	char	*light_arr[] = { "L", "10,20,30", "0.5", "255,255,255", NULL };
+	t_light	*light;
 
-int	ft_isalpha(int c)
-{
-	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
-}
-
-int	ft_isalnum(int c)
-{
-	return (ft_isalpha(c) || ft_isdigit(c));
-}
-
-int	ft_iswhitespace(int c)
-{
-	return ((c >= 9 && c <= 13) || c == 32);
+	light = create_light(light_arr);
+	TEST_ASSERT_NOT_NULL(light);
+	free(light);
 }

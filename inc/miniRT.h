@@ -6,44 +6,56 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2025/11/20 15:20:04 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/05 18:12:44 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# include "libft.h"
 # include <stdint.h>
 
 # define EXTENSION ".rt"
-# define PLANE "pl"
-# define CYLINDER "cy"
-# define SPHERE "sp"
-# define AMBIENT "A"
-# define LIGHT "L"
-# define CAMERA "C"
+# define PLANE_ID "pl"
+# define CYLINDER_ID "cy"
+# define SPHERE_ID "sp"
+# define AMBIENT_ID "A"
+# define LIGHT_ID "L"
+# define CAMERA_ID "C"
+
+# define USAGE_ERR_MSG "usage : ./miniRT filename.rt\n"
+# define FILE_ERR_MSG "Error while reading file\n"
 
 /* UTILS */
 
+typedef enum e_item_type
+{
+	SPHERE = 0,
+	PLANE,
+	CYLINDER,
+	LIGHT
+}	t_item_type;
+
 typedef union color
 {
-	int8_t	r;
-	int8_t	g;
-	int8_t	b;
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
 }	t_color;
 
 typedef struct s_vec3
 {
-	int	x;
-	int	y;
-	int	z;
+	double	x;
+	double	y;
+	double	z;
 }	t_vec3;
 
 typedef struct s_point
 {
-	int	x;
-	int	y;
-	int	z;
+	double	x;
+	double	y;
+	double	z;
 }	t_point;
 
 typedef struct s_light
@@ -78,5 +90,36 @@ typedef struct s_sphere
 	double	diameter;
 }	t_sphere;
 
+typedef struct s_shape
+{
+	enum e_item_type	type;
+	void				*shape;
+}	t_shape;
+
+typedef struct s_ambiant
+{
+	double	intensity;
+	t_color	color;
+}	t_ambiant;
+
+typedef struct s_camera
+{
+	t_point	origin;
+	t_vec3	orientation;
+	int		fov;
+}	t_camera;
+
+typedef struct s_miniRT
+{
+	t_list		*objects;
+	t_list		*lights;
+	t_camera	camera;
+	t_ambiant	ambient_light;
+}	t_miniRT;
+
+// DESTROY
+
+void			destroy_shape(void *shape);
+void			destroy_mini_rt(t_miniRT *miniRT);
 
 #endif

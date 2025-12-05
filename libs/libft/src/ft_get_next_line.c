@@ -26,10 +26,9 @@ char	*join_to_line(char *line[], char buffer[])
 
 	if (!*line)
 	{
-		*line = malloc(1 * sizeof(char));
+		*line = ft_calloc(1, sizeof(char));
 		if (!*line)
 			return (NULL);
-		*line[0] = '\0';
 	}
 	n = 0;
 	while (buffer[n] && buffer[n] != '\n')
@@ -39,11 +38,7 @@ char	*join_to_line(char *line[], char buffer[])
 	*line = longer_line;
 	ft_memmove(buffer, &buffer[n + 1], BUFFER_SIZE - n);
 	i = BUFFER_SIZE - n;
-	while (i <= BUFFER_SIZE)
-	{
-		buffer[i] = '\0';
-		++i;
-	}
+	ft_bzero(&buffer[i], BUFFER_SIZE - i);
 	return (*line);
 }
 
@@ -52,7 +47,7 @@ char	*join_to_line(char *line[], char buffer[])
  * @return `NULL` if EOF reached, or if an error happened.
  * @param fd the file descriptor of the file to read from.
  */
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int *status)
 {
 	static char	buffer[MAX_FD][BUFFER_SIZE + 1];
 	char		*line;
@@ -65,7 +60,11 @@ char	*get_next_line(int fd)
 		{
 			n_read = read(fd, buffer[fd], BUFFER_SIZE);
 			if (n_read < 0)
-				return (free(line), NULL);
+			{
+				*status = -1;
+				free(line);
+				return (NULL);
+			}
 			else if (n_read == 0)
 				return (line);
 			buffer[fd][n_read] = '\0';

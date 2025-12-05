@@ -9,7 +9,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -MMD
 INCLUDES = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
 TEST_INCLUDES = -IUnity/src/
-LIBS = -L$(MLX_DIR) -lmlx -L$(LIBFT_DIR) -lft
+LIBS = -L$(MLX_DIR) -lmlx -L$(LIBFT_DIR) -lft -lm
 
 # DIRECTORIES #
 
@@ -24,18 +24,26 @@ LIBFT_DIR = $(LIB_DIR)libft/
 # SUBDIRS #
 
 PARSING_DIR = parsing/
-SUBDIRS = $(PARSING_DIR)
+OBJECTS_DIR = objects/
+DEBUG_DIR = debug/
+
+SUBDIRS = $(PARSING_DIR) $(OBJECTS_DIR) $(DEBUG_DIR)
 TEST_SUBDIRS = $(addprefix tests/, $(SUBDIRS))
 
 # SOURCE FILES #
 
-PARSING_FILENAMES = parsing.c
+PARSING_FILENAMES = parsing.c parsing_utils.c read_properties.c
+OBJECTS_FILENAMES = objects.c
+DEBUG_FILENAMES = debug.c
+
 # CATEGORY_FILENAMES = filename.c
 
 PARSING_SRC = $(addprefix $(SRC_DIR)$(PARSING_DIR), $(PARSING_FILENAMES))
+OBJECTS_SRC = $(addprefix $(SRC_DIR)$(OBJECTS_DIR), $(OBJECTS_FILENAMES))
+DEBUG_SRC = $(addprefix $(SRC_DIR)$(DEBUG_DIR), $(DEBUG_FILENAMES))
 # CATEGORY_FULL_SRC = addprefix CATEGORY SOURCE_LIST
 
-SRC = $(PARSING_SRC)
+SRC = $(PARSING_SRC) $(OBJECTS_SRC) $(DEBUG_SRC) $(DESTROY_SRC)
 # add CAT_SRC here if a new category is added
 
 TEST_SRC = $(subst $(SRC_DIR), $(TEST_DIR), $(SRC:%.c=%_test.c))
@@ -80,8 +88,8 @@ re: fclean all
 
 .PHONY : objdirs
 objdirs:
-	mkdir -p $(OBJ_DIR)$(SUBDIRS)
-	mkdir -p $(OBJ_DIR)$(TEST_SUBDIRS)
+	mkdir -p $(addprefix $(OBJ_DIR), $(SUBDIRS))
+	mkdir -p $(addprefix $(OBJ_DIR), $(TEST_SUBDIRS))
 
 
 # ACTUAL RULES #
@@ -96,7 +104,7 @@ $(MLX_LIB):
 $(LIBFT_LIB):
 	$(MAKE) -C $(LIBFT_DIR)
 
-$(NAME) : $(OBJ) .obj/main.o | $(MLX_LIB) $(LIBFT_LIB) objdirs
+$(NAME) : $(OBJ) .obj/main.o $(MLX_LIB) $(LIBFT_LIB) |  objdirs
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_DIR)main.o $(LIBS) -o $(NAME)
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
@@ -105,5 +113,5 @@ $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 $(OBJ_DIR)tests/%.o : $(TEST_DIR)%.c
 	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDES) -c $< -o $@
 
-$(OBJ_DIR)tests/unity.o : Unity/src/unity.c
+$(OBJ_DIR)tests/unity.o : Unity/src/unity.c Unity/src/unity.h
 	$(CC) $(CFLAGS) $(TEST_INCLUDES) -c $< -o $@

@@ -83,7 +83,7 @@ void				*ft_calloc(size_t nmemb, size_t size);
 char				*ft_strdup(char *s);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 int					ft_isnumber(char c);
-char				**ft_split(char const *s, char c);
+char				**ft_split(char const *s, char *charset);
 char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_itoa(int n);
@@ -122,7 +122,7 @@ char				*create_random_str(size_t len);
 
 /* get_next_line.c */
 char				*join_to_line(char *line[], char buffer[]);
-char				*get_next_line(int fd);
+char				*get_next_line(int fd, int *status);
 
 /* get_next_line_utils.c */
 char				*ft_strchr(const char *s, int c);

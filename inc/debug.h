@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ctype.c                                         :+:      :+:    :+:   */
+/*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 12:44:02 by kbarru            #+#    #+#             */
-/*   Updated: 2025/01/27 23:17:57 by kbarru           ###   ########lyon.fr   */
+/*   Created: 2025/12/05 17:50:13 by kbarru            #+#    #+#             */
+/*   Updated: 2025/12/05 17:59:56 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef DEBUG_H
+# define DEBUG_H
 
-int	ft_isdigit(int c)
-{
-	return (c >= '0' && c <= '9');
-}
+# include "miniRT.h"
+# include "libft.h"
 
-int	ft_isascii(int c)
-{
-	return (c >= 0 && c <= 127);
-}
+void	print_item_lst(t_list *lst);
+void	print_properties(t_miniRT mini_rt);
 
-int	ft_isalpha(int c)
-{
-	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
-}
-
-int	ft_isalnum(int c)
-{
-	return (ft_isalpha(c) || ft_isdigit(c));
-}
-
-int	ft_iswhitespace(int c)
-{
-	return ((c >= 9 && c <= 13) || c == 32);
-}
+#endif
