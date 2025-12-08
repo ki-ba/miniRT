@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:46:04 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/05 17:47:41 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/08 15:16:31 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,76 @@
 #include "miniRT.h"
 #include "parsing.h"
 
-double	read_array_field(size_t n, char *string)
+t_bool	is_normalized(t_vec3 vector)
 {
-	double	number;
-	char	**array;
-
-	array = ft_split(string, ",");
-	number = ft_strtod(array[n]);
-	ft_free_arr(array);
-	return (number);
+	if (vector.x < -1 || vector.x > 1)
+		return (FALSE);
+	if (vector.y < -1 || vector.y > 1)
+		return (FALSE);
+	if (vector.z < -1 || vector.z > 1)
+		return (FALSE);
+	return (TRUE);
 }
 
-t_color	read_color(char *string)
+int	read_color(t_color *c, char *string)
 {
-	t_color	c;
+	char	**arr;
 
-	c.r = read_array_field(0, string);
-	c.g = read_array_field(1, string);
-	c.b = read_array_field(2, string);
-	return (c);
+	if (!c)
+		return (NULL_PARAM_ERR);
+	arr = ft_split(string, ",");
+	if (!arr)
+		return (MALLOC_ERR);
+	if (arr_len(arr) < 3)
+	{
+		ft_free_arr(arr);
+		return (INVALID_VALUE_ERR);
+	}
+	c->r = ft_atoi(arr[0]);
+	c->g = ft_atoi(arr[1]);
+	c->b = ft_atoi(arr[2]);
+	ft_free_arr(arr);
+	return (0);
 }
 
-t_point	read_point(char *string)
+int	read_point(t_point *p, char *string)
 {
-	t_point	p;
+	char	**arr;
 
-	p.x = read_array_field(0, string);
-	p.y = read_array_field(1, string);
-	p.z = read_array_field(2, string);
-	return (p);
+	if (!p)
+		return (NULL_PARAM_ERR);
+	arr = ft_split(string, ",");
+	if (!arr)
+		return (MALLOC_ERR);
+	if (arr_len(arr) < 3)
+	{
+		ft_free_arr(arr);
+		return (INVALID_VALUE_ERR);
+	}
+	p->x = ft_strtod(arr[0]);
+	p->y = ft_strtod(arr[1]);
+	p->z = ft_strtod(arr[2]);
+	ft_free_arr(arr);
+	return (0);
 }
 
-t_vec3	read_normalized_vec(char *string)
+int	read_normalized_vec(t_vec3 *v, char *string)
 {
-	t_vec3	v;
+	char	**arr;
 
-	v.x = read_array_field(0, string);
-	v.y = read_array_field(1, string);
-	v.z = read_array_field(2, string);
-	return (v);
+	if (!v)
+		return (NULL_PARAM_ERR);
+	arr = ft_split(string, ",");
+	if (!arr)
+		return (MALLOC_ERR);
+	if (arr_len(arr) < 3)
+	{
+		ft_free_arr(arr);
+		return (INVALID_VALUE_ERR);
+	}
+	v->x = ft_strtod(arr[0]);
+	v->y = ft_strtod(arr[1]);
+	v->z = ft_strtod(arr[2]);
+	ft_free_arr(arr);
+	return ((is_normalized(*v) == FALSE) * (-1));
 }

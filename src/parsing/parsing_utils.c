@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 12:38:40 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/05 18:25:16 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/08 13:24:28 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,4 @@ int	is_property_id(char *id)
 	else if (ft_strncmp(id, AMBIENT_ID, ft_strlen(AMBIENT_ID) + 1) == 0)
 		return (TRUE + 1);
 	return (FALSE);
-}
-
-t_bool	is_normalized(t_vec3 vector)
-{
-	if (vector.x < -1 || vector.x > 1)
-		return (FALSE);
-	if (vector.y < -1 || vector.y > 1)
-		return (FALSE);
-	if (vector.z < -1 || vector.z > 1)
-		return (FALSE);
-	return (TRUE);
 }

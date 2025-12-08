@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/05 18:12:44 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/08 14:42:07 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 # define USAGE_ERR_MSG "usage : ./miniRT filename.rt\n"
 # define FILE_ERR_MSG "Error while reading file\n"
 
+# define NULL_PARAM_ERR -1
+# define INVALID_VALUE_ERR -2
+# define MALLOC_ERR -3
+
 /* UTILS */
 
 typedef enum e_item_type
@@ -37,7 +41,7 @@ typedef enum e_item_type
 	LIGHT
 }	t_item_type;
 
-typedef union color
+typedef struct s_color
 {
 	uint8_t	r;
 	uint8_t	g;

@@ -37,7 +37,10 @@ int	main(int argc, char *argv[])
 	}
 	fd = open(argv[1], O_RDONLY);
 	if (parse_items_in_file(&mini_rt, fd))
+	{
+		destroy_mini_rt(&mini_rt);
 		return (write(2, FILE_ERR_MSG, ft_strlen(FILE_ERR_MSG)));
+	}
 	print_properties(mini_rt);
 	print_item_lst(mini_rt.objects);
 	print_item_lst(mini_rt.lights);

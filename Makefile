@@ -3,6 +3,7 @@
 NAME = miniRT
 TEST_NAME = run_tests
 CC = cc
+DEPS = $(OBJ:.o=.d)
 
 # COMPILATION FLAGS #
 
@@ -115,3 +116,5 @@ $(OBJ_DIR)tests/%.o : $(TEST_DIR)%.c
 
 $(OBJ_DIR)tests/unity.o : Unity/src/unity.c Unity/src/unity.h
 	$(CC) $(CFLAGS) $(TEST_INCLUDES) -c $< -o $@
+
+-include $(DEPS)

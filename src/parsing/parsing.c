@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:13 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/05 18:22:52 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/08 15:19:43 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,21 @@
 //FIXME : check if property / specs / item_arr
 //has the right size before accessing
 
+
+//TODO: unify error handling (return -1 or NULL, print error message...)
+//TODO: finish error handling (freeing memory on errors...)
+
+//TODO: document functions
+
+size_t	arr_len(char **arr)
+{
+	size_t	i;
+
+	i = 0;
+	while (arr[i])
+		++i;
+	return (i);
+}
 /**
 	* @brief Generic function to add an item to a linked list.
 	* @param lst The linked list to which the item will be added.
@@ -31,13 +46,12 @@ int	add_item(t_list **lst, void *(*f)(char **), char **item_arr)
 	void	*item;
 
 	item = f(item_arr);
-	if (!item)
-		return (-1);
 	shape = ft_calloc(1, sizeof(t_shape));
 	new_node = ft_lstnew(shape);
-	if (!new_node || !shape)
+	if (!item || !new_node || !shape)
 	{
-		ft_multifree(2, 0, item, shape);
+		ft_lstdelone(new_node, destroy_shape);
+		free(item);
 		return (-1);
 	}
 	shape->shape = item;
@@ -48,17 +62,23 @@ int	add_item(t_list **lst, void *(*f)(char **), char **item_arr)
 
 int	set_property(t_miniRT *mini_rt, char **property)
 {
-	(void)mini_rt;
 	if (!ft_strncmp(property[0], CAMERA_ID, ft_strlen(CAMERA_ID) + 1))
 	{
-		mini_rt->camera.origin = read_point(property[1]);
-		mini_rt->camera.orientation = read_normalized_vec(property[2]);
+		if (arr_len(property) < 4)
+			return (-1);
+		if (read_point(&mini_rt->camera.origin, property[1]))
+			return (-1);
+		if (read_normalized_vec(&mini_rt->camera.orientation, property[2]))
+			return (-1);
 		mini_rt->camera.fov = ft_strtod(property[3]);
 	}
 	else if (!ft_strncmp(property[0], AMBIENT_ID, ft_strlen(AMBIENT_ID) + 1))
 	{
+		if (arr_len(property) < 3)
+			return (-1);
 		mini_rt->ambient_light.intensity = ft_strtod(property[1]);
-		mini_rt->ambient_light.color = read_color(property[2]);
+		if (read_color(&mini_rt->ambient_light.color, property[2]))
+			return (-1);
 	}
 	return (0);
 }
@@ -101,8 +121,13 @@ int	parse_items_in_file(t_miniRT *mini_rt, int fd)
 	line = get_next_line(fd, &status);
 	while (!status && line)
 	{
-		if (handle_line(mini_rt, line))
-			status = -2;
+		status = handle_line(mini_rt, line);
+		if (status)
+		{
+			printf("Error while parsing line: %s", line);
+			free(line);
+			return (status);
+		}
 		free(line);
 		line = get_next_line(fd, &status);
 	}

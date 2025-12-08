@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   parsing_utils_test.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 12:46:39 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/05 12:48:59 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/08 13:13:07 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 // tests for ft_strtod function
 // should convert a string to its double equivalent
 // ie. "42.42" -> 42.42
-//
 
 #include "unity.h"
 #include "parsing.h"
-#include <limits.h>
-#include <stddef.h>
 
 void	test_ft_strtod(void)
 {

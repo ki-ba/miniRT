@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 16:03:01 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/05 18:25:37 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/08 15:13:00 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ int				define_item_type(char *id);
 int				is_property_id(char *id);
 t_bool			is_normalized(t_vec3 vector);
 
+size_t	arr_len(char **arr);
+
 /* READ PROPERTIES */
 
-double			read_array_field(size_t n, char *string);
-t_color			read_color(char *string);
-t_point			read_point(char *string);
-t_vec3			read_normalized_vec(char *string);
+int			read_color(t_color *c, char *string);
+int			read_point(t_point *p, char *string);
+int			read_normalized_vec(t_vec3 *v, char *string);
 
 #endif
