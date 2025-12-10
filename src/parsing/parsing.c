@@ -59,6 +59,7 @@ int	set_property(t_miniRT *mini_rt, char **property)
 
 	if (!ft_strncmp(property[0], CAMERA_ID, ft_strlen(CAMERA_ID) + 1))
 	{
+		mini_rt->camera.is_defined = TRUE;
 		if (arr_len(property) < 4)
 			return (GENERIC_ERR);
 		if (read_point(&mini_rt->camera.origin, property[1]))
@@ -70,6 +71,7 @@ int	set_property(t_miniRT *mini_rt, char **property)
 	}
 	else if (!ft_strncmp(property[0], AMBIENT_ID, ft_strlen(AMBIENT_ID) + 1))
 	{
+		mini_rt->ambient_light.is_defined = TRUE;
 		if (arr_len(property) < 3)
 			return (GENERIC_ERR);
 		if (read_color(&mini_rt->ambient_light.color, property[2]))
@@ -103,7 +105,7 @@ int	handle_line(t_miniRT *mini_rt, char *line)
 	p[2] = (void *)&create_cylinder;
 	p[3] = (void *)&create_light;
 	p[4] = NULL;
-	if (!ft_strncmp("\n", line, 2))
+	if (line[0] == '#' || !ft_strncmp("\n", line, 2))
 		return (0);
 	object_arr = ft_split(line, WHITESPACES);
 	if (!object_arr)

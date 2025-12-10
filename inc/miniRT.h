@@ -26,10 +26,7 @@
 
 # define USAGE_ERR_MSG "usage : ./miniRT filename.rt\n"
 # define FILE_ERR_MSG "Error while reading file\n"
-
-// # define NULL_PARAM_ERR -1
-// # define INVALID_VALUE_ERR -2
-// # define MALLOC_ERR -3
+# define MISSING_PROPERTY_MSG "Error: Missing required property (A or C)\n"
 
 typedef enum e_error_code
 {
@@ -109,14 +106,16 @@ typedef struct s_shape
 	void				*shape;
 }	t_shape;
 
-typedef struct s_ambiant
+typedef struct s_ambient
 {
+	t_bool	is_defined;
 	double	intensity;
 	t_color	color;
-}	t_ambiant;
+}	t_ambient;
 
 typedef struct s_camera
 {
+	t_bool	is_defined;
 	t_point	origin;
 	t_vec3	orientation;
 	int		fov;
@@ -127,7 +126,7 @@ typedef struct s_miniRT
 	t_list		*objects;
 	t_list		*lights;
 	t_camera	camera;
-	t_ambiant	ambient_light;
+	t_ambient	ambient_light;
 }	t_miniRT;
 
 // DESTROY

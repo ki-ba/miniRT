@@ -29,6 +29,8 @@ int	main(int argc, char *argv[])
 
 	mini_rt.lights = NULL;
 	mini_rt.objects = NULL;
+	mini_rt.camera = (t_camera){0};
+	mini_rt.ambient_light = (t_ambient){0};
 	(void)argc;
 	if (!has_correct_extension(argv[1]))
 	{
@@ -40,6 +42,12 @@ int	main(int argc, char *argv[])
 	{
 		destroy_mini_rt(&mini_rt);
 		return (write(2, FILE_ERR_MSG, ft_strlen(FILE_ERR_MSG)));
+	}
+	if (mini_rt.camera.is_defined == FALSE
+		|| mini_rt.ambient_light.is_defined == FALSE)
+	{
+		destroy_mini_rt(&mini_rt);
+		return (write(2, MISSING_PROPERTY_MSG, ft_strlen(MISSING_PROPERTY_MSG)));
 	}
 	print_properties(mini_rt);
 	print_item_lst(mini_rt.objects);

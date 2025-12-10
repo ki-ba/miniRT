@@ -38,6 +38,10 @@ void	test_read_color(void)
 	TEST_ASSERT_NOT_EQUAL(0, status);
 	status = read_color(NULL, "100,100,100");
 	TEST_ASSERT_NOT_EQUAL(0, status);
+	status = read_color(&color, "100,100,100,50");
+	TEST_ASSERT_NOT_EQUAL_INT(0, status);
+	status = read_color(&color, "100,,100");
+	TEST_ASSERT_NOT_EQUAL(0, status);
 }
 
 void	test_read_point(void)
@@ -50,20 +54,22 @@ void	test_read_point(void)
 	TEST_ASSERT_EQUAL_DOUBLE(1.0, point.x);
 	TEST_ASSERT_EQUAL_DOUBLE(2.0, point.y);
 	TEST_ASSERT_EQUAL_DOUBLE(3.0, point.z);
-
 	status = read_point(&point, "-1.5,0.0,1.5");
 	TEST_ASSERT_EQUAL_INT(0, status);
 	TEST_ASSERT_EQUAL_DOUBLE(-1.5, point.x);
 	TEST_ASSERT_EQUAL_DOUBLE(0.0, point.y);
 	TEST_ASSERT_EQUAL_DOUBLE(1.5, point.z);
-
 	status = read_point(NULL, "1.0,2.0,3.0");
 	TEST_ASSERT_NOT_EQUAL(0, status);
-
 	status = read_point(&point, "1.0,2.0");
 	TEST_ASSERT_NOT_EQUAL(0, status);
-
 	status = read_point(&point, "a,b,c");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+	status = read_point(&point, "1.0,,3.0");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+	status = read_point(&point, "1.0,2.0,");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+	status = read_point(&point, "1.0,2.0,3.0,4.0");
 	TEST_ASSERT_NOT_EQUAL(0, status);
 }
 
@@ -88,5 +94,11 @@ void	test_read_normalized_vec(void)
 	TEST_ASSERT_NOT_EQUAL(0, status);
 
 	status = read_normalized_vec(&vec, "1.0,0.0");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+
+	status = read_normalized_vec(&vec, "1,,2,3");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+
+	status = read_normalized_vec(&vec, "1,00");
 	TEST_ASSERT_NOT_EQUAL(0, status);
 }

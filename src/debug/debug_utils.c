@@ -29,7 +29,7 @@ void	print_vector(char *name, t_vec3 vector)
 
 void	print_properties(t_miniRT mini_rt)
 {
-	printf("AMBIANT LIGHT :\n");
+	printf("AMBIENT LIGHT :\n");
 	printf("intensity : %.2f\n", mini_rt.ambient_light.intensity);
 	print_color("color", mini_rt.ambient_light.color);
 	printf("\n\n");

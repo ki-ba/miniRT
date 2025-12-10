@@ -14,6 +14,24 @@
 #include "miniRT.h"
 #include "parsing.h"
 
+size_t	count_char_in_str(char *str, char c)
+{
+	size_t	i;
+	size_t	count;
+
+	if (!str)
+		return (0);
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			++count;
+		++i;
+	}
+	return (count);
+}
+
 t_bool	is_normalized(t_vec3 vector)
 {
 	if (vector.x < -1 || vector.x > 1)
@@ -30,8 +48,10 @@ int	read_color(t_color *c, char *string)
 	char	**arr;
 	char	*n;
 
-	if (!c)
+	if (!c || !string)
 		return (NULL_PARAM_ERR);
+	if (count_char_in_str(string, ',') != 2)
+		return (INVALID_VALUE_ERR);
 	arr = ft_split(string, ",");
 	if (!arr)
 		return (MALLOC_ERR);
@@ -74,8 +94,10 @@ int	read_point(t_point *p, char *string)
 	char	**arr;
 	int		array_status;
 
-	if (!p)
+	if (!p || !string)
 		return (NULL_PARAM_ERR);
+	if (count_char_in_str(string, ',') != 2)
+		return (INVALID_VALUE_ERR);
 	arr = ft_split(string, ",");
 	if (!arr)
 		return (MALLOC_ERR);
@@ -96,6 +118,8 @@ int	read_normalized_vec(t_vec3 *v, char *string)
 
 	if (!string || !v)
 		return (NULL_PARAM_ERR);
+	if (count_char_in_str(string, ',') != 2)
+		return (INVALID_VALUE_ERR);
 	arr = ft_split(string, ",");
 	if (!arr)
 		return (MALLOC_ERR);
