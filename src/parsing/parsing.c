@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:13 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/08 15:19:43 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/10 11:38:44 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,8 @@
 #include "parsing.h"
 #include "objects.h"
 
-//FIXME : check if property / specs / item_arr
-//has the right size before accessing
-
-
-//TODO: unify error handling (return -1 or NULL, print error message...)
-//TODO: finish error handling (freeing memory on errors...)
-
 //TODO: document functions
 
-size_t	arr_len(char **arr)
-{
-	size_t	i;
-
-	i = 0;
-	while (arr[i])
-		++i;
-	return (i);
-}
 /**
 	* @brief Generic function to add an item to a linked list.
 	* @param lst The linked list to which the item will be added.
@@ -52,7 +36,7 @@ int	add_item(t_list **lst, void *(*f)(char **), char **item_arr)
 	{
 		ft_lstdelone(new_node, destroy_shape);
 		free(item);
-		return (-1);
+		return (GENERIC_ERR);
 	}
 	shape->shape = item;
 	shape->type = define_item_type(item_arr[0]);
@@ -60,29 +44,50 @@ int	add_item(t_list **lst, void *(*f)(char **), char **item_arr)
 	return (0);
 }
 
+// TODO: break down into separate functions for camera and ambient light
+
+/**
+	* @brief Set properties of miniRT structure based on provided property array.
+	* @param mini_rt The main miniRT structure to populate.
+	* @param property The array of strings representing property specifications.
+	* @return 0 on success, or an error code on failure.
+*/
+
 int	set_property(t_miniRT *mini_rt, char **property)
 {
+	char	*n;
+
 	if (!ft_strncmp(property[0], CAMERA_ID, ft_strlen(CAMERA_ID) + 1))
 	{
 		if (arr_len(property) < 4)
-			return (-1);
+			return (GENERIC_ERR);
 		if (read_point(&mini_rt->camera.origin, property[1]))
-			return (-1);
+			return (GENERIC_ERR);
 		if (read_normalized_vec(&mini_rt->camera.orientation, property[2]))
-			return (-1);
-		mini_rt->camera.fov = ft_strtod(property[3]);
+			return (GENERIC_ERR);
+		mini_rt->camera.fov = ft_strtod(property[3], &n);
+		return (*n != '\0');
 	}
 	else if (!ft_strncmp(property[0], AMBIENT_ID, ft_strlen(AMBIENT_ID) + 1))
 	{
 		if (arr_len(property) < 3)
-			return (-1);
-		mini_rt->ambient_light.intensity = ft_strtod(property[1]);
+			return (GENERIC_ERR);
 		if (read_color(&mini_rt->ambient_light.color, property[2]))
-			return (-1);
+			return (GENERIC_ERR);
+		mini_rt->ambient_light.intensity = ft_strtod(property[1], &n);
+		if (*n != '\0' || mini_rt->ambient_light.intensity < 0.0
+			|| mini_rt->ambient_light.intensity > 1.0)
+			return (GENERIC_ERR);
 	}
 	return (0);
 }
 
+/**
+	* @brief Handle a single line from the input file.
+	* @param mini_rt The main miniRT structure to populate.
+	* @param line The line to process.
+	* @return 0 on success, or an error code on failure.
+*/
 int	handle_line(t_miniRT *mini_rt, char *line)
 {
 	void	*(*p[5])(char **);
@@ -102,7 +107,7 @@ int	handle_line(t_miniRT *mini_rt, char *line)
 		return (0);
 	object_arr = ft_split(line, WHITESPACES);
 	if (!object_arr)
-		return (1);
+		return (MALLOC_ERR);
 	type = define_item_type(object_arr[0]);
 	if (is_property_id(object_arr[0]))
 		status = (set_property(mini_rt, object_arr));
@@ -124,7 +129,8 @@ int	parse_items_in_file(t_miniRT *mini_rt, int fd)
 		status = handle_line(mini_rt, line);
 		if (status)
 		{
-			printf("Error while parsing line: %s", line);
+			if (status > 0)
+				printf("Error while parsing line: %s", line);
 			free(line);
 			return (status);
 		}

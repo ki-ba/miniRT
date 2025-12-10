@@ -46,9 +46,26 @@ int	read_color(t_color *c, char *string)
 	return (0);
 }
 
+int	fill_double_array(double *slots[3], char **arr, size_t size)
+{
+	size_t	i;
+	char	*n;
+
+	i = 0;
+	while (i < size)
+	{
+		*slots[i] = ft_strtod(arr[i], &n);
+		if (*n != '\0')
+			return (INVALID_VALUE_ERR);
+		++i;
+	}
+	return (SUCCESS);
+}
+
 int	read_point(t_point *p, char *string)
 {
 	char	**arr;
+	int		array_status;
 
 	if (!p)
 		return (NULL_PARAM_ERR);
@@ -60,18 +77,17 @@ int	read_point(t_point *p, char *string)
 		ft_free_arr(arr);
 		return (INVALID_VALUE_ERR);
 	}
-	p->x = ft_strtod(arr[0]);
-	p->y = ft_strtod(arr[1]);
-	p->z = ft_strtod(arr[2]);
+	array_status = fill_double_array((double *[]){&p->x, &p->y, &p->z}, arr, 3);
 	ft_free_arr(arr);
-	return (0);
+	return (array_status);
 }
 
 int	read_normalized_vec(t_vec3 *v, char *string)
 {
 	char	**arr;
+	int		array_status;
 
-	if (!v)
+	if (!string || !v)
 		return (NULL_PARAM_ERR);
 	arr = ft_split(string, ",");
 	if (!arr)
@@ -81,9 +97,9 @@ int	read_normalized_vec(t_vec3 *v, char *string)
 		ft_free_arr(arr);
 		return (INVALID_VALUE_ERR);
 	}
-	v->x = ft_strtod(arr[0]);
-	v->y = ft_strtod(arr[1]);
-	v->z = ft_strtod(arr[2]);
+	array_status = fill_double_array((double *[]){&v->x, &v->y, &v->z}, arr, 3);
 	ft_free_arr(arr);
-	return ((is_normalized(*v) == FALSE) * (-1));
+	if (array_status != SUCCESS || is_normalized(*v) == FALSE)
+		return (INVALID_VALUE_ERR);
+	return (SUCCESS);
 }

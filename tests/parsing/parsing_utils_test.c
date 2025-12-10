@@ -19,13 +19,32 @@
 
 void	test_ft_strtod(void)
 {
-	TEST_ASSERT_EQUAL_DOUBLE(42.0, ft_strtod("42"));
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, ft_strtod("0"));
-	TEST_ASSERT_EQUAL_DOUBLE(-7.5, ft_strtod("-7.5"));
-	TEST_ASSERT_EQUAL_DOUBLE(-0.0, ft_strtod("-0.0"));
-	TEST_ASSERT_EQUAL_DOUBLE(-0.0, ft_strtod("-0.0"));
-	TEST_ASSERT_EQUAL_DOUBLE(3.1415926535, ft_strtod("3.1415926535"));
-	TEST_ASSERT_EQUAL_DOUBLE(123456.789, ft_strtod("123456.789"));
-	TEST_ASSERT_EQUAL_DOUBLE(INT_MAX, ft_strtod("2147483647"));
-	TEST_ASSERT_EQUAL_DOUBLE(INT_MIN, ft_strtod("-2147483648"));
+	char	*n;
+
+	TEST_ASSERT_EQUAL_DOUBLE(42.0, ft_strtod("42", &n));
+	TEST_ASSERT_EQUAL('\0', *n);
+	TEST_ASSERT_EQUAL_DOUBLE(-42.0, ft_strtod("-42", &n));
+	TEST_ASSERT_EQUAL('\0', *n);
+	TEST_ASSERT_EQUAL_DOUBLE(0.0, ft_strtod("0", &n));
+	TEST_ASSERT_EQUAL('\0', *n);
+	TEST_ASSERT_EQUAL_DOUBLE(3.14, ft_strtod("3.14", &n));
+	TEST_ASSERT_EQUAL('\0', *n);
+	TEST_ASSERT_EQUAL_DOUBLE(-0.001, ft_strtod("-0.001", &n));
+	TEST_ASSERT_EQUAL('\0', *n);
+	TEST_ASSERT_EQUAL_DOUBLE(123456.789, ft_strtod("123456.789", &n));
+	TEST_ASSERT_EQUAL('\0', *n);
+	TEST_ASSERT_EQUAL_DOUBLE(-98765.4321, ft_strtod("-98765.4321", &n));
+	TEST_ASSERT_EQUAL('\0', *n);
+	TEST_ASSERT_EQUAL_DOUBLE(1.0, ft_strtod("1.", &n));
+	TEST_ASSERT_EQUAL('\0', *n);
+	TEST_ASSERT_EQUAL_DOUBLE(INT_MAX, ft_strtod("2147483647", &n));
+	TEST_ASSERT_EQUAL('\0', *n);
+	TEST_ASSERT_EQUAL_DOUBLE(INT_MIN, ft_strtod("-2147483648", &n));
+	TEST_ASSERT_EQUAL('\0', *n);
+	ft_strtod("invalid123", &n);
+	TEST_ASSERT_EQUAL_CHAR('i', *n);
+	ft_strtod("123invalid", &n);
+	TEST_ASSERT_EQUAL_CHAR('i', *n);
+	ft_strtod("12.34.56", &n);
+	TEST_ASSERT_EQUAL_CHAR('.', *n);
 }

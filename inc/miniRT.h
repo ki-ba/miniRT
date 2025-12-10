@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/08 14:42:07 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/10 11:36:08 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,18 @@
 # define USAGE_ERR_MSG "usage : ./miniRT filename.rt\n"
 # define FILE_ERR_MSG "Error while reading file\n"
 
-# define NULL_PARAM_ERR -1
-# define INVALID_VALUE_ERR -2
-# define MALLOC_ERR -3
+// # define NULL_PARAM_ERR -1
+// # define INVALID_VALUE_ERR -2
+// # define MALLOC_ERR -3
+
+typedef enum e_error_code
+{
+	SUCCESS = 0,
+	NULL_PARAM_ERR = 1,
+	INVALID_VALUE_ERR,
+	MALLOC_ERR,
+	GENERIC_ERR
+}	t_error_code;
 
 /* UTILS */
 

@@ -35,7 +35,7 @@ TEST_SUBDIRS = $(addprefix tests/, $(SUBDIRS))
 
 PARSING_FILENAMES = parsing.c parsing_utils.c read_properties.c
 OBJECTS_FILENAMES = objects.c
-DEBUG_FILENAMES = debug.c
+DEBUG_FILENAMES = debug.c debug_utils.c
 
 # CATEGORY_FILENAMES = filename.c
 

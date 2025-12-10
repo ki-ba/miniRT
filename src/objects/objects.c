@@ -15,13 +15,6 @@
 #include "parsing.h"
 #include <unistd.h>
 
-void	sfree(void **p)
-{
-	if (p)
-		*p = NULL;
-	free(*p);
-}
-
 void	destroy_shape(void *shape)
 {
 	free(((t_shape *)shape)->shape);
@@ -53,30 +46,36 @@ t_plane	*create_plane(char **specs)
 t_cylinder	*create_cylinder(char **specs)
 {
 	t_cylinder	*cyl;
+	char		*n;
+	char		*n2;
 
 	if (arr_len(specs) < 6)
 		return (NULL);
 	cyl = ft_calloc(1, sizeof(t_cylinder));
-	if (!cyl)
+	if (!cyl || read_normalized_vec(&cyl->normal, specs[2]))
+	{
+		free(cyl);
 		return (NULL);
+	}
 	if (read_point(&cyl->center, specs[1]) || read_color(&cyl->c, specs[5]))
 	{
 		free(cyl);
 		return (NULL);
 	}
-	if (read_normalized_vec(&cyl->normal, specs[2]))
+	cyl->diameter = ft_strtod(specs[3], &n);
+	cyl->height = ft_strtod(specs[4], &n2);
+	if (*n != '\0' || *n2 != '\0')
 	{
 		free(cyl);
 		return (NULL);
 	}
-	cyl->diameter = ft_strtod(specs[3]);
-	cyl->height = ft_strtod(specs[4]);
 	return (cyl);
 }
 
 t_sphere	*create_sphere(char **specs)
 {
 	t_sphere	*sp;
+	char		*n;
 
 	if (arr_len(specs) < 4)
 		return (NULL);
@@ -88,13 +87,19 @@ t_sphere	*create_sphere(char **specs)
 		free(sp);
 		return (NULL);
 	}
-	sp->diameter = ft_strtod(specs[2]);
+	sp->diameter = ft_strtod(specs[2], &n);
+	if (*n != '\0')
+	{
+		free(sp);
+		return (NULL);
+	}
 	return (sp);
 }
 
 t_light	*create_light(char **specs)
 {
 	t_light	*light;
+	char	*n;
 
 	if (arr_len(specs) < 4)
 		return (NULL);
@@ -111,6 +116,11 @@ t_light	*create_light(char **specs)
 		free(light);
 		return (NULL);
 	}
-	light->intensity = ft_strtod(specs[2]);
+	light->intensity = ft_strtod(specs[2], &n);
+	if (*n != '\0' || light->intensity < 0.0 || light->intensity > 1.0)
+	{
+		free(light);
+		return (NULL);
+	}
 	return (light);
 }
