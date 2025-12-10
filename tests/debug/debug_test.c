@@ -10,4 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// dummy file to make debug_test.c compile
+#include "unity.h"
+
+void	debug_test_function(void)
+{
+	TEST_IGNORE(); // Ignoring this test for now
+}

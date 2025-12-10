@@ -26,17 +26,17 @@ int	main(void)
 	// PARSING TESTS
 	RUN_TEST(test_has_correct_extension);
 	RUN_TEST(test_ft_strtod);
-
 	// READ PROPERTIES TESTS
 	RUN_TEST(test_read_color);
 	RUN_TEST(test_read_point);
 	RUN_TEST(test_read_normalized_vec);
-
-
 	// OBJECTS TESTS
 	RUN_TEST(test_create_light);
 	RUN_TEST(test_create_plane);
 	RUN_TEST(test_create_cylinder);
 	RUN_TEST(test_create_sphere);
+	// DEBUG TESTS
+	RUN_TEST(debug_test_function);
+	RUN_TEST(debug_utils_test_function);
 	return (0);
 }

@@ -10,4 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// Dummy file for testing debug_utils functions
+#include "unity.h"
+
+void	debug_utils_test_function(void)
+{
+	TEST_IGNORE(); // Ignoring this test for now
+}

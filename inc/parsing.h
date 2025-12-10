@@ -27,6 +27,7 @@ size_t			arr_len(char **arr);
 
 /* PARSING UTILS */
 
+uint8_t	ft_atoui_8(const char *nptr, char **n);
 double			ft_strtod(char *str, char **n);
 int				has_correct_extension(char *filename);
 int				define_item_type(char *id);

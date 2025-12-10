@@ -28,6 +28,7 @@ t_bool	is_normalized(t_vec3 vector)
 int	read_color(t_color *c, char *string)
 {
 	char	**arr;
+	char	*n;
 
 	if (!c)
 		return (NULL_PARAM_ERR);
@@ -39,9 +40,15 @@ int	read_color(t_color *c, char *string)
 		ft_free_arr(arr);
 		return (INVALID_VALUE_ERR);
 	}
-	c->r = ft_atoi(arr[0]);
-	c->g = ft_atoi(arr[1]);
-	c->b = ft_atoi(arr[2]);
+	c->r = ft_atoui_8(arr[0], &n);
+	if (*n != 0)
+		return (INVALID_VALUE_ERR);
+	c->g = ft_atoui_8(arr[1], &n);
+	if (*n != 0)
+		return (INVALID_VALUE_ERR);
+	c->b = ft_atoui_8(arr[2], &n);
+	if (*n != 0)
+		return (INVALID_VALUE_ERR);
 	ft_free_arr(arr);
 	return (0);
 }

@@ -24,6 +24,28 @@ size_t	arr_len(char **arr)
 	return (i);
 }
 
+uint8_t	ft_atoui_8(const char *nptr, char **n)
+{
+	uint8_t	number;
+	size_t	i;
+
+	if (nptr == NULL)
+		return (0);
+	i = (nptr[0] == '+');
+	if (ft_strlen(nptr) > 3)
+		return (255);
+	number = 0;
+	while (nptr[i] || ft_isdigit(nptr[i]))
+	{
+		if (number > 25 || (number == 25 && nptr[i] > '5'))
+			break ;
+		number = (number * 10) + (nptr[i] - '0');
+		++i;
+	}
+	*n = (char *)&nptr[i];
+	return (number);
+}
+
 /**
 * @brief Convert a string to a double-precision floating-point number.
 * @details This function handles one optional '+' or '-' at the start.

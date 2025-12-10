@@ -10,14 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// tests for read_properties.c functions
-
-//TODO: add tests on error and check return value.
 #include "unity.h"
 #include "parsing.h"
 
-
-void test_read_color(void)
+void	test_read_color(void)
 {
 	t_color color;
 	int		status;
@@ -27,17 +23,26 @@ void test_read_color(void)
 	TEST_ASSERT_EQUAL_UINT8(255, color.r);
 	TEST_ASSERT_EQUAL_UINT8(0, color.g);
 	TEST_ASSERT_EQUAL_UINT8(128, color.b);
-
 	status = read_color(&color, "0,255,64");
 	TEST_ASSERT_EQUAL_INT(0, status);
 	TEST_ASSERT_EQUAL_UINT8(0, color.r);
 	TEST_ASSERT_EQUAL_UINT8(255, color.g);
 	TEST_ASSERT_EQUAL_UINT8(64, color.b);
+	status = read_color(&color, "3d4,67,89");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+	status = read_color(&color, "256,0,0");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+	status = read_color(&color, "-1,0,0");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+	status = read_color(&color, "100,100");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+	status = read_color(NULL, "100,100,100");
+	TEST_ASSERT_NOT_EQUAL(0, status);
 }
 
-void test_read_point(void)
+void	test_read_point(void)
 {
-	t_point point;
+	t_point	point;
 	int		status;
 
 	status = read_point(&point, "1.0,2.0,3.0");
@@ -51,9 +56,18 @@ void test_read_point(void)
 	TEST_ASSERT_EQUAL_DOUBLE(-1.5, point.x);
 	TEST_ASSERT_EQUAL_DOUBLE(0.0, point.y);
 	TEST_ASSERT_EQUAL_DOUBLE(1.5, point.z);
+
+	status = read_point(NULL, "1.0,2.0,3.0");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+
+	status = read_point(&point, "1.0,2.0");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+
+	status = read_point(&point, "a,b,c");
+	TEST_ASSERT_NOT_EQUAL(0, status);
 }
 
-void test_read_normalized_vec(void)
+void	test_read_normalized_vec(void)
 {
 	t_vec3	vec;
 	int		status;
@@ -64,9 +78,15 @@ void test_read_normalized_vec(void)
 	TEST_ASSERT_EQUAL_DOUBLE(1.0, vec.y);
 	TEST_ASSERT_EQUAL_DOUBLE(0.0, vec.z);
 
-	status = read_normalized_vec(&vec, "-0.57735,0.57735,0.57735");
+	status = read_normalized_vec(&vec, "-0.57735,.57735,0.57735");
 	TEST_ASSERT_EQUAL_INT(0, status);
 	TEST_ASSERT_EQUAL_DOUBLE(-0.57735, vec.x);
 	TEST_ASSERT_EQUAL_DOUBLE(0.57735, vec.y);
 	TEST_ASSERT_EQUAL_DOUBLE(0.57735, vec.z);
+
+	status = read_normalized_vec(NULL, "0.0,1.0,0.0");
+	TEST_ASSERT_NOT_EQUAL(0, status);
+
+	status = read_normalized_vec(&vec, "1.0,0.0");
+	TEST_ASSERT_NOT_EQUAL(0, status);
 }
