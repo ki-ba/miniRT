@@ -1,13 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils_test.c                               :+:      :+:    :+:   */
+/*   core.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/05 12:46:39 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/10 15:57:45 by kbarru           ###   ########lyon.fr   */
+/*   Created: 2025/12/17 15:52:34 by kbarru            #+#    #+#             */
+/*   Updated: 2025/12/17 15:52:52 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-// TODO: add more test cases
+#ifndef CORE_H
+# define CORE_H
+
+# include "miniRT.h"
+
+void	destroy_mini_rt(t_mini_rt *mini_rt);
+void	init_mini_rt(t_mini_rt *mini_rt);
+void	print_mini_rt(t_mini_rt mini_rt);
+void	clean_exit(t_mini_rt *mini_rt, int exit_code);
+
+#endif

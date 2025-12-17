@@ -27,7 +27,7 @@ void	print_vector(char *name, t_vec3 vector)
 	printf("%s: [%.2f, %.2f, %.2f]\n", name, vector.x, vector.y, vector.z);
 }
 
-void	print_properties(t_miniRT mini_rt)
+void	print_properties(t_mini_rt mini_rt)
 {
 	printf("AMBIENT LIGHT :\n");
 	printf("intensity : %.2f\n", mini_rt.ambient_light.intensity);

@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 16:03:01 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/08 15:13:00 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/10 15:52:59 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,23 @@
 
 /* PARSING */
 
-t_list			*parse_shapes_in_file(t_miniRT *miniRT, int fd);
+t_list			*parse_shapes_in_file(t_mini_rt *mini_rt, int fd);
 t_list			*create_shape_lst(char **shape_arr);
-int				parse_items_in_file(t_miniRT *miniRT, int fd);
+int				parse_items_in_file(t_mini_rt *mini_rt, int fd);
 size_t			arr_len(char **arr);
 
 /* PARSING UTILS */
 
-uint8_t	ft_atoui_8(const char *nptr, char **n);
-double			ft_strtod(char *str, char **n);
-int				has_correct_extension(char *filename);
 int				define_item_type(char *id);
 int				is_property_id(char *id);
 t_bool			is_normalized(t_vec3 vector);
+
+/* STR UTILS */
+
+uint8_t			ft_atoui_8(const char *nptr, char **n);
+double			ft_strtod(char *str, char **n);
+int				has_correct_extension(char *filename);
+size_t			count_char_in_str(char *str, char c);
 
 /* READ PROPERTIES */
 

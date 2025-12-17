@@ -1,13 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils_test.c                               :+:      :+:    :+:   */
+/*   core_test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/05 12:46:39 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/10 15:57:45 by kbarru           ###   ########lyon.fr   */
+/*   Created: 2025/12/17 15:54:21 by kbarru            #+#    #+#             */
+/*   Updated: 2025/12/17 15:57:50 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-// TODO: add more test cases
+#include "unity.h"
+#include "miniRT.h"
+
+void	test_core(void)
+{
+	TEST_IGNORE();
+}

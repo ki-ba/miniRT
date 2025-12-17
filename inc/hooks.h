@@ -1,13 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils_test.c                               :+:      :+:    :+:   */
+/*   hooks.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/05 12:46:39 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/10 15:57:45 by kbarru           ###   ########lyon.fr   */
+/*   Created: 2025/12/17 15:43:22 by kbarru            #+#    #+#             */
+/*   Updated: 2025/12/17 15:43:50 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-// TODO: add more test cases
+#ifndef HOOKS_H
+# define HOOKS_H
+
+# include "miniRT.h"
+
+int		handle_keypress(int keysym, t_mini_rt *mini_rt);
+int		handle_window_close(t_mini_rt *mini_rt);
+
+#endif

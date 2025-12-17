@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:08:42 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/08 14:37:31 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/17 15:54:56 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 // PARSING
 
+void	test_count_char_in_str(void);
+void	test_ft_atoui_8(void);
 void	test_has_correct_extension(void);
 void	test_ft_strtod(void);
 
@@ -36,4 +38,16 @@ void	test_create_sphere(void);
 void	debug_test_function(void);
 void	debug_utils_test_function(void);
 
+// GRAPHICS
+
+void	test_ft_init_mlx(void);
+void	test_my_mlx_pixel_put(void);
+
+// TEST HOOKS 
+
+void	test_handle_keypress_escape_exits_program(void);
+
+// CORE
+
+void	test_core(void);
 #endif

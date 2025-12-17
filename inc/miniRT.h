@@ -6,14 +6,16 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/10 11:36:08 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/17 15:50:27 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# include "mlx.h"
 # include "libft.h"
+# include "graphics.h"
 # include <stdint.h>
 
 # define EXTENSION ".rt"
@@ -28,13 +30,16 @@
 # define FILE_ERR_MSG "Error while reading file\n"
 # define MISSING_PROPERTY_MSG "Error: Missing required property (A or C)\n"
 
+# define WIDTH 1920
+# define HEIGHT 1080
+
 typedef enum e_error_code
 {
 	SUCCESS = 0,
-	NULL_PARAM_ERR = 1,
+	GENERIC_ERR = 1,
+	NULL_PARAM_ERR,
 	INVALID_VALUE_ERR,
 	MALLOC_ERR,
-	GENERIC_ERR
 }	t_error_code;
 
 /* UTILS */
@@ -121,17 +126,15 @@ typedef struct s_camera
 	int		fov;
 }	t_camera;
 
-typedef struct s_miniRT
+typedef struct s_mini_rt
 {
 	t_list		*objects;
 	t_list		*lights;
 	t_camera	camera;
 	t_ambient	ambient_light;
-}	t_miniRT;
-
-// DESTROY
-
-void			destroy_shape(void *shape);
-void			destroy_mini_rt(t_miniRT *miniRT);
+	void		*mlx;
+	void		*win;
+	t_data		img;
+}	t_mini_rt;
 
 #endif

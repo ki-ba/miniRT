@@ -10,7 +10,7 @@ DEPS = $(OBJ:.o=.d)
 CFLAGS = -Wall -Wextra -Werror -g -MMD
 INCLUDES = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
 TEST_INCLUDES = -IUnity/src/
-LIBS = -L$(MLX_DIR) -lmlx -L$(LIBFT_DIR) -lft -lm
+LIBS = -L$(MLX_DIR) -lmlx -lX11 -lXext -L$(LIBFT_DIR) -lft -lm
 
 # DIRECTORIES #
 
@@ -27,24 +27,30 @@ LIBFT_DIR = $(LIB_DIR)libft/
 PARSING_DIR = parsing/
 OBJECTS_DIR = objects/
 DEBUG_DIR = debug/
+GRAPHICS_DIR = graphics/
+CORE_DIR = core/
 
-SUBDIRS = $(PARSING_DIR) $(OBJECTS_DIR) $(DEBUG_DIR)
+SUBDIRS = $(PARSING_DIR) $(OBJECTS_DIR) $(DEBUG_DIR) $(GRAPHICS_DIR) $(CORE_DIR)
 TEST_SUBDIRS = $(addprefix tests/, $(SUBDIRS))
 
 # SOURCE FILES #
 
-PARSING_FILENAMES = parsing.c parsing_utils.c read_properties.c
+PARSING_FILENAMES = parsing.c parsing_utils.c read_properties.c str_utils.c
 OBJECTS_FILENAMES = objects.c
 DEBUG_FILENAMES = debug.c debug_utils.c
+GRAPHICS_FILENAMES = graphics.c
+CORE_FILENAMES = core.c hooks.c
 
 # CATEGORY_FILENAMES = filename.c
 
 PARSING_SRC = $(addprefix $(SRC_DIR)$(PARSING_DIR), $(PARSING_FILENAMES))
 OBJECTS_SRC = $(addprefix $(SRC_DIR)$(OBJECTS_DIR), $(OBJECTS_FILENAMES))
 DEBUG_SRC = $(addprefix $(SRC_DIR)$(DEBUG_DIR), $(DEBUG_FILENAMES))
+GRAPHICS_SRC = $(addprefix $(SRC_DIR)$(GRAPHICS_DIR), $(GRAPHICS_FILENAMES))
+CORE_SRC = $(addprefix $(SRC_DIR)$(CORE_DIR), $(CORE_FILENAMES))
 # CATEGORY_FULL_SRC = addprefix CATEGORY SOURCE_LIST
 
-SRC = $(PARSING_SRC) $(OBJECTS_SRC) $(DEBUG_SRC) $(DESTROY_SRC)
+SRC = $(PARSING_SRC) $(OBJECTS_SRC) $(DEBUG_SRC) $(DESTROY_SRC) $(GRAPHICS_SRC) $(CORE_SRC)
 # add CAT_SRC here if a new category is added
 
 TEST_SRC = $(subst $(SRC_DIR), $(TEST_DIR), $(SRC:%.c=%_test.c))

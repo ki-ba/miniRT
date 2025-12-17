@@ -52,8 +52,7 @@ int	add_item(t_list **lst, void *(*f)(char **), char **item_arr)
 	* @param property The array of strings representing property specifications.
 	* @return 0 on success, or an error code on failure.
 */
-
-int	set_property(t_miniRT *mini_rt, char **property)
+int	set_property(t_mini_rt *mini_rt, char **property)
 {
 	char	*n;
 
@@ -90,7 +89,7 @@ int	set_property(t_miniRT *mini_rt, char **property)
 	* @param line The line to process.
 	* @return 0 on success, or an error code on failure.
 */
-int	handle_line(t_miniRT *mini_rt, char *line)
+int	handle_line(t_mini_rt *mini_rt, char *line)
 {
 	void	*(*p[5])(char **);
 	t_list	**engine_lists[2];
@@ -119,7 +118,7 @@ int	handle_line(t_miniRT *mini_rt, char *line)
 	return (status);
 }
 
-int	parse_items_in_file(t_miniRT *mini_rt, int fd)
+int	parse_items_in_file(t_mini_rt *mini_rt, int fd)
 {
 	char	*line;
 	int		status;

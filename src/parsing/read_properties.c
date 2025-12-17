@@ -6,31 +6,13 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:46:04 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/08 15:16:31 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/10 15:51:55 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "miniRT.h"
 #include "parsing.h"
-
-size_t	count_char_in_str(char *str, char c)
-{
-	size_t	i;
-	size_t	count;
-
-	if (!str)
-		return (0);
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			++count;
-		++i;
-	}
-	return (count);
-}
 
 t_bool	is_normalized(t_vec3 vector)
 {

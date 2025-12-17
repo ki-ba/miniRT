@@ -17,16 +17,16 @@
 # include "libft.h"
 
 void	print_item_lst(t_list *lst);
-void	print_properties(t_miniRT mini_rt);
+void	print_properties(t_mini_rt mini_rt);
 
 // DEBUG_UTILS
-//
+
 void	print_point(char *name, t_point point);
 void	print_color(char *name, t_color color);
 void	print_vector(char *name, t_vec3 vector);
 
 // DEBUG
-//
+
 void	print_cylinder(t_cylinder cy);
 void	print_plane(t_plane pl);
 void	print_sphere(t_sphere sp);
