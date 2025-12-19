@@ -33,108 +33,133 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 
-typedef enum e_error_code
+/* ENUMS */
+enum e_error_code
 {
 	SUCCESS = 0,
-	GENERIC_ERR = 1,
+	GENERIC_ERR,
 	NULL_PARAM_ERR,
 	INVALID_VALUE_ERR,
 	MALLOC_ERR,
-}	t_error_code;
+	E_ERROR_CODE_QTY
+};
 
-/* UTILS */
-
-typedef enum e_item_type
+enum e_item_type
 {
 	SPHERE = 0,
 	PLANE,
 	CYLINDER,
-	LIGHT
-}	t_item_type;
+	LIGHT,
+	E_ITEM_TYPE_QTY
+};
 
-typedef struct s_color
+/* UTILS */
+typedef union	u_color		t_color;
+typedef struct	s_vec3		t_vec3;
+typedef struct	s_point		t_point;
+typedef struct	s_light		t_light;
+typedef struct	s_plane		t_plane;
+typedef struct	s_cylinder	t_cylinder;
+typedef struct	s_sphere	t_sphere;
+typedef struct	s_shape		t_shape;
+typedef struct	s_ambient	t_ambient;
+typedef struct	s_camera	t_camera;
+typedef struct	s_mlx		t_mlx;
+typedef struct	s_mini_rt	t_mini_rt;
+
+union s_color
 {
-	uint8_t	r;
-	uint8_t	g;
-	uint8_t	b;
-}	t_color;
+	uint32_t trgb;
+	struct
+	{
+		uint8_t	t;
+		uint8_t	r;
+		uint8_t	g;
+		uint8_t	b;
+	};
+};
 
-typedef struct s_vec3
+struct s_vec3
 {
 	double	x;
 	double	y;
 	double	z;
-}	t_vec3;
 
-typedef struct s_point
+
+struct s_point
 {
 	double	x;
 	double	y;
 	double	z;
-}	t_point;
+;
 
-typedef struct s_light
+struct s_light
 {
 	t_point	origin;
 	t_color	color;
 	double	intensity;
-}	t_light;
+};
 
 /* OBJECTS */
-
-typedef struct s_plane
+struct s_plane
 {
 	t_point	p;
 	t_color	c;
 	t_vec3	normal;
-}	t_plane;
+};
 
-typedef struct s_cylinder
+struct s_cylinder
 {
 	t_point	center;
 	t_color	c;
 	t_vec3	normal;
 	double	diameter;
 	double	height;
-}	t_cylinder;
+};
 
-typedef struct s_sphere
+struct s_sphere
 {
 	t_point	center;
 	t_color	c;
 	double	diameter;
-}	t_sphere;
+};
 
-typedef struct s_shape
+struct s_shape
 {
 	enum e_item_type	type;
 	void				*shape;
-}	t_shape;
+};
 
-typedef struct s_ambient
+/* SCENE */
+struct s_ambient
 {
 	t_bool	is_defined;
 	double	intensity;
 	t_color	color;
-}	t_ambient;
+};
 
-typedef struct s_camera
+struct s_camera
 {
 	t_bool	is_defined;
 	t_point	origin;
 	t_vec3	orientation;
 	int		fov;
-}	t_camera;
+};
 
-typedef struct s_mini_rt
+struct s_mlx
+{
+	void		*mlx;
+	void		*win;
+	t_data		img;
+};
+
+struct s_mini_rt
 {
 	t_list		*objects;
 	t_list		*lights;
 	t_camera	camera;
 	t_ambient	ambient_light;
-	void		*mlx;
-	void		*win;
-	t_data		img;
-}	t_mini_rt;
+	t_mlx		mlx;
+};
 
 #endif
