@@ -33,6 +33,21 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 
+
+typedef enum	e_item_type	t_item_type;
+typedef union	u_color		t_color;
+typedef struct	s_vec3		t_vec3;
+typedef struct	s_point		t_point;
+typedef struct	s_light		t_light;
+typedef struct	s_plane		t_plane;
+typedef struct	s_cylinder	t_cylinder;
+typedef struct	s_sphere	t_sphere;
+typedef struct	s_shape		t_shape;
+typedef struct	s_ambient	t_ambient;
+typedef struct	s_camera	t_camera;
+typedef struct	s_mlx		t_mlx;
+typedef struct	s_mini_rt	t_mini_rt;
+
 /* ENUMS */
 enum e_error_code
 {
@@ -54,20 +69,7 @@ enum e_item_type
 };
 
 /* UTILS */
-typedef union	u_color		t_color;
-typedef struct	s_vec3		t_vec3;
-typedef struct	s_point		t_point;
-typedef struct	s_light		t_light;
-typedef struct	s_plane		t_plane;
-typedef struct	s_cylinder	t_cylinder;
-typedef struct	s_sphere	t_sphere;
-typedef struct	s_shape		t_shape;
-typedef struct	s_ambient	t_ambient;
-typedef struct	s_camera	t_camera;
-typedef struct	s_mlx		t_mlx;
-typedef struct	s_mini_rt	t_mini_rt;
-
-union s_color
+union u_color
 {
 	uint32_t trgb;
 	struct
@@ -84,6 +86,7 @@ struct s_vec3
 	double	x;
 	double	y;
 	double	z;
+};
 
 
 struct s_point
@@ -91,7 +94,7 @@ struct s_point
 	double	x;
 	double	y;
 	double	z;
-;
+};
 
 struct s_light
 {
@@ -146,12 +149,12 @@ struct s_camera
 	int		fov;
 };
 
-struct s_mlx
-{
-	void		*mlx;
-	void		*win;
-	t_data		img;
-};
+// struct s_mlx
+// {
+// 	void		*mlx;
+// 	void		*win;
+// 	t_data		img;
+// };
 
 struct s_mini_rt
 {
@@ -159,7 +162,10 @@ struct s_mini_rt
 	t_list		*lights;
 	t_camera	camera;
 	t_ambient	ambient_light;
-	t_mlx		mlx;
+	// t_mlx		mlx;		//maybe to extract
+	void		*mlx;
+	void		*win;
+	t_data		img;
 };
 
 #endif

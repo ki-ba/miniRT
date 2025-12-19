@@ -37,17 +37,24 @@ int	main(void)
 	RUN_TEST(test_create_plane);
 	RUN_TEST(test_create_cylinder);
 	RUN_TEST(test_create_sphere);
+	// VEC3 TESTS
+	RUN_TEST(test_vec3_add);
+	RUN_TEST(test_vec3_substract);
+	RUN_TEST(test_vec3_scale);
+	RUN_TEST(test_vec3_magnitude);
+	RUN_TEST(test_vec3_dot);
+	RUN_TEST(test_vec3_normalize);
+	RUN_TEST(test_vec3_cross);
 	// DEBUG TESTS
 	RUN_TEST(debug_test_function);
 	RUN_TEST(debug_utils_test_function);
 	// GRAPHICS TESTS
 	RUN_TEST(test_ft_init_mlx);
 	RUN_TEST(test_my_mlx_pixel_put);
-
 	// HOOKS TESTS
 	RUN_TEST(test_handle_keypress_escape_exits_program);
-
 	// CORE TESTS
 	RUN_TEST(test_core);
+
 	return (0);
 }
