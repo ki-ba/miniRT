@@ -12,7 +12,7 @@
 
 #include "miniRT.h"
 
-t_vec3	vec3_scale(t_vec3 const *v, double s)
+extern inline t_vec3	vec3_scale(t_vec3 const *v, double s)
 {
 	return ((t_vec3) {v->x * s, v->y * s, v->z * s});
 }

@@ -12,7 +12,7 @@
 
 #include "miniRT.h"
 
-double	vec3_dot(t_vec3 const *u, t_vec3 const *v)
+extern inline double	vec3_dot(t_vec3 const *u, t_vec3 const *v)
 {
 	return (u->x * v->x + u->y * v->y + u->z * v->z);
 }

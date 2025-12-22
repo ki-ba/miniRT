@@ -7,7 +7,7 @@ DEPS = $(OBJ:.o=.d)
 
 # COMPILATION FLAGS #
 
-CFLAGS = -Wall -Wextra -Werror -g -MMD
+CFLAGS = -Wall -Wextra -Werror -g -MMD -O3
 INCLUDES = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
 TEST_INCLUDES = -IUnity/src/
 LIBS = -L$(MLX_DIR) -lmlx -lX11 -lXext -L$(LIBFT_DIR) -lft -lm

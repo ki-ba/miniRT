@@ -12,7 +12,7 @@
 
 #include "miniRT.h"
 
-t_vec3	vec3_add(t_vec3 const *u, t_vec3 const *v)
+extern inline t_vec3	vec3_add(t_vec3 const *u, t_vec3 const *v)
 {
 	return ((t_vec3) {u->x + v->x, u->y + v->y, u->z + v->z});
 }

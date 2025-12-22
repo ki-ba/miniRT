@@ -14,7 +14,7 @@
 
 double	vec3_magnitude(t_vec3 const *v);
 
-t_vec3	vec3_normalize(t_vec3 const *v)
+extern inline t_vec3	vec3_normalize(t_vec3 const *v)
 {
 	const double v_mag = vec3_magnitude(v);
 
