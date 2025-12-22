@@ -18,6 +18,8 @@ t_vec3	vec3_normalize(t_vec3 const *v)
 {
 	const double v_mag = vec3_magnitude(v);
 
+	if (!v_mag)
+		return ((t_vec3) {0.0, 0.0, 0.0});
 	return ((t_vec3) {v->x / v_mag, v->y / v_mag, v->z / v_mag});
 }
 
