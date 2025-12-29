@@ -19,6 +19,15 @@
 
 #include <math.h>
 
+void	set_point_color(t_mini_rt *mini_rt, t_point vp_point)
+{
+	t_vec3	ray;
+
+	ray.x = vp_point.x - mini_rt->camera.origin.x;
+	ray.y = vp_point.y - mini_rt->camera.origin.y;
+	ray.z = vp_point.z - mini_rt->camera.origin.z;
+}
+
 void	shoot_rays(t_mini_rt *mini_rt)
 {
 	size_t	i;
@@ -33,6 +42,7 @@ void	shoot_rays(t_mini_rt *mini_rt)
 	while (i < (double)(WIDTH * HEIGHT) / SAMPLE_SIZE)
 	{
 		vp_point = (t_point){(double)i / WIDTH, i % WIDTH, VP_DISTANCE};
+		set_point_color(mini_rt, vp_point);
 		++i;
 	}
 }
@@ -59,6 +69,7 @@ int	main(int argc, char *argv[])
 		write(2, MISSING_PROPERTY_MSG, ft_strlen(MISSING_PROPERTY_MSG));
 		clean_exit(&mini_rt, GENERIC_ERR);
 	}
+	ft_init_mlx(&mini_rt);
 	print_mini_rt(mini_rt);
 	mlx_loop(mini_rt.mlx.mlx);
 	destroy_mini_rt(&mini_rt);
