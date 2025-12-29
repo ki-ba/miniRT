@@ -32,6 +32,9 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
+# define SAMPLE_SIZE 10
+
+# define VP_DISTANCE 1
 
 /* ENUMS */
 enum e_error_code

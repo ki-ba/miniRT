@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:08:42 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/17 15:54:56 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/18 13:30:17 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,8 @@ void	test_handle_keypress_escape_exits_program(void);
 // CORE
 
 void	test_core(void);
+
+// MATH
+
+void	test_resolve_eq2(void);
 #endif

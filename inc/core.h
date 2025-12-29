@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:52:34 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/17 15:52:52 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/18 13:29:27 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,19 @@
 
 # include "miniRT.h"
 
+typedef struct s_roots
+{
+	double	root1;
+	double	root2;
+	double	delta;
+}			t_roots;
+
 void	destroy_mini_rt(t_mini_rt *mini_rt);
 void	init_mini_rt(t_mini_rt *mini_rt);
 void	print_mini_rt(t_mini_rt mini_rt);
 void	clean_exit(t_mini_rt *mini_rt, int exit_code);
 
+// MATH
+
+t_roots	*resolve_eq2(double a, double b, double c);
 #endif

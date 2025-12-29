@@ -39,7 +39,7 @@ PARSING_FILENAMES = parsing.c parsing_utils.c read_properties.c str_utils.c
 OBJECTS_FILENAMES = objects.c
 DEBUG_FILENAMES = debug.c debug_utils.c
 GRAPHICS_FILENAMES = graphics.c
-CORE_FILENAMES = core.c hooks.c
+CORE_FILENAMES = core.c hooks.c math.c
 
 # CATEGORY_FILENAMES = filename.c
 

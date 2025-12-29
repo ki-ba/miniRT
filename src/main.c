@@ -6,17 +6,35 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 16:04:24 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/17 15:54:05 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2025/12/18 13:34:43 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "graphics.h"
 #include "libft.h"
 #include "miniRT.h"
 #include "parsing.h"
 #include <fcntl.h>
-#include "debug.h"
-#include "objects.h"
 #include "core.h"
+
+#include <math.h>
+
+void	shoot_rays(t_mini_rt *mini_rt)
+{
+	size_t	i;
+	t_point	*viewport;
+	t_point	vp_point;
+	(void)mini_rt;
+	(void)viewport;
+	(void)vp_point;
+	i = 0;
+	viewport = ft_calloc(WIDTH * HEIGHT, sizeof(t_color));
+	while (i < (double)(WIDTH * HEIGHT) / SAMPLE_SIZE)
+	{
+		vp_point = (t_point){(double)i / WIDTH, i % WIDTH, VP_DISTANCE};
+		++i;
+	}
+}
 
 int	main(int argc, char *argv[])
 
