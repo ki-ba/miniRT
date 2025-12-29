@@ -15,7 +15,7 @@
 
 void	test_read_color(void)
 {
-	t_color color;
+	t_color	color;
 	int		status;
 
 	status = read_color(&color, "255,0,128");

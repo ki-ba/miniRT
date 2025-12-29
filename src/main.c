@@ -24,6 +24,7 @@ void	shoot_rays(t_mini_rt *mini_rt)
 	size_t	i;
 	t_point	*viewport;
 	t_point	vp_point;
+
 	(void)mini_rt;
 	(void)viewport;
 	(void)vp_point;
@@ -59,7 +60,7 @@ int	main(int argc, char *argv[])
 		clean_exit(&mini_rt, GENERIC_ERR);
 	}
 	print_mini_rt(mini_rt);
-	mlx_loop(mini_rt.mlx);
+	mlx_loop(mini_rt.mlx.mlx);
 	destroy_mini_rt(&mini_rt);
 	return (0);
 }

@@ -50,8 +50,8 @@ void	print_light(t_light l)
 
 void	print_item_lst(t_list *lst)
 {
-	t_item_type	type;
-	t_shape		*shape;
+	enum e_item_type	type;
+	t_shape				*shape;
 
 	printf("[START]\n");
 	while (lst)

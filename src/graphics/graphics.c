@@ -19,14 +19,14 @@ void	ft_init_mlx(t_mini_rt *mini_rt)
 {
 	t_data		*img;
 
-	img = &mini_rt->img;
-	mini_rt->mlx = mlx_init();
-	mini_rt->win = mlx_new_window(mini_rt->mlx, WIDTH, HEIGHT, "miniRT");
-	mini_rt->img.img = mlx_new_image(mini_rt->mlx, WIDTH, HEIGHT);
-	mini_rt->img.addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
+	img = &mini_rt->mlx.img;
+	mini_rt->mlx.mlx = mlx_init();
+	mini_rt->mlx.win = mlx_new_window(mini_rt->mlx.mlx, WIDTH, HEIGHT, "miniRT");
+	mini_rt->mlx.img.img = mlx_new_image(mini_rt->mlx.mlx, WIDTH, HEIGHT);
+	mini_rt->mlx.img.addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
-	mlx_key_hook(mini_rt->win, handle_keypress, mini_rt);
-	mlx_put_image_to_window(mini_rt->mlx, mini_rt->win, mini_rt->img.img, 0, 0);
+	mlx_key_hook(mini_rt->mlx.win, handle_keypress, mini_rt);
+	mlx_put_image_to_window(mini_rt->mlx.mlx, mini_rt->mlx.win, mini_rt->mlx.img.img, 0, 0);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)

@@ -19,21 +19,21 @@ void	destroy_mini_rt(t_mini_rt *mini_rt)
 {
 	ft_lstclear(&mini_rt->objects, destroy_shape);
 	ft_lstclear(&mini_rt->lights, destroy_shape);
-	if (mini_rt->img.img)
-		mlx_destroy_image(mini_rt->mlx, mini_rt->img.img);
-	if (mini_rt->win)
-		mlx_destroy_window(mini_rt->mlx, mini_rt->win);
-	if (mini_rt->mlx)
+	if (mini_rt->mlx.img.img)
+		mlx_destroy_image(mini_rt->mlx.mlx, mini_rt->mlx.img.img);
+	if (mini_rt->mlx.win)
+		mlx_destroy_window(mini_rt->mlx.mlx, mini_rt->mlx.win);
+	if (mini_rt->mlx.mlx)
 	{
-		mlx_destroy_display(mini_rt->mlx);
-		free(mini_rt->mlx);
+		mlx_destroy_display(mini_rt->mlx.mlx);
+		free(mini_rt->mlx.mlx);
 	}
 }
 
 void	init_mini_rt(t_mini_rt *mini_rt)
 {
-	mini_rt->mlx = NULL;
-	mini_rt->img = (t_data){0};
+	mini_rt->mlx.mlx = NULL;
+	mini_rt->mlx.img = (t_data){0};
 	mini_rt->lights = NULL;
 	mini_rt->objects = NULL;
 	mini_rt->camera = (t_camera){0};
