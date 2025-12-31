@@ -29,6 +29,9 @@
 # define USAGE_ERR_MSG "usage : ./miniRT filename.rt\n"
 # define FILE_ERR_MSG "Error while reading file\n"
 # define MISSING_PROPERTY_MSG "Error: Missing required property (A or C)\n"
+# define TOO_MUCH_ELEMENTS_MSG "Error: More than 1 [C]amera, [L]ight, or \
+[A]mbiant light\n"
+# define VECTOR_NOT_NORMALIZED "Error: The vector is not normalized\n"
 
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -44,6 +47,8 @@ enum e_error_code
 	NULL_PARAM_ERR,
 	INVALID_VALUE_ERR,
 	MALLOC_ERR,
+	TOO_MUCH_ELEMENTS_ERR,
+	COMMENT_OR_EMPTY_LINE,
 	E_ERROR_CODE_QTY
 };
 

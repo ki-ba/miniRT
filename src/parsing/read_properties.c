@@ -13,6 +13,7 @@
 #include "libft.h"
 #include "miniRT.h"
 #include "parsing.h"
+#include <math.h>
 
 t_bool	is_normalized(t_vec3 vector)
 {
@@ -22,14 +23,17 @@ t_bool	is_normalized(t_vec3 vector)
 		return (FALSE);
 	if (vector.z < -1 || vector.z > 1)
 		return (FALSE);
-	return (TRUE);
+	return (sqrt(vector.x * vector.x + vector.y * vector.y
+			+ vector.z * vector.z) <= 1.0);
 }
 
 int	read_color(t_color *c, char *string)
 {
 	char	**arr;
 	char	*n;
+	int		status;
 
+	status = 0;
 	if (!c || !string)
 		return (NULL_PARAM_ERR);
 	if (count_char_in_str(string, ',') != 2)
@@ -44,15 +48,15 @@ int	read_color(t_color *c, char *string)
 	}
 	c->r = ft_atoui_8(arr[0], &n);
 	if (*n != 0)
-		return (INVALID_VALUE_ERR);
+		status = (INVALID_VALUE_ERR);
 	c->g = ft_atoui_8(arr[1], &n);
 	if (*n != 0)
-		return (INVALID_VALUE_ERR);
+		status = (INVALID_VALUE_ERR);
 	c->b = ft_atoui_8(arr[2], &n);
 	if (*n != 0)
-		return (INVALID_VALUE_ERR);
+		status = (INVALID_VALUE_ERR);
 	ft_free_arr(arr);
-	return (0);
+	return (status);
 }
 
 int	fill_double_array(double *slots[3], char **arr, size_t size)
@@ -113,6 +117,9 @@ int	read_normalized_vec(t_vec3 *v, char *string)
 	array_status = fill_double_array((double *[]){&v->x, &v->y, &v->z}, arr, 3);
 	ft_free_arr(arr);
 	if (array_status != SUCCESS || is_normalized(*v) == FALSE)
+	{
+		write(2, VECTOR_NOT_NORMALIZED, ft_strlen(VECTOR_NOT_NORMALIZED));
 		return (INVALID_VALUE_ERR);
+	}
 	return (SUCCESS);
 }

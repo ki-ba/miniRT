@@ -47,6 +47,20 @@ void	shoot_rays(t_mini_rt *mini_rt)
 	}
 }
 
+int	check_properties(t_mini_rt *mini_rt)
+{
+	if (!mini_rt->camera.is_defined || !mini_rt->ambient_light.is_defined)
+	{
+		write(2, MISSING_PROPERTY_MSG, ft_strlen(MISSING_PROPERTY_MSG));
+		return (GENERIC_ERR);
+	}
+	if (ft_lstsize(mini_rt->lights) > 1)
+	{
+		write(2, TOO_MUCH_ELEMENTS_MSG, ft_strlen(TOO_MUCH_ELEMENTS_MSG));
+		return (GENERIC_ERR);
+	}
+	return (0);
+}
 int	main(int argc, char *argv[])
 
 {
@@ -64,11 +78,8 @@ int	main(int argc, char *argv[])
 		return (write(2, FILE_ERR_MSG, ft_strlen(FILE_ERR_MSG)));
 	if (parse_items_in_file(&mini_rt, fd))
 		clean_exit(&mini_rt, GENERIC_ERR);
-	if (!mini_rt.camera.is_defined || !mini_rt.ambient_light.is_defined)
-	{
-		write(2, MISSING_PROPERTY_MSG, ft_strlen(MISSING_PROPERTY_MSG));
+	if (check_properties(&mini_rt))
 		clean_exit(&mini_rt, GENERIC_ERR);
-	}
 	ft_init_mlx(&mini_rt);
 	print_mini_rt(mini_rt);
 	mlx_loop(mini_rt.mlx.mlx);

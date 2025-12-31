@@ -15,8 +15,6 @@
 #include "parsing.h"
 #include "objects.h"
 
-//TODO: document functions
-
 /**
 	* @brief Generic function to add an item to a linked list.
 	* @param lst The linked list to which the item will be added.
@@ -44,6 +42,41 @@ int	add_item(t_list **lst, void *(*f)(char **), char **item_arr)
 	return (0);
 }
 
+int	set_camera(t_mini_rt *mini_rt, char **property)
+{
+	char	*n;
+
+	if (mini_rt->camera.is_defined)
+		return (TOO_MUCH_ELEMENTS_ERR);
+	mini_rt->camera.is_defined = TRUE;
+	if (arr_len(property) < 4)
+		return (GENERIC_ERR);
+	if (read_point(&mini_rt->camera.origin, property[1]))
+		return (GENERIC_ERR);
+	if (read_normalized_vec(&mini_rt->camera.orientation, property[2]))
+		return (GENERIC_ERR);
+	mini_rt->camera.fov = ft_strtod(property[3], &n);
+	return (*n != '\0');
+}
+
+int	set_ambient_light(t_mini_rt *mini_rt, char **property)
+{
+	char	*n;
+
+	if (mini_rt->ambient_light.is_defined)
+		return (TOO_MUCH_ELEMENTS_ERR);
+	mini_rt->ambient_light.is_defined = TRUE;
+	if (arr_len(property) < 3)
+		return (GENERIC_ERR);
+	if (read_color(&mini_rt->ambient_light.color, property[2]))
+		return (GENERIC_ERR);
+	mini_rt->ambient_light.intensity = ft_strtod(property[1], &n);
+	if (*n != '\0' || mini_rt->ambient_light.intensity < 0.0
+		|| mini_rt->ambient_light.intensity > 1.0)
+		return (GENERIC_ERR);
+	return (0);
+}
+
 // TODO: break down into separate functions for camera and ambient light
 
 /**
@@ -54,32 +87,48 @@ int	add_item(t_list **lst, void *(*f)(char **), char **item_arr)
 */
 int	set_property(t_mini_rt *mini_rt, char **property)
 {
-	char	*n;
+	int	status;
 
+	status = 0;
 	if (!ft_strncmp(property[0], CAMERA_ID, ft_strlen(CAMERA_ID) + 1))
-	{
-		mini_rt->camera.is_defined = TRUE;
-		if (arr_len(property) < 4)
-			return (GENERIC_ERR);
-		if (read_point(&mini_rt->camera.origin, property[1]))
-			return (GENERIC_ERR);
-		if (read_normalized_vec(&mini_rt->camera.orientation, property[2]))
-			return (GENERIC_ERR);
-		mini_rt->camera.fov = ft_strtod(property[3], &n);
-		return (*n != '\0');
-	}
+		status = (set_camera(mini_rt, property));
 	else if (!ft_strncmp(property[0], AMBIENT_ID, ft_strlen(AMBIENT_ID) + 1))
+		status = (set_ambient_light(mini_rt, property));
+	if (status == TOO_MUCH_ELEMENTS_ERR)
+		write(2, TOO_MUCH_ELEMENTS_MSG, ft_strlen(TOO_MUCH_ELEMENTS_MSG));
+	return (status);
+	return (0);
+}
+
+/**
+ * @brief Format a line by trimming whitespace and splitting into tokens.
+ * @param arr Pointer to store the resulting array of strings.
+ * @param line The input line to format.
+ * @return 0 on success, or an error code on failure.
+ */
+int	format_line(char ***arr, char *line)
+{
+	char	*trimmed_line;
+
+	*arr = NULL;
+	trimmed_line = ft_strtrim(line, WHITESPACES);
+	if (!trimmed_line)
 	{
-		mini_rt->ambient_light.is_defined = TRUE;
-		if (arr_len(property) < 3)
-			return (GENERIC_ERR);
-		if (read_color(&mini_rt->ambient_light.color, property[2]))
-			return (GENERIC_ERR);
-		mini_rt->ambient_light.intensity = ft_strtod(property[1], &n);
-		if (*n != '\0' || mini_rt->ambient_light.intensity < 0.0
-			|| mini_rt->ambient_light.intensity > 1.0)
-			return (GENERIC_ERR);
+		free(trimmed_line);
+		return (MALLOC_ERR);
 	}
+	if (trimmed_line[0] == '#' || trimmed_line[0] == '\0')
+	{
+		free(trimmed_line);
+		return (COMMENT_OR_EMPTY_LINE);
+	}
+	*arr = ft_split(line, WHITESPACES);
+	if (!arr)
+	{
+		free(trimmed_line);
+		return (MALLOC_ERR);
+	}
+	free(trimmed_line);
 	return (0);
 }
 
@@ -97,23 +146,23 @@ int	handle_line(t_mini_rt *mini_rt, char *line)
 	char	**object_arr;
 	int		type;
 
-	engine_lists[0] = &(mini_rt->objects);
-	engine_lists[1] = &(mini_rt->lights);
+	status = format_line(&object_arr, line);
+	if (status > 0)
+		return (!(status == COMMENT_OR_EMPTY_LINE));
+	engine_lists[0] = &mini_rt->objects;
+	engine_lists[1] = &mini_rt->lights;
 	p[0] = (void *)&create_sphere;
 	p[1] = (void *)&create_plane;
 	p[2] = (void *)&create_cylinder;
 	p[3] = (void *)&create_light;
 	p[4] = NULL;
-	if (line[0] == '#' || !ft_strncmp("\n", line, 2))
-		return (0);
-	object_arr = ft_split(line, WHITESPACES);
-	if (!object_arr)
-		return (MALLOC_ERR);
 	type = define_item_type(object_arr[0]);
 	if (is_property_id(object_arr[0]))
 		status = (set_property(mini_rt, object_arr));
-	else
+	else if (type >= 0)
 		status = (add_item(engine_lists[type == LIGHT], p[type], object_arr));
+	else
+		status = INVALID_VALUE_ERR;
 	ft_free_arr(object_arr);
 	return (status);
 }
