@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/06 10:05:59 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/06 11:05:15 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ struct s_mini_rt
 	t_list		*lights;
 	t_camera	camera;
 	t_ambient	ambient_light;
-	t_mlx		mlx;
+	t_mlx		mlx;		//maybe to extract
 };
 
 #endif

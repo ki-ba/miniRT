@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 16:04:24 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/06 10:41:07 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/06 11:08:49 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,6 @@ void	set_point_color(t_mini_rt *mini_rt, t_point vp_point)
 	ray.x = vp_point.x - mini_rt->camera.origin.x;
 	ray.y = vp_point.y - mini_rt->camera.origin.y;
 	ray.z = vp_point.z - mini_rt->camera.origin.z;
-}
-
-t_vec3	normalize_vector(t_vec3 vector)
-{
-	double	magnitude;
-	t_vec3	normalized;
-
-	magnitude = sqrt(vector.x * vector.x + vector.y * vector.y
-			+ vector.z * vector.z);
-	if (magnitude == 0)
-		return ((t_vec3){0, 0, 0});
-	normalized.x = vector.x / magnitude;
-	normalized.y = vector.y / magnitude;
-	normalized.z = vector.z / magnitude;
-	return (normalized);
 }
 
 t_ray	normalize_ray(t_ray ray)
@@ -147,6 +132,7 @@ void	shoot_rays(t_mini_rt *mini_rt)
 	t_ray	vp_ray;
 	double	t;	
 
+	(void)t;
 	y = 0;
 	viewport = ft_calloc(WIDTH * HEIGHT / tan(FOV / 2), sizeof(t_point));
 	while (y < WIDTH)
@@ -158,17 +144,16 @@ void	shoot_rays(t_mini_rt *mini_rt)
 			vp_ray = (t_ray){(t_point){mini_rt->camera.origin.x, mini_rt->camera.origin.y, mini_rt->camera.origin.z}, x, y, VP_DISTANCE};
 			vp_ray = normalize_ray(vp_ray);
 			t = check_intersect_obj(mini_rt, vp_ray);
-			if (t > 0)
-				my_mlx_pixel_put(mini_rt->mlx.img.img, vp_ray.x, vp_ray.y, determine_color(vec_to_point(vp_ray, t), mini_rt->lights, mini_rt->objects).trgb);
+			// if (t > 0)
+			// 	my_mlx_pixel_put(mini_rt->mlx.img.img, vp_ray.x, vp_ray.y, determine_color(vec_to_point(vp_ray, t), mini_rt->lights, mini_rt->objects).trgb);
 			x += fabs(2 * tan(FOV / 2));
 		}
 		y += fabs(2 * tan(FOV / 2));
 	}
 	free(viewport);
 	printf("Viewport size: %f x %f\n", WIDTH / tan(FOV / 2), HEIGHT / tan(FOV / 2));
-	mlx_destroy_image(mini_rt->mlx.mlx, mini_rt->mlx.img.img);
-	printf("hello");
-	mlx_put_image_to_window(mini_rt->mlx.mlx, mini_rt->mlx.win, mini_rt->mlx.img.img, 0, 0);
+	// mlx_destroy_image(mini_rt->mlx.mlx, mini_rt->mlx.img.img);
+	// mlx_put_image_to_window(mini_rt->mlx.mlx, mini_rt->mlx.win, mini_rt->mlx.img.img, 0, 0);
 	printf("height / tan(FOV/2): %f\n", HEIGHT / tan(FOV / 2));
 }
 
