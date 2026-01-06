@@ -87,10 +87,8 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 	void	*cur_object;
 	t_color	near_color;
 
-	// t_sphere	*sp;
-	// sp = get_inner_shape(mini_rt->objects);
-	// printf("Checking intersection with sphere at center (%f, %f, %f) and diameter %f\n",
-	// 	sp->center.x, sp->center.y, sp->center.z, sp->diameter);
+	t_sphere	*sp;
+	sp = get_inner_shape(mini_rt->objects);
 	nearest = INFINITY;
 	shapes = mini_rt->objects;
 	while (shapes)
@@ -105,6 +103,14 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 	}
 	ray.dir = (vec3_scale(&ray.dir, nearest));
 	intersection.p = *(t_point*)&ray.dir;
+	intersection.c = near_color;
+	intersection.t = nearest;
+	if (nearest > 0.0)
+	{
+		printf("\033[0;32m");
+		printf("Nearest intersection (t: %f) is point (%f, %f, %f)\n", nearest, ray.dir.x, ray.dir.y, ray.dir.z);
+		printf("\033[0m");
+	}
 	return (intersection);
 }
 
@@ -131,18 +137,19 @@ t_color	determine_color(t_point ip, t_color ic, t_list *lights, t_list *objects)
 */
 void	shoot_rays(t_mini_rt *mini_rt)
 {
-	double	x;
-	double	y;
 	t_inter	inter;
 	t_ray	temp_ray;
+	double	x;
+	double	y;
 
+	temp_ray = (t_ray) {mini_rt->camera.origin, (t_vec3) {0}};
 	y = 0;
 	while (y < WIDTH)
 	{
 		x = 0;
 		while (x < HEIGHT)
 		{
-			temp_ray = (t_ray){0}; // Determine vect3 for this ray.
+			temp_ray.dir = (t_vec3) {0}; // Determine vect3 for this ray.
 			inter = check_intersect_obj(mini_rt, temp_ray);
 			if (inter.t > 0)
 			{

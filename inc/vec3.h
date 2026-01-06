@@ -6,7 +6,7 @@
 /*   By: abetemps <abetemps@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:43:22 by abetemps            #+#    #+#             */
-/*   Updated: 2025/12/19 17:56:39 by abetemps         ###   ########.fr       */
+/*   Updated: 2026/01/06 17:48:30 by abetemps         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "miniRT.h"
 
+t_vec3	vec3_create(t_point const *o, t_point const *d);
 t_vec3	vec3_add(t_vec3 const *u, t_vec3 const *v);
 t_vec3	vec3_substract(t_vec3 const *u, t_vec3 const *v);
 t_vec3	vec3_scale(t_vec3 const *v, double s);

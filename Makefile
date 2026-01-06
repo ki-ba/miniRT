@@ -7,7 +7,7 @@ DEPS = $(OBJ:.o=.d)
 
 # COMPILATION FLAGS #
 
-CFLAGS = -Wall -Wextra -Werror -g -MMD -O3
+CFLAGS = -Wall -Wextra -Werror -g3 -MMD -O3
 INCLUDES = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
 TEST_INCLUDES = -IUnity/src/
 LIBS = -L$(MLX_DIR) -lmlx -lX11 -lXext -L$(LIBFT_DIR) -lft -lm
@@ -38,7 +38,7 @@ TEST_SUBDIRS = $(addprefix tests/, $(SUBDIRS))
 
 PARSING_FILENAMES 	= parsing.c parsing_utils.c read_properties.c str_utils.c
 OBJECTS_FILENAMES 	= objects.c
-VEC3_FILENAMES		= vec3_add.c vec3_cross.c vec3_dot.c vec3_scale.c vec3_normalize.c vec3_substract.c vec3_magnitude.c
+VEC3_FILENAMES		= vec3_create.c vec3_add.c vec3_cross.c vec3_dot.c vec3_scale.c vec3_normalize.c vec3_substract.c vec3_magnitude.c
 DEBUG_FILENAMES		= debug.c debug_utils.c
 GRAPHICS_FILENAMES	= graphics.c
 CORE_FILENAMES		= core.c hooks.c math.c

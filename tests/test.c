@@ -38,6 +38,7 @@ int	main(void)
 	RUN_TEST(test_create_cylinder);
 	RUN_TEST(test_create_sphere);
 	// VEC3 TESTS
+	RUN_TEST(test_vec3_create);
 	RUN_TEST(test_vec3_add);
 	RUN_TEST(test_vec3_substract);
 	RUN_TEST(test_vec3_scale);

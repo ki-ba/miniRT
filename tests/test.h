@@ -35,6 +35,7 @@ void	test_create_sphere(void);
 
 // VEC3
 
+void	test_vec3_create(void);
 void	test_vec3_add(void);
 void	test_vec3_cross(void);
 void	test_vec3_dot(void);

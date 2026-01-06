@@ -13,6 +13,8 @@
 #include "core.h"
 #include <math.h>
 
+
+
 /**
 *	@brief Resolve a quadratic equation of the form ax^2 + bx + c = 0
 *	@param a Coefficient of x^2
@@ -50,4 +52,14 @@ t_point	vec_to_point(t_ray ray, double t)
 	point.y = ray.origin.y + ray.dir.y * t;
 	point.z = ray.origin.z + ray.dir.z * t;
 	return (point);
+}
+
+/**
+*	@brief Converts an angle in degrees to radiants
+*	@param deg Degrees' angle to convert
+*	@return Converted angle
+*/
+extern inline double	deg_to_rad(double deg)
+{
+	return (deg * (M_PI / 180));
 }

@@ -77,6 +77,7 @@ typedef struct s_camera		t_camera;
 typedef struct s_mlx		t_mlx;
 typedef struct s_mini_rt	t_mini_rt;
 typedef struct s_inter		t_inter;
+
 union u_color
 {
 	uint32_t	trgb;
@@ -166,7 +167,7 @@ struct s_camera
 	t_bool	is_defined;
 	t_point	origin;
 	t_vec3	dir;
-	int		fov;
+	double	fov;
 };
 
 struct s_mlx

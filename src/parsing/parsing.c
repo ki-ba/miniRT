@@ -13,6 +13,7 @@
 #include "libft.h"
 #include "miniRT.h"
 #include "parsing.h"
+#include "core.h"
 #include "objects.h"
 
 /**
@@ -55,7 +56,7 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 		return (GENERIC_ERR);
 	if (read_normalized_vec(&mini_rt->camera.dir, property[2]))
 		return (GENERIC_ERR);
-	mini_rt->camera.fov = ft_strtod(property[3], &n);
+	mini_rt->camera.fov = deg_to_rad(ft_strtod(property[3], &n));
 	return (*n != '\0');
 }
 
