@@ -37,5 +37,9 @@ void	print_properties(t_mini_rt mini_rt)
 	print_point("origin", mini_rt.camera.origin);
 	print_vector("orientation", mini_rt.camera.dir);
 	printf("fov : %f\n", mini_rt.camera.fov);
+	printf("right vec: %f %f %f\n", mini_rt.camera.right.x, mini_rt.camera.right.y, mini_rt.camera.right.z);
+	printf("up vec: %f %f %f\n", mini_rt.camera.up.x, mini_rt.camera.up.y, mini_rt.camera.up.z);
+	printf("viewport width: %f\n", mini_rt.camera.vp_width);
+	printf("viewport height: %f\n", mini_rt.camera.vp_height);
 	printf("\n\n");
 }

@@ -22,8 +22,17 @@
 */
 int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 {
+	int step = 30;
 	if (keysym == 65307 || keysym == 113)
 		clean_exit(mini_rt, SUCCESS);
+	else if (keysym == 119)
+		mini_rt->camera.origin.y += step;
+	else if (keysym == 115)
+		mini_rt->camera.origin.y -= step;
+	else if (keysym == 100)
+		mini_rt->camera.origin.x += step;
+	else if (keysym == 97)
+		mini_rt->camera.origin.x -= step;
 	return (0);
 }
 

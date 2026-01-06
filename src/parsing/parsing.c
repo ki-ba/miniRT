@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "libft.h"
 #include "miniRT.h"
+#include "vec3.h"
 #include "parsing.h"
 #include "core.h"
 #include "objects.h"
@@ -45,7 +47,9 @@ int	add_item(t_list **lst, void *(*f)(char **), char **item_arr)
 
 int	set_camera(t_mini_rt *mini_rt, char **property)
 {
-	char	*n;
+	const double	aspect_ratio = (double)WIDTH / (double)HEIGHT;
+	t_vec3			tmp;
+	char			*n;
 
 	if (mini_rt->camera.is_defined)
 		return (TOO_MUCH_ELEMENTS_ERR);
@@ -57,6 +61,12 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 	if (read_normalized_vec(&mini_rt->camera.dir, property[2]))
 		return (GENERIC_ERR);
 	mini_rt->camera.fov = deg_to_rad(ft_strtod(property[3], &n));
+	tmp = (t_vec3) {0, 1, 0};
+	tmp = vec3_cross(&mini_rt->camera.dir, &tmp);
+	mini_rt->camera.right = vec3_normalize(&tmp);
+	mini_rt->camera.up = vec3_cross(&mini_rt->camera.dir, &mini_rt->camera.right);
+	mini_rt->camera.vp_width = 2 * tan(mini_rt->camera.fov / 2);
+	mini_rt->camera.vp_height = mini_rt->camera.vp_width / aspect_ratio;
 	return (*n != '\0');
 }
 

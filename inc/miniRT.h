@@ -33,10 +33,9 @@
 [A]mbiant light\n"
 # define VECTOR_NOT_NORMALIZED "Error: The vector is not normalized\n"
 
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 1920
+# define HEIGHT 1080
 # define SAMPLE_SIZE 10
-# define FOV 1.22173
 
 # define VP_DISTANCE 1
 
@@ -167,6 +166,10 @@ struct s_camera
 	t_bool	is_defined;
 	t_point	origin;
 	t_vec3	dir;
+	t_vec3	up;
+	t_vec3	right;
+	double	vp_height;
+	double	vp_width;
 	double	fov;
 };
 
