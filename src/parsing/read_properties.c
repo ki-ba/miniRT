@@ -46,6 +46,7 @@ int	read_color(t_color *c, char *string)
 		ft_free_arr(arr);
 		return (INVALID_VALUE_ERR);
 	}
+	// c->t = ;+
 	c->r = ft_atoui_8(arr[0], &n);
 	if (*n != 0)
 		status = (INVALID_VALUE_ERR);

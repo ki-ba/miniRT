@@ -65,7 +65,7 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 	tmp = vec3_cross(&mini_rt->camera.dir, &tmp);
 	mini_rt->camera.right = vec3_normalize(&tmp);
 	mini_rt->camera.up = vec3_cross(&mini_rt->camera.dir, &mini_rt->camera.right);
-	mini_rt->camera.vp_width = 2 * tan(mini_rt->camera.fov / 2);
+	mini_rt->camera.vp_width = 2 * tan(mini_rt->camera.fov / 2) * 1;
 	mini_rt->camera.vp_height = mini_rt->camera.vp_width / aspect_ratio;
 	return (*n != '\0');
 }

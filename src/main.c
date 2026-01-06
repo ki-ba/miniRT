@@ -59,18 +59,18 @@ double	check_intersect_sphere(t_camera cam, t_sphere *sp, t_ray ray)
         return (t2);
     return (0);
 	// printf("Checking intersection of ray (%f, %f, %f)\n", ray.dir.x, ray.dir.y, ray.dir.z);
-	if (resolve_eq2(1,b,c, &root) == TRUE)
-	{
-		// Print in GREEN in terminal if found
-		// printf("\033[0;32m");
-		// printf("Intersection at t = %f\n", root);
-		// printf("\033[0m");
-		return (root);
-	}
-	// Print in RED in terminal if not found
-	// printf("\033[0;31mNo intersection with ray at direction (%f, %f, %f)\033[0m\n",
-	// 	ray.dir.x, ray.dir.y, ray.dir.z);
-	return (0);
+	// if (resolve_eq2(1,b,c, &root) == TRUE)
+	// {
+	// 	// Print in GREEN in terminal if found
+	// 	// printf("\033[0;32m");
+	// 	// printf("Intersection at t = %f\n", root);
+	// 	// printf("\033[0m");
+	// 	return (root);
+	// }
+	// // Print in RED in terminal if not found
+	// // printf("\033[0;31mNo intersection with ray at direction (%f, %f, %f)\033[0m\n",
+	// // 	ray.dir.x, ray.dir.y, ray.dir.z);
+	// return (0);
 }
 
 void	*get_inner_shape(t_list *shape)
@@ -93,25 +93,24 @@ void	*get_inner_shape(t_list *shape)
 t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 {
 	t_list	*shapes;
-	t_inter	intersection;
+	t_inter	intersection = (t_inter){0};
 	double	nearest;
 	void	*cur_object;
-	t_color	near_color;
+	t_color	near_color = (t_color){0};
 
-	t_sphere	*sp;
-	sp = get_inner_shape(mini_rt->objects);
 	nearest = INFINITY;
 	shapes = mini_rt->objects;
 	while (shapes)
 	{
+		cur_object = get_inner_shape(shapes);
 		if (((t_shape *)shapes->content)->type == SPHERE)
 		{
-			cur_object = get_inner_shape(shapes);
-			double disc = check_intersect_sphere(mini_rt->camera, (t_sphere *)cur_object, ray);
-			if (disc >= 0)
+			double t = check_intersect_sphere(mini_rt->camera, (t_sphere *)cur_object, ray);
+			if (t > 0 && t < nearest)
 			{
-				nearest = fmin(nearest, disc);
+				nearest = t;
 				near_color = ((t_sphere *)cur_object)->c;
+				//near_color = (t_color)2147483647U;
 			}
 		}
 		shapes = shapes->next;
@@ -142,7 +141,7 @@ t_color	determine_color(t_point ip, t_color ic, t_list *lights, t_list *objects)
 	(void)ic;
 	(void)lights;
 	(void)objects;
-	return ((t_color)(uint32_t)255);
+	return (ic);
 }
 
 /*
@@ -171,8 +170,8 @@ void	shoot_rays(t_mini_rt *mini_rt)
 		x = 0;
 		while (x < WIDTH)
 		{
-			u = (y + 0.5) / HEIGHT;
-			v = (x + 0.5) / WIDTH;
+			u = (x + 0.5) / WIDTH * 2 - 1;
+			v = (y + 0.5) / HEIGHT * 2 - 1;
 
 			t_vec3 tmp = vec3_scale(&hrz, u);
 			tmp = vec3_add(&lower_left, &tmp);
@@ -183,7 +182,7 @@ void	shoot_rays(t_mini_rt *mini_rt)
 			inter = check_intersect_obj(mini_rt, temp_ray);
 			if (inter.t > 0)
 			{
-				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, determine_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);
+				my_mlx_pixel_put(&mini_rt->mlx.img, x, y,determine_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);
 			}
 			++x;
 		}
