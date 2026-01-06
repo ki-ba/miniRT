@@ -35,17 +35,37 @@ void	set_vec3_color(t_mini_rt *mini_rt, t_vec3 vp_point)
 	* @returns -1 otherwise.
 	* NOTE: is -1 advisable? What other value could mean no intersection?
 */
-int	check_intersect_sphere(t_camera cam, t_object *sp, t_ray ray)
+double	check_intersect_sphere(t_camera cam, t_sphere *sp, t_ray ray)
 {
-	t_vec3		oc;
+	t_point		oc;
+	double		a;
 	double		b;
 	double		c;
 	double		root;
 
 	root = 0;
-	oc = cam.origin;
-	b = 2 * (double)(ray.dir.x * (oc.x - sp->center.x)+ ray.dir.y *(oc.y - sp->center.y)  + ray.dir.z *(oc.z - sp->center.z));
-	c = (double)((oc.x - sp->center.x)*(oc.x - sp->center.x) + (oc.y - sp->center.y)*(oc.y - sp->center.y) + (oc.z - sp->center.z)*(oc.z - sp->center.z)- (sp->diameter / 2) * (sp->diameter / 2));
+	oc.x = sp->center.x - cam.origin.x;
+	oc.y = sp->center.y - cam.origin.y;
+	oc.z = sp->center.z - cam.origin.z;
+
+	a = vec3_dot(&ray.dir, &ray.dir);
+	double half_b = vec3_dot(&ray.dir, (t_vec3 *)&oc);
+	b = 2.0 * half_b;
+	c = vec3_dot((t_vec3 *)&oc, (t_vec3 *)&oc) - (sp->diameter/2) * (sp->diameter/2);
+	double disc = b * b - 4 * a * c;
+	
+	if (disc < 0)
+		return (0);
+	double sqrtd = sqrt(disc);
+    double t1 = (-b - sqrtd) / (2 * a);  // NEAREST
+    double t2 = (-b + sqrtd) / (2 * a);  // FAR
+    
+    // Return nearest VALID hit (avoid self-intersection)
+    if (t1 > 0.001)
+        return (t1);
+    if (t2 > 0.001)
+        return (t2);
+    return (0);
 	// printf("Checking intersection of ray (%f, %f, %f)\n", ray.dir.x, ray.dir.y, ray.dir.z);
 	if (resolve_eq2(1,b,c, &root) == TRUE)
 	{
@@ -123,14 +143,29 @@ void	shoot_rays(t_mini_rt *mini_rt)
 	double	x;
 	double	y;
 
+	double	u;
+	double	v;
+	// t_vec3	vp_point;
+	const t_vec3 hrz = vec3_scale(&mini_rt->camera.right, mini_rt->camera.vp_width);
+	const t_vec3 vrt = vec3_scale(&mini_rt->camera.up, mini_rt->camera.vp_height);
+	const t_vec3 lower_left = vec3_substract((t_vec3 *)&mini_rt->camera.origin, &mini_rt->camera.dir);
+
 	temp_ray = (t_ray) {mini_rt->camera.origin, (t_vec3) {0}};
 	y = 0;
-	while (y < WIDTH)
+	while (y < HEIGHT)
 	{
 		x = 0;
-		while (x < HEIGHT)
+		while (x < WIDTH)
 		{
-			temp_ray.dir = (t_vec3) {0}; // Determine vect3 for this ray.
+			u = (y + 0.5) / HEIGHT;
+			v = (x + 0.5) / WIDTH;
+
+			t_vec3 tmp = vec3_scale(&hrz, u);
+			tmp = vec3_add(&lower_left, &tmp);
+			t_vec3 tmp2 = vec3_scale(&vrt, v);
+			temp_ray.dir = vec3_add(&tmp, &tmp2);
+			temp_ray.dir = vec3_substract(&temp_ray.dir, (t_vec3 *)&mini_rt->camera.origin);
+			temp_ray.dir = vec3_normalize(&temp_ray.dir);
 			inter = check_intersect_obj(mini_rt, temp_ray);
 			if (inter.t > 0)
 			{
