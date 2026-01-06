@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 16:04:24 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/06 11:08:49 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/06 11:37:55 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "libft.h"
 #include "core.h"
 #include "math.h"
+#include "vec3.h"
 
 #include <math.h>
 #include <fcntl.h>
@@ -29,22 +30,6 @@ void	set_point_color(t_mini_rt *mini_rt, t_point vp_point)
 	ray.z = vp_point.z - mini_rt->camera.origin.z;
 }
 
-t_ray	normalize_ray(t_ray ray)
-{
-	double	magnitude;
-	t_ray	normalized;
-
-	magnitude = sqrt(ray.x * ray.x + ray.y * ray.y
-			+ ray.z * ray.z);
-	if (magnitude == 0)
-		return ((t_ray){ray.origin, 0, 0, 0});
-	normalized.origin = ray.origin;
-	normalized.x = ray.x / magnitude;
-	normalized.y = ray.y / magnitude;
-	normalized.z = ray.z / magnitude;
-	return (normalized);
-}
-
 /**
 	* @brief takes a ray and a sphere and determines where the to meet if they do.
 	* @returns the value of t in the ray that intersects the sphere if it does,
@@ -54,25 +39,37 @@ t_ray	normalize_ray(t_ray ray)
 int	check_intersect_sphere(t_camera cam, t_sphere *sp, t_ray ray)
 {
 	t_point		oc;
+	double		b;
+	double		c;
+	double		root;
 
-	// printf("Checking intersection with sphere at center (%f, %f, %f) and diameter %f\n",
-		// sp->center.x, sp->center.y, sp->center.z, sp->diameter);
+	root = 0;
 	oc = cam.origin;
-	if (get_solution(1, (double)(ray.x * oc.y + ray.y * oc.y + ray.z * oc.z),
-		(double)(oc.x * oc.x + oc.y * oc.y + oc.z * oc.z - 
-				  (sp->diameter / 2) * 
-				  (sp->diameter / 2))) > 0)
+	b = 2 * (double)(ray.dir.x * (oc.x - sp->center.x)+ ray.dir.y *(oc.y - sp->center.y)  + ray.dir.z *(oc.z - sp->center.z));
+	c = (double)((oc.x - sp->center.x)*(oc.x - sp->center.x) + (oc.y - sp->center.y)*(oc.y - sp->center.y) + (oc.z - sp->center.z)*(oc.z - sp->center.z)- (sp->diameter / 2) * (sp->diameter / 2));
+	// printf("Checking intersection of ray (%f, %f, %f)\n", ray.dir.x, ray.dir.y, ray.dir.z);
+	if (resolve_eq2(1,b,c, &root) == TRUE)
 	{
-		// printf("Ray intersects sphere!\n");
-		return (1);
+		// Print in GREEN in terminal if found
+		// printf("\033[0;32m");
+		// printf("Intersection at t = %f\n", root);
+		// printf("\033[0m");
+		return (root);
 	}
-	(void)sp;
-	(void)ray;
+	// Print in RED in terminal if not found
+	// printf("\033[0;31mNo intersection with ray at direction (%f, %f, %f)\033[0m\n",
+	// 	ray.dir.x, ray.dir.y, ray.dir.z);
 	return (0);
 }
 
 void	*get_inner_shape(t_list *shape)
 {
+	if (!shape)
+		return (NULL);
+	if (!shape->content)
+		return (NULL);
+	if (!((t_shape *)shape->content)->shape)
+		return (NULL);
 	return (((t_shape *)shape->content)->shape);
 }
 
@@ -82,41 +79,49 @@ void	*get_inner_shape(t_list *shape)
 	* @return the value of t where the ray intersects the object closest to it,
 	* @return -1 if it doesn't intersect any.
 */
-double	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
+t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 {
 	t_list	*shapes;
+	t_inter	intersection;
 	double	nearest;
-	void	*object;
+	void	*cur_object;
+	t_color	near_color;
 
+	// t_sphere	*sp;
+	// sp = get_inner_shape(mini_rt->objects);
+	// printf("Checking intersection with sphere at center (%f, %f, %f) and diameter %f\n",
+	// 	sp->center.x, sp->center.y, sp->center.z, sp->diameter);
 	nearest = INFINITY;
 	shapes = mini_rt->objects;
 	while (shapes)
 	{
 		if (((t_shape *)shapes->content)->type == SPHERE)
 		{
-
-			object = get_inner_shape(shapes);
-			nearest = fmin(nearest, check_intersect_sphere(mini_rt->camera, (t_sphere *)object, ray));
+			cur_object = get_inner_shape(shapes);
+			nearest = fmin(nearest, check_intersect_sphere(mini_rt->camera, (t_sphere *)cur_object, ray));
+			near_color = ((t_sphere *)cur_object)->c;
 		}
 		shapes = shapes->next;
 	}
-	printf("Nearest intersection at t = %f\n", nearest);
-	return (nearest);
+	ray.dir = (vec3_scale(&ray.dir, nearest));
+	intersection.p = *(t_point*)&ray.dir;
+	return (intersection);
 }
 
 /**
 	* @brief for a given point, shoots towards each light 
 	* @brief and calculates the color of the point.
 */
-t_color	determine_color(t_point intersection, t_list *lights, t_list *objects)
+t_color	determine_color(t_point ip, t_color ic, t_list *lights, t_list *objects)
 {
 	/* for every light, determine a vector from intersection to the light.
 		If the vector finds any object, discard said light.
 		It does not enlighten the intersection point.*/
-	(void)intersection;
+	(void)ip;
+	(void)ic;
 	(void)lights;
 	(void)objects;
-	return ((t_color)(uint32_t)0);
+	return ((t_color)(uint32_t)255);
 }
 
 /*
@@ -128,33 +133,26 @@ void	shoot_rays(t_mini_rt *mini_rt)
 {
 	double	x;
 	double	y;
-	t_point	*viewport;
-	t_ray	vp_ray;
-	double	t;	
+	t_inter	inter;
+	t_ray	temp_ray;
 
-	(void)t;
 	y = 0;
-	viewport = ft_calloc(WIDTH * HEIGHT / tan(FOV / 2), sizeof(t_point));
 	while (y < WIDTH)
 	{
 		x = 0;
 		while (x < HEIGHT)
 		{
-			printf("Shooting ray through viewport point (%f, %f, %f)\n", x, y, (double)VP_DISTANCE);
-			vp_ray = (t_ray){(t_point){mini_rt->camera.origin.x, mini_rt->camera.origin.y, mini_rt->camera.origin.z}, x, y, VP_DISTANCE};
-			vp_ray = normalize_ray(vp_ray);
-			t = check_intersect_obj(mini_rt, vp_ray);
-			// if (t > 0)
-			// 	my_mlx_pixel_put(mini_rt->mlx.img.img, vp_ray.x, vp_ray.y, determine_color(vec_to_point(vp_ray, t), mini_rt->lights, mini_rt->objects).trgb);
-			x += fabs(2 * tan(FOV / 2));
+			temp_ray = (t_ray){0}; // Determine vect3 for this ray.
+			inter = check_intersect_obj(mini_rt, temp_ray);
+			if (inter.t > 0)
+			{
+				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, determine_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);
+			}
+			++x;
 		}
-		y += fabs(2 * tan(FOV / 2));
+		++y;
 	}
-	free(viewport);
-	printf("Viewport size: %f x %f\n", WIDTH / tan(FOV / 2), HEIGHT / tan(FOV / 2));
-	// mlx_destroy_image(mini_rt->mlx.mlx, mini_rt->mlx.img.img);
-	// mlx_put_image_to_window(mini_rt->mlx.mlx, mini_rt->mlx.win, mini_rt->mlx.img.img, 0, 0);
-	printf("height / tan(FOV/2): %f\n", HEIGHT / tan(FOV / 2));
+	mlx_put_image_to_window(mini_rt->mlx.mlx, mini_rt->mlx.win, mini_rt->mlx.img.img, 0, 0);
 }
 
 int	check_properties(t_mini_rt *mini_rt)

@@ -26,7 +26,6 @@ void	ft_init_mlx(t_mini_rt *mini_rt)
 	mini_rt->mlx.img.addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
 	mlx_key_hook(mini_rt->mlx.win, handle_keypress, mini_rt);
-	mlx_put_image_to_window(mini_rt->mlx.mlx, mini_rt->mlx.win, mini_rt->mlx.img.img, 0, 0);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)

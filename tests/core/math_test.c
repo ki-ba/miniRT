@@ -18,24 +18,16 @@
 // Test case 3: No real roots
 void	test_resolve_eq2(void)
 {
-	t_roots	*roots;
+	double root;
 
-	roots = resolve_eq2(1, -3, 2);
-	TEST_ASSERT_NOT_NULL(roots);
-	TEST_ASSERT_EQUAL_DOUBLE(1.0, roots->root1);
-	TEST_ASSERT_EQUAL_DOUBLE(2.0, roots->root2);
-	TEST_ASSERT_GREATER_THAN(0, roots->delta);
-	free(roots);
-	roots = resolve_eq2(1, -2, 1);
-	TEST_ASSERT_NOT_NULL(roots);
-	TEST_ASSERT_EQUAL_DOUBLE(1.0, roots->root1);
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, roots->root2);
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, roots->delta);
-	free(roots);
-	roots = resolve_eq2(1, 0, 1);
-	TEST_ASSERT_NOT_NULL(roots);
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, roots->root1);
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, roots->root2);
-	TEST_ASSERT_LESS_THAN(0, roots->delta);
-	free(roots);
+	// Test case 1
+	TEST_ASSERT_TRUE(resolve_eq2(1, -3, 2, &root));
+	TEST_ASSERT_EQUAL_DOUBLE(1.0, root);
+
+	// Test case 2
+	TEST_ASSERT_TRUE(resolve_eq2(1, -2, 1, &root));
+	TEST_ASSERT_EQUAL_DOUBLE(1.0, root);
+
+	// Test case 3
+	TEST_ASSERT_FALSE(resolve_eq2(1, 0, 1, &root));
 }

@@ -35,7 +35,7 @@ void	print_properties(t_mini_rt mini_rt)
 	printf("\n\n");
 	printf("CAMERA :\n");
 	print_point("origin", mini_rt.camera.origin);
-	print_vector("orientation", mini_rt.camera.orientation);
+	print_vector("orientation", mini_rt.camera.dir);
 	printf("fov : %d\n", mini_rt.camera.fov);
 	printf("\n\n");
 }

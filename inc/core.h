@@ -29,7 +29,6 @@ void	clean_exit(t_mini_rt *mini_rt, int exit_code);
 
 // MATH
 
-t_roots	*resolve_eq2(double a, double b, double c);
-double	get_solution(double a, double b, double c);
+t_bool resolve_eq2(double a, double b, double c, double *root);
 t_point	vec_to_point(t_ray ray, double t);
 #endif

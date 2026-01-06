@@ -53,7 +53,7 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 		return (GENERIC_ERR);
 	if (read_point(&mini_rt->camera.origin, property[1]))
 		return (GENERIC_ERR);
-	if (read_normalized_vec(&mini_rt->camera.orientation, property[2]))
+	if (read_normalized_vec(&mini_rt->camera.dir, property[2]))
 		return (GENERIC_ERR);
 	mini_rt->camera.fov = ft_strtod(property[3], &n);
 	return (*n != '\0');

@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/06 11:05:15 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/06 11:37:28 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@
 [A]mbiant light\n"
 # define VECTOR_NOT_NORMALIZED "Error: The vector is not normalized\n"
 
-# define WIDTH 192
-# define HEIGHT 108
+# define WIDTH 800
+# define HEIGHT 600
 # define SAMPLE_SIZE 10
-# define FOV 1.2
+# define FOV 1.22173
 
 # define VP_DISTANCE 1
 
@@ -76,7 +76,7 @@ typedef struct s_ambient	t_ambient;
 typedef struct s_camera		t_camera;
 typedef struct s_mlx		t_mlx;
 typedef struct s_mini_rt	t_mini_rt;
-
+typedef struct s_inter		t_inter;
 union u_color
 {
 	uint32_t	trgb;
@@ -106,9 +106,7 @@ struct s_point
 struct s_ray
 {
 	t_point	origin;
-	double	x;
-	double	y;
-	double	z;
+	t_vec3	dir;
 };
 
 struct s_light
@@ -148,6 +146,13 @@ struct s_shape
 	void				*shape;
 };
 
+struct s_inter
+{
+	t_point	p;
+	t_color	c;
+	double	t;
+};
+
 /* SCENE */
 struct s_ambient
 {
@@ -160,7 +165,7 @@ struct s_camera
 {
 	t_bool	is_defined;
 	t_point	origin;
-	t_vec3	orientation;
+	t_vec3	dir;
 	int		fov;
 };
 
