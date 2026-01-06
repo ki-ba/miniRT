@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/17 15:50:27 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/06 10:05:59 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@
 [A]mbiant light\n"
 # define VECTOR_NOT_NORMALIZED "Error: The vector is not normalized\n"
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 192
+# define HEIGHT 108
 # define SAMPLE_SIZE 10
+# define FOV 1.2
 
 # define VP_DISTANCE 1
 
@@ -64,6 +65,7 @@ enum e_item_type
 /* UTILS */
 typedef union u_color		t_color;
 typedef struct s_vec3		t_vec3;
+typedef struct s_ray		t_ray;
 typedef struct s_point		t_point;
 typedef struct s_light		t_light;
 typedef struct s_plane		t_plane;
@@ -96,6 +98,14 @@ struct s_vec3
 
 struct s_point
 {
+	double	x;
+	double	y;
+	double	z;
+};
+
+struct s_ray
+{
+	t_point	origin;
 	double	x;
 	double	y;
 	double	z;

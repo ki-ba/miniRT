@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 13:25:58 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/18 13:33:46 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/06 10:40:40 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,12 @@
 t_roots	*resolve_eq2(double a, double b, double c)
 {
 	t_roots	*roots;
+	static int	call_count = 0;
 
+	(void)call_count;
+	if (a == 0)
+		return (NULL);
+	// printf("%d : Resolving equation: %fx^2 + %fx + %f = 0\n",call_count++, a, b, c);
 	roots = ft_calloc(1, sizeof(t_roots));
 	if (!roots)
 		return (NULL);
@@ -42,4 +47,52 @@ t_roots	*resolve_eq2(double a, double b, double c)
 		roots->root2 = (-b + sqrt(roots->delta)) / (2 * a);
 	}
 	return (roots);
+}
+
+/**
+	* @brief returns a valid solution for given 2nd order equation.
+	* @returns the smallest positive value if delta > 0,
+	* @returns the only solution if delta == 0,
+	* @returns -1 if given equation has no real solution.
+*/
+double	get_solution(double a, double b, double c)
+{
+	t_roots	*roots;
+	double	solution;
+
+	roots = resolve_eq2(a, b, c);
+	if (!roots)
+		return (-1);
+	solution = -1;
+	if (roots->delta < 0)
+		solution = -1;
+	else if (roots->delta == 0)
+	{
+		if (roots->root1 > 0)
+			solution = roots->root1;
+	}
+	else
+	{
+		if (roots->root1 > 0 && roots->root2 > 0)
+			solution = fmin(roots->root1, roots->root2);
+		else if (roots->root1 > 0)
+			solution = roots->root1;
+		else if (roots->root2 > 0)
+			solution = roots->root2;
+	}
+	free(roots);
+	return (solution);
+}
+
+/**
+	* @brief computes a point along a ray at distance t from the ray origin.
+*/
+t_point	vec_to_point(t_ray ray, double t)
+{
+	t_point	point;
+
+	point.x = ray.origin.x + ray.x * t;
+	point.y = ray.origin.y + ray.y * t;
+	point.z = ray.origin.z + ray.z * t;
+	return (point);
 }
