@@ -7,6 +7,10 @@ DEPS = $(OBJ:.o=.d)
 
 # COMPILATION FLAGS #
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 942976f (✨ feat: camera->fov now in radians/minor fixes or changes)
 CFLAGS = -Wall -Wextra -Werror -g3 -MMD -O3
 INCLUDES = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR) -I$(VECTORS_DIR)/inc/
 TEST_INCLUDES = -IUnity/src/

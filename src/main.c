@@ -61,7 +61,6 @@ int	check_intersect_sphere(t_camera cam, t_object *sp, t_ray ray)
 	return (0);
 }
 
-
 /**
 	* @brief takes a ray as param and loops through every object
 	* @brief to determine the nearest intersection.
@@ -76,6 +75,7 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 	t_color		near_color;
 	size_t		i;
 
+	t_sphere	*sp;
 	nearest = INFINITY;
 	i = 0;
 	while (i < mini_rt->objects->nb_elements)
@@ -91,6 +91,7 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 	ray.dir = (vec3_scale(&ray.dir, nearest));
 	intersection.t = nearest;
 	intersection.p = *(t_vec3 *)&ray.dir;
+	intersection.t = nearest;
 	return (intersection);
 }
 
@@ -117,18 +118,19 @@ t_color	determine_color(t_vec3 ip, t_color ic, t_vector *lights, t_vector *objec
 */
 void	shoot_rays(t_mini_rt *mini_rt)
 {
-	double	x;
-	double	y;
 	t_inter	inter;
 	t_ray	temp_ray;
+	double	x;
+	double	y;
 
+	temp_ray = (t_ray) {mini_rt->camera.origin, (t_vec3) {0}};
 	y = 0;
 	while (y < WIDTH)
 	{
 		x = 0;
 		while (x < HEIGHT)
 		{
-			temp_ray = (t_ray){0}; // Determine vect3 for this ray.
+			temp_ray.dir = (t_vec3) {0}; // Determine vect3 for this ray.
 			inter = check_intersect_obj(mini_rt, temp_ray);
 			if (inter.t > 0)
 			{
