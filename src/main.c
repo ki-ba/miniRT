@@ -67,18 +67,18 @@ double	check_intersect_sphere(t_camera cam, t_sphere *sp, t_ray ray)
         return (t2);
     return (0);
 	// printf("Checking intersection of ray (%f, %f, %f)\n", ray.dir.x, ray.dir.y, ray.dir.z);
-	if (resolve_eq2(1,b,c, &root) == TRUE)
-	{
-		// Print in GREEN in terminal if found
-		// printf("\033[0;32m");
-		// printf("Intersection at t = %f\n", root);
-		// printf("\033[0m");
-		return (root);
-	}
-	// Print in RED in terminal if not found
-	// printf("\033[0;31mNo intersection with ray at direction (%f, %f, %f)\033[0m\n",
-	// 	ray.dir.x, ray.dir.y, ray.dir.z);
-	return (0);
+	// if (resolve_eq2(1,b,c, &root) == TRUE)
+	// {
+	// 	// Print in GREEN in terminal if found
+	// 	// printf("\033[0;32m");
+	// 	// printf("Intersection at t = %f\n", root);
+	// 	// printf("\033[0m");
+	// 	return (root);
+	// }
+	// // Print in RED in terminal if not found
+	// // printf("\033[0;31mNo intersection with ray at direction (%f, %f, %f)\033[0m\n",
+	// // 	ray.dir.x, ray.dir.y, ray.dir.z);
+	// return (0);
 }
 
 /**
@@ -128,7 +128,7 @@ t_color	determine_color(t_vec3 ip, t_color ic, t_vector *lights, t_vector *objec
 	(void)ic;
 	(void)lights;
 	(void)objects;
-	return ((t_color)(uint32_t)255);
+	return (ic);
 }
 
 /*
@@ -157,8 +157,8 @@ void	shoot_rays(t_mini_rt *mini_rt)
 		x = 0;
 		while (x < WIDTH)
 		{
-			u = (y + 0.5) / HEIGHT;
-			v = (x + 0.5) / WIDTH;
+			u = (x + 0.5) / WIDTH * 2 - 1;
+			v = (y + 0.5) / HEIGHT * 2 - 1;
 
 			t_vec3 tmp = vec3_scale(&hrz, u);
 			tmp = vec3_add(&lower_left, &tmp);
@@ -169,7 +169,7 @@ void	shoot_rays(t_mini_rt *mini_rt)
 			inter = check_intersect_obj(mini_rt, temp_ray);
 			if (inter.t > 0)
 			{
-				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, determine_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);
+				my_mlx_pixel_put(&mini_rt->mlx.img, x, y,determine_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);
 			}
 			++x;
 		}
