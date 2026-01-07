@@ -6,13 +6,12 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 12:38:40 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/10 15:52:19 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/07 09:46:59 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "math.h"
 #include "libft.h"
-#include "miniRT.h"
+#include "parsing.h"
 
 size_t	arr_len(char **arr)
 {

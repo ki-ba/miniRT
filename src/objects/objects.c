@@ -6,13 +6,14 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 11:27:35 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/08 15:13:15 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/07 09:42:02 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "miniRT.h"
 #include "parsing.h"
+#include "objects.h"
 #include <unistd.h>
 
 void	destroy_shape(void *shape)

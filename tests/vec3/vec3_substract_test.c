@@ -6,14 +6,14 @@
 /*   By: abetemps <abetemps@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:06:14 by abetemps          #+#    #+#             */
-/*   Updated: 2025/12/19 20:29:14 by abetemps         ###   ########.fr       */
+/*   Updated: 2026/01/07 09:36:24 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "unity.h"
 #include "vec3.h"
 
-void	test_vec3_substract(void)
+void	test_vec3_sub(void)
 {
 	t_vec3	u;
 	t_vec3 	v;

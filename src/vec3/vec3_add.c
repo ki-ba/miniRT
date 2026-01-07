@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "vec3.h"
 
 extern inline t_vec3	vec3_add(t_vec3 u, t_vec3 v)
 {
-	return ((t_vec3) {u.x + v.x, u.y + v.y, u.z + v.z});
+	return ((t_vec3){u.x + v.x, u.y + v.y, u.z + v.z});
 }
-

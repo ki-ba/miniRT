@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 16:03:01 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/10 15:52:59 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/07 09:50:19 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@
 # include "miniRT.h"
 
 # define WHITESPACES " \t\n\v\f\r"
+
+# define EXTENSION ".rt"
+
+# define PLANE_ID "pl"
+# define CYLINDER_ID "cy"
+# define SPHERE_ID "sp"
+# define AMBIENT_ID "A"
+# define LIGHT_ID "L"
+# define CAMERA_ID "C"
+
+# define USAGE_ERR_MSG "usage : ./miniRT filename.rt\n"
+# define FILE_ERR_MSG "Error while reading file\n"
+# define MISSING_PROPERTY_MSG "Error: Missing required property (A or C)\n"
+# define TOO_MUCH_ELEMENTS_MSG "Error: More than 1 [C]amera, [L]ight, or \
+[A]mbiant light\n"
+# define VECTOR_NOT_NORMALIZED "Error: The vector is not normalized\n"
 
 /* PARSING */
 
@@ -35,7 +51,7 @@ t_bool			is_normalized(t_vec3 vector);
 
 uint8_t			ft_atoui_8(const char *nptr, char **n);
 double			ft_strtod(char *str, char **n);
-int				has_correct_extension(char *filename);
+int				check_extension(char *filename, char *extension);
 size_t			count_char_in_str(char *str, char c);
 
 /* READ PROPERTIES */

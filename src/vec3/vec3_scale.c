@@ -6,14 +6,13 @@
 /*   By: abetemps <abetemps@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:17:09 by abetemps          #+#    #+#             */
-/*   Updated: 2025/12/19 17:27:26 by abetemps         ###   ########.fr       */
+/*   Updated: 2026/01/07 09:34:15 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "vec3.h"
 
 extern inline t_vec3	vec3_scale(t_vec3 v, double s)
 {
-	return ((t_vec3) {v.x * s, v.y * s, v.z * s});
+	return ((t_vec3){v.x * s, v.y * s, v.z * s});
 }
-

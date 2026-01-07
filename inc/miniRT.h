@@ -6,36 +6,21 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/06 11:37:28 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/07 09:46:06 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "mlx.h"
 # include "libft.h"
+# include "vec3.h"
 # include "graphics.h"
 # include <stdint.h>
 
-# define EXTENSION ".rt"
-# define PLANE_ID "pl"
-# define CYLINDER_ID "cy"
-# define SPHERE_ID "sp"
-# define AMBIENT_ID "A"
-# define LIGHT_ID "L"
-# define CAMERA_ID "C"
-
-# define USAGE_ERR_MSG "usage : ./miniRT filename.rt\n"
-# define FILE_ERR_MSG "Error while reading file\n"
-# define MISSING_PROPERTY_MSG "Error: Missing required property (A or C)\n"
-# define TOO_MUCH_ELEMENTS_MSG "Error: More than 1 [C]amera, [L]ight, or \
-[A]mbiant light\n"
-# define VECTOR_NOT_NORMALIZED "Error: The vector is not normalized\n"
-
-# define WIDTH 1920
-# define HEIGHT 1920
-# define SAMPLE_SIZE 10
+# define WIDTH 800
+# define HEIGHT 600
+# define FOV 1.22173
 
 # define VP_DISTANCE 1
 
@@ -63,17 +48,11 @@ enum e_item_type
 
 /* UTILS */
 typedef union u_color		t_color;
-typedef struct s_vec3		t_vec3;
 typedef struct s_ray		t_ray;
 typedef struct s_point		t_point;
 typedef struct s_light		t_light;
-typedef struct s_plane		t_plane;
-typedef struct s_cylinder	t_cylinder;
-typedef struct s_sphere		t_sphere;
-typedef struct s_shape		t_shape;
 typedef struct s_ambient	t_ambient;
 typedef struct s_camera		t_camera;
-typedef struct s_mlx		t_mlx;
 typedef struct s_mini_rt	t_mini_rt;
 typedef struct s_inter		t_inter;
 
@@ -87,13 +66,6 @@ union u_color
 		uint8_t	r;
 		uint8_t	t;
 	};
-};
-
-struct s_vec3
-{
-	double	x;
-	double	y;
-	double	z;
 };
 
 struct s_point
@@ -117,34 +89,6 @@ struct s_light
 };
 
 /* OBJECTS */
-struct s_plane
-{
-	t_point	p;
-	t_color	c;
-	t_vec3	normal;
-};
-
-struct s_cylinder
-{
-	t_point	center;
-	t_color	c;
-	t_vec3	normal;
-	double	diameter;
-	double	height;
-};
-
-struct s_sphere
-{
-	t_point	center;
-	t_color	c;
-	double	diameter;
-};
-
-struct s_shape
-{
-	enum e_item_type	type;
-	void				*shape;
-};
 
 struct s_inter
 {
@@ -173,20 +117,13 @@ struct s_camera
 	double	fov;
 };
 
-struct s_mlx
-{
-	void		*mlx;
-	void		*win;
-	t_data		img;
-};
-
 struct s_mini_rt
 {
 	t_list		*objects;
 	t_list		*lights;
 	t_camera	camera;
 	t_ambient	ambient_light;
-	t_mlx		mlx;		//maybe to extract
+	t_mlx		mlx;
 };
 
 #endif

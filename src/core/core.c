@@ -6,14 +6,13 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:49:44 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/17 15:52:30 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/07 09:44:46 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
 #include "objects.h"
 #include "debug.h"
-#include "core.h"
+#include "mlx.h"
 
 void	destroy_mini_rt(t_mini_rt *mini_rt)
 {

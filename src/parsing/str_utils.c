@@ -6,12 +6,12 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 15:51:25 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/10 16:02:54 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/07 09:51:04 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "miniRT.h"
+#include "stdint.h"
 #include <math.h>
 
 size_t	count_char_in_str(char *str, char c)
@@ -96,14 +96,14 @@ double	ft_strtod(char *str, char **n)
 * @param filename The name of the file to check.
 * @return TRUE if the filename ends with the correct extension, FALSE otherwise.
 */
-int	has_correct_extension(char *filename)
+int	check_extension(char *filename, char *extension)
 {
 	size_t	len;
 
 	len = ft_strlen(filename);
 	if (len < 4)
 		return (FALSE);
-	if (ft_strncmp(&filename[len - 3], EXTENSION, 4))
+	if (ft_strncmp(&filename[len - 3], extension, 4))
 		return (FALSE);
 	return (TRUE);
 }

@@ -10,15 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "graphics.h"
 #include "parsing.h"
-#include "miniRT.h"
-#include "libft.h"
 #include "core.h"
 #include "render.h"
+#include "mlx.h"
 
 #include <fcntl.h>
-
 
 int	check_properties(t_mini_rt *mini_rt)
 {
@@ -42,7 +39,7 @@ int	main(int argc, char *argv[])
 	int			fd;
 
 	init_mini_rt(&mini_rt);
-	if (argc != 2 || !has_correct_extension(argv[1]))
+	if (argc != 2 || !check_extension(argv[1], EXTENSION))
 	{
 		write(2, USAGE_ERR_MSG, ft_strlen(USAGE_ERR_MSG));
 		clean_exit(&mini_rt, GENERIC_ERR);
@@ -55,7 +52,7 @@ int	main(int argc, char *argv[])
 	if (check_properties(&mini_rt))
 		clean_exit(&mini_rt, GENERIC_ERR);
 	ft_init_mlx(&mini_rt);
-	// print_mini_rt(mini_rt);
+	print_mini_rt(mini_rt);
 	shoot_rays(&mini_rt);
 	mlx_loop(mini_rt.mlx.mlx);
 	destroy_mini_rt(&mini_rt);

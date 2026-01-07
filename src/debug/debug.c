@@ -6,12 +6,13 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:35:49 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/10 11:39:34 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/07 09:42:13 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "libft.h"
+#include "objects.h"
 #include "debug.h"
 
 void	print_cylinder(t_cylinder cy)

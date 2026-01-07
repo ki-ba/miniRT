@@ -27,7 +27,7 @@ int	main(void)
 	RUN_TEST(test_count_char_in_str);
 	RUN_TEST(test_ft_atoui_8);
 	RUN_TEST(test_ft_strtod);
-	RUN_TEST(test_has_correct_extension);
+	RUN_TEST(test_check_extension);
 	// READ PROPERTIES TESTS
 	RUN_TEST(test_read_color);
 	RUN_TEST(test_read_point);
@@ -40,7 +40,7 @@ int	main(void)
 	// VEC3 TESTS
 	RUN_TEST(test_vec3_create);
 	RUN_TEST(test_vec3_add);
-	RUN_TEST(test_vec3_substract);
+	RUN_TEST(test_vec3_sub);
 	RUN_TEST(test_vec3_scale);
 	RUN_TEST(test_vec3_magnitude);
 	RUN_TEST(test_vec3_dot);
@@ -58,9 +58,8 @@ int	main(void)
 	RUN_TEST(test_core);
 	// MATH TESTS
 	RUN_TEST(test_resolve_eq2);
-
 	// RENDER
-	
+
 	RUN_TEST(test_intersect_sphere);
 	RUN_TEST(test_determine_color);
 	RUN_TEST(test_shoot_rays);

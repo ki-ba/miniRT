@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 15:54:24 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/10 16:11:42 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/07 09:51:44 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,13 @@ void	test_ft_strtod(void)
 	TEST_ASSERT_EQUAL_CHAR('.', *n);
 }
 
-void	test_has_correct_extension(void)
+void	test_check_extension(void)
 {
-	TEST_ASSERT_EQUAL_INT(TRUE, has_correct_extension("scene.rt"));
-	TEST_ASSERT_EQUAL_INT(TRUE, has_correct_extension("e.rt"));
-	TEST_ASSERT_EQUAL_INT(FALSE, has_correct_extension(".rt"));
-	TEST_ASSERT_EQUAL_INT(FALSE, has_correct_extension("scene.txt"));
-	TEST_ASSERT_EQUAL_INT(FALSE, has_correct_extension("scenert"));
-	TEST_ASSERT_EQUAL_INT(FALSE, has_correct_extension("sc.rt.txt"));
-	TEST_ASSERT_EQUAL_INT(FALSE, has_correct_extension("sc.rtt"));
+	TEST_ASSERT_EQUAL_INT(TRUE, check_extension("scene.rt", EXTENSION));
+	TEST_ASSERT_EQUAL_INT(TRUE, check_extension("e.rt", EXTENSION));
+	TEST_ASSERT_EQUAL_INT(FALSE, check_extension(".rt", EXTENSION));
+	TEST_ASSERT_EQUAL_INT(FALSE, check_extension("scene.txt", EXTENSION));
+	TEST_ASSERT_EQUAL_INT(FALSE, check_extension("scenert", EXTENSION));
+	TEST_ASSERT_EQUAL_INT(FALSE, check_extension("sc.rt.txt", EXTENSION));
+	TEST_ASSERT_EQUAL_INT(FALSE, check_extension("sc.rtt", EXTENSION));
 }

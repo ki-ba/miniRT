@@ -104,7 +104,6 @@ objdirs:
 	mkdir -p $(addprefix $(OBJ_DIR), $(SUBDIRS))
 	mkdir -p $(addprefix $(OBJ_DIR), $(TEST_SUBDIRS))
 
-
 # ACTUAL RULES #
 
 $(TEST_NAME): $(TEST_OBJ) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o | $(MLX_LIB) $(LIBFT_LIB) objdirs
@@ -118,6 +117,8 @@ $(LIBFT_LIB):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME) : $(OBJ) .obj/main.o $(MLX_LIB) $(LIBFT_LIB) |  objdirs
+	$(MAKE) -C $(MLX_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_DIR)main.o $(LIBS) -o $(NAME)
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
