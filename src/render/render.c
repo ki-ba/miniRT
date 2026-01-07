@@ -37,7 +37,7 @@ double	check_intersect_sphere(t_sphere *sp, t_ray ray)
 	double half_b = vec3_dot(ray.dir, *(t_vec3 *)&oc);
 	b = 2.0 * half_b;
 	c = vec3_dot(*(t_vec3 *)&oc, *(t_vec3 *)&oc) - (sp->diameter/2) * (sp->diameter/2);
-	double disc = b * b - 4 * a * c;
+		double disc = b * b - 4 * a * c;
 	if (disc < 0)
 		return (0);
 	double sqrtd = sqrt(disc);
@@ -89,6 +89,7 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 			{
 				nearest = t;
 				near_color = ((t_sphere *)cur_object)->c;
+				//near_color = (t_color)2147483647U;
 			}
 		}
 		shapes = shapes->next;
@@ -149,7 +150,6 @@ void	shoot_rays(t_mini_rt *mini_rt)
 
 	temp_ray = (t_ray) {mini_rt->camera.origin, (t_vec3) {0}};
 	y = 0;
-	print_properties(*mini_rt);
 	while (y < HEIGHT)
 	{
 		x = 0;

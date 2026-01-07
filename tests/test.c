@@ -58,8 +58,9 @@ int	main(void)
 	RUN_TEST(test_core);
 	// MATH TESTS
 	RUN_TEST(test_resolve_eq2);
-	// RENDER
 
+	// RENDER
+	
 	RUN_TEST(test_intersect_sphere);
 	RUN_TEST(test_determine_color);
 	RUN_TEST(test_shoot_rays);
