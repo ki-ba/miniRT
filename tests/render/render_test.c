@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   render_test.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abetemps <abetemps@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/22 19:21:16 by abetemps          #+#    #+#             */
-/*   Updated: 2025/12/22 19:25:34 by abetemps         ###   ########.fr       */
+/*   Created: 2026/01/07 15:27:22 by kbarru            #+#    #+#             */
+/*   Updated: 2026/01/07 15:54:28 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rendering.h"
+#include "unity.h"
 
-int	render_scene(t_mini_rt *mini_rt)
+void	test_intersect_sphere(void)
 {
-	if (!mini_rt)
-		return (1);
-	trace_rays(mini_rt);
-	if (!mini_rt->rays)
-		return (1);
+	TEST_IGNORE();
+}
 
-	return (0);
+void test_determine_color(void)
+{
+	TEST_IGNORE();
+}
+
+void test_shoot_rays(void)
+{
+	TEST_IGNORE();
 }

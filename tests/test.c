@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 11:02:52 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/18 13:30:02 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/07 15:29:25 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,10 @@ int	main(void)
 	// MATH TESTS
 	RUN_TEST(test_resolve_eq2);
 
+	// RENDER
+	
+	RUN_TEST(test_intersect_sphere);
+	RUN_TEST(test_determine_color);
+	RUN_TEST(test_shoot_rays);
 	return (0);
 }

@@ -30,8 +30,9 @@ VEC3_DIR		= vec3/
 DEBUG_DIR		= debug/
 GRAPHICS_DIR	= graphics/
 CORE_DIR		= core/
+RENDER_DIR		= render/
 
-SUBDIRS = $(PARSING_DIR) $(OBJECTS_DIR) $(VEC3_DIR) $(DEBUG_DIR) $(GRAPHICS_DIR) $(CORE_DIR)
+SUBDIRS = $(PARSING_DIR) $(OBJECTS_DIR) $(VEC3_DIR) $(DEBUG_DIR) $(GRAPHICS_DIR) $(CORE_DIR) $(RENDER_DIR)
 TEST_SUBDIRS = $(addprefix tests/, $(SUBDIRS))
 
 # SOURCE FILES #
@@ -42,6 +43,7 @@ VEC3_FILENAMES		= vec3_create.c vec3_add.c vec3_cross.c vec3_dot.c vec3_scale.c 
 DEBUG_FILENAMES		= debug.c debug_utils.c
 GRAPHICS_FILENAMES	= graphics.c
 CORE_FILENAMES		= core.c hooks.c math.c
+RENDER_FILENAMES	= render.c
 
 # CATEGORY_FILENAMES = filename.c
 
@@ -51,9 +53,10 @@ VEC3_SRC		= $(addprefix $(SRC_DIR)$(VEC3_DIR), $(VEC3_FILENAMES))
 DEBUG_SRC		= $(addprefix $(SRC_DIR)$(DEBUG_DIR), $(DEBUG_FILENAMES))
 GRAPHICS_SRC	= $(addprefix $(SRC_DIR)$(GRAPHICS_DIR), $(GRAPHICS_FILENAMES))
 CORE_SRC		= $(addprefix $(SRC_DIR)$(CORE_DIR), $(CORE_FILENAMES))
+RENDER_SRC		= $(addprefix $(SRC_DIR)$(RENDER_DIR), $(RENDER_FILENAMES))
 # CATEGORY_FULL_SRC = addprefix CATEGORY SOURCE_LIST
 
-SRC = $(PARSING_SRC) $(OBJECTS_SRC) $(VEC3_SRC) $(DEBUG_SRC) $(DESTROY_SRC) $(GRAPHICS_SRC) $(CORE_SRC)
+SRC = $(PARSING_SRC) $(OBJECTS_SRC) $(VEC3_SRC) $(DEBUG_SRC) $(DESTROY_SRC) $(GRAPHICS_SRC) $(CORE_SRC) $(RENDER_SRC)
 # add CAT_SRC here if a new category is added
 
 TEST_SRC = $(subst $(SRC_DIR), $(TEST_DIR), $(SRC:%.c=%_test.c))
