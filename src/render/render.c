@@ -51,10 +51,11 @@ double	check_intersect_plane(t_plane *pl, t_ray ray)
 */
 double	check_intersect_sphere(t_sphere *sp, t_ray ray)
 {
-	t_point		oc;
-	double		a;
-	double		b;
-	double		c;
+	const double	r = sp->diameter / 2;
+	t_point			oc;
+	double			a;
+	double			b;
+	double			c;
 
 	oc.x = ray.origin.x - sp->center.x;
 	oc.y = ray.origin.y - sp->center.y;
@@ -63,15 +64,14 @@ double	check_intersect_sphere(t_sphere *sp, t_ray ray)
 	a = vec3_dot(ray.dir, ray.dir);
 	double half_b = vec3_dot(ray.dir, *(t_vec3 *)&oc);
 	b = 2.0 * half_b;
-	c = vec3_dot(*(t_vec3 *)&oc, *(t_vec3 *)&oc) - (sp->diameter/2) * (sp->diameter/2);
+	c = vec3_dot(*(t_vec3 *)&oc, *(t_vec3 *)&oc) - r * r;
 	double disc = b * b - 4 * a * c;
 	if (disc < 0)
 		return (0);
 	double sqrtd = sqrt(disc);
-	double t1 = (-half_b - sqrtd) / (2 * a);  // NEAREST
-	double t2 = (-half_b + sqrtd) / (2 * a);  // FAR
+	double t1 = (-half_b - sqrtd) / (2 * a);
+	double t2 = (-half_b + sqrtd) / (2 * a);
 
-	// Return nearest VALID hit (avoid self-intersection)
 	if (t1 > 0.001)
 		return (t1);
 	if (t2 > 0.001)
@@ -177,7 +177,7 @@ void	shoot_rays(t_mini_rt *mini_rt)
 
 	temp_ray = (t_ray) {mini_rt->camera.origin, (t_vec3) {0}};
 	y = 0;
-	print_mini_rt(*mini_rt);
+	// print_mini_rt(*mini_rt);
 	while (y < HEIGHT)
 	{
 		x = 0;
