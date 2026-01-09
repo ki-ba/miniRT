@@ -6,7 +6,7 @@
 /*   By: abetemps <abetemps@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 17:06:14 by abetemps          #+#    #+#             */
-/*   Updated: 2026/01/07 09:36:24 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/11 13:47:51 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 void	test_vec3_sub(void)
 {
 	t_vec3	u;
-	t_vec3 	v;
-	t_vec3 	res;
+	t_vec3	v;
+	t_vec3	res;
 
 	u = (t_vec3){0, 0, 0};
 	v = (t_vec3){1, -2, 3};
@@ -53,6 +53,4 @@ void	test_vec3_sub(void)
 	TEST_ASSERT_EQUAL_DOUBLE(2e6, res.x);
 	TEST_ASSERT_EQUAL_DOUBLE(2e6, res.y);
 	TEST_ASSERT_EQUAL_DOUBLE(2e6, res.z);
-
 }
-
