@@ -12,7 +12,7 @@
 
 #include "vec3.h"
 
-extern inline t_vec3	vec3_create(t_point const *o, t_point const *d)
+extern inline t_vec3	vec3_create(t_point o, t_point d)
 {
-	return ((t_vec3) {d->x - o->x, d->y - o->y, d->z - o->z});
+	return ((t_vec3) {d.x - o.x, d.y - o.y, d.z - o.z});
 }

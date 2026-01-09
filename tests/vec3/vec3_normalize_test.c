@@ -19,24 +19,24 @@ void	test_vec3_normalize(void)
 	t_vec3	res;
 
 	v = (t_vec3) {0.0, 0.0, 1.0};
-    res = vec3_normalize(&v);
+    res = vec3_normalize(v);
     TEST_ASSERT_EQUAL_DOUBLE(0.0, res.x);
     TEST_ASSERT_EQUAL_DOUBLE(0.0, res.y);
     TEST_ASSERT_EQUAL_DOUBLE(1.0, res.z);
 
 	v = (t_vec3) {3.0, 4.0, 12.0};
-	res = vec3_normalize(&v);
-	double	len = vec3_magnitude(&res);
+	res = vec3_normalize(v);
+	double	len = vec3_magnitude(res);
     TEST_ASSERT_DOUBLE_WITHIN(1e-12, 1.0, len);
 
 	v = (t_vec3) {2.0, -2.0, 4.0};
-    res = vec3_normalize(&v);
+    res = vec3_normalize(v);
     /* res should be colinear with v: ratios equal */
     TEST_ASSERT_DOUBLE_WITHIN(1e-12, res.x / res.z, v.x / v.z);
     TEST_ASSERT_DOUBLE_WITHIN(1e-12, res.y / res.z, v.y / v.z);
 
 	v = (t_vec3) {0.0, 0.0, 0.0};
-    res = vec3_normalize(&v);
+    res = vec3_normalize(v);
     TEST_ASSERT_EQUAL_DOUBLE(0.0, res.x);
     TEST_ASSERT_EQUAL_DOUBLE(0.0, res.y);
     TEST_ASSERT_EQUAL_DOUBLE(0.0, res.z);

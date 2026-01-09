@@ -21,7 +21,7 @@ void	test_vec3_create(void)
 
 	o = (t_point){0, 0, 0};
     d = (t_point){1, -2, 3};
-    res = vec3_create(&o, &d);
+    res = vec3_create(o, d);
 
     TEST_ASSERT_EQUAL_DOUBLE(1.0,  res.x);
     TEST_ASSERT_EQUAL_DOUBLE(-2.0, res.y);
@@ -29,7 +29,7 @@ void	test_vec3_create(void)
 	
 	o = (t_point){10, 20, 30};
     d = (t_point){-1.5, 2.5, 0.0};
-    res = vec3_create(&o, &d);
+    res = vec3_create(o, d);
 
     TEST_ASSERT_EQUAL_DOUBLE(-11.5, res.x);
     TEST_ASSERT_EQUAL_DOUBLE(-17.5, res.y);
@@ -37,7 +37,7 @@ void	test_vec3_create(void)
 
     o = (t_point){5, -7, 9};
     d = (t_point){0.0, 0.0, 0.0};
-    res = vec3_create(&o, &d);
+    res = vec3_create(o, d);
     TEST_ASSERT_EQUAL_DOUBLE(-5.0, res.x);
     TEST_ASSERT_EQUAL_DOUBLE(7.0, res.y);
     TEST_ASSERT_EQUAL_DOUBLE(-9.0, res.z);

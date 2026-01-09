@@ -13,8 +13,8 @@
 #include <math.h>
 #include "miniRT.h"
 
-extern inline double	vec3_magnitude(t_vec3 const *v)
+extern inline double	vec3_magnitude(t_vec3 v)
 {
-	return (sqrt(pow(v->x, 2.0) + pow(v->y, 2.0) + pow(v->z, 2.0)));
+	return (sqrt(pow(v.x, 2.0) + pow(v.y, 2.0) + pow(v.z, 2.0)));
 }
 

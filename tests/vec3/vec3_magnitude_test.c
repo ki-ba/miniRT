@@ -20,19 +20,19 @@ void	test_vec3_magnitude(void)
 	double res;
 
 	v = (t_vec3) {0.0, 0.0, 0.0};
-    res = vec3_magnitude(&v);
+    res = vec3_magnitude(v);
     TEST_ASSERT_EQUAL_DOUBLE(0.0, res);
 
 	v = (t_vec3) {0.0, 1.0, 0.0};
-    res = vec3_magnitude(&v);
+    res = vec3_magnitude(v);
     TEST_ASSERT_EQUAL_DOUBLE(1.0, res);
 	
 	v = (t_vec3) {3.0, 4.0, 12.0};
-    res = vec3_magnitude(&v);
+    res = vec3_magnitude(v);
     TEST_ASSERT_EQUAL_DOUBLE(sqrt(3.0*3.0 + 4.0*4.0 + 12.0*12.0), res);
 
 	v = (t_vec3) {-3.0, -4.0, -12.0};
-    res = vec3_magnitude(&v);
+    res = vec3_magnitude(v);
     TEST_ASSERT_EQUAL_DOUBLE(sqrt(3.0*3.0 + 4.0*4.0 + 12.0*12.0), res);
 }
 

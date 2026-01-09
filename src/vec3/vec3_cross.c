@@ -12,11 +12,11 @@
 
 #include "miniRT.h"
 
-extern inline t_vec3	vec3_cross(t_vec3 const *u, t_vec3 const *v)
+extern inline t_vec3	vec3_cross(t_vec3 u, t_vec3 v)
 {
 	return ((t_vec3) {
-			u->y * v->z - u->z * v->y,
-			u->z * v->x - u->x * v->z,
-			u->x * v->y - u->y * v->x});
+			u.y * v.z - u.z * v.y,
+			u.z * v.x - u.x * v.z,
+			u.x * v.y - u.y * v.x});
 }
 
