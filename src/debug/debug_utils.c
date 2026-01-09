@@ -12,7 +12,7 @@
 
 #include "miniRT.h"
 
-void	print_point(char *name, t_point point)
+void	print_vec3(char *name, t_vec3 point)
 {
 	printf("%s: [%.2f, %.2f, %.2f]\n", name, point.x, point.y, point.z);
 }
@@ -34,7 +34,7 @@ void	print_properties(t_mini_rt mini_rt)
 	print_color("color", mini_rt.ambient_light.color);
 	printf("\n\n");
 	printf("CAMERA :\n");
-	print_point("origin", mini_rt.camera.origin);
+	print_vec3("origin", mini_rt.camera.origin);
 	print_vector("orientation", mini_rt.camera.dir);
 	printf("fov : %f\n", mini_rt.camera.fov);
 	printf("right vec: %f %f %f\n", mini_rt.camera.right.x, mini_rt.camera.right.y, mini_rt.camera.right.z);

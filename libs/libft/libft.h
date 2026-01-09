@@ -28,7 +28,7 @@
 #  define MAX_FD 1024
 # endif
 
-typedef enum bool
+typedef enum e_bool
 {
 	FALSE,
 	TRUE

@@ -8,9 +8,9 @@ DEPS = $(OBJ:.o=.d)
 # COMPILATION FLAGS #
 
 CFLAGS = -Wall -Wextra -Werror -g3 -MMD -O3
-INCLUDES = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR)
+INCLUDES = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR) -I$(VECTORS_DIR)/inc/
 TEST_INCLUDES = -IUnity/src/
-LIBS = -L$(MLX_DIR) -lmlx -lX11 -lXext -L$(LIBFT_DIR) -lft -lm
+LIBS = -L$(MLX_DIR) -lmlx -lX11 -lXext -L$(LIBFT_DIR) -lft -lm -L$(VECTORS_DIR) -lvectors
 
 # DIRECTORIES #
 
@@ -21,6 +21,7 @@ INC_DIR = inc/
 TEST_DIR = tests/
 MLX_DIR = $(LIB_DIR)minilibx-linux/
 LIBFT_DIR = $(LIB_DIR)libft/
+VECTORS_DIR = $(LIB_DIR)vectors/
 
 # SUBDIRS #
 
@@ -69,15 +70,12 @@ TEST_SRC = $(subst $(SRC_DIR), $(TEST_DIR), $(SRC:%.c=%_test.c))
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 TEST_OBJ = $(TEST_SRC:$(TEST_DIR)%.c=$(OBJ_DIR)$(TEST_DIR)%.o) $(OBJ_DIR)$(TEST_DIR)unity.o
 
-# LIBRARIES #
 
-MLX_LIB = $(MLX_DIR)libmlx.a
-LIBFT_LIB = $(LIBFT_DIR)libft.a
-
-# PHONY RULES #
 
 #NOTE: by default, both miniRT and the tests are built when 'make' is run.
 #NOTE: to only build miniRT, run 'make miniRT' instead.
+
+# PHONY RULES #
 
 .PHONY : all
 all: objdirs $(NAME) $(TEST_NAME)
@@ -94,6 +92,7 @@ clean:
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(MLX_DIR) clean
+	$(MAKE -C $(VECTORS_DIR) fclean
 	rm -f $(NAME)
 
 .PHONY : re
@@ -104,11 +103,10 @@ objdirs:
 	mkdir -p $(addprefix $(OBJ_DIR), $(SUBDIRS))
 	mkdir -p $(addprefix $(OBJ_DIR), $(TEST_SUBDIRS))
 
-# ACTUAL RULES #
+# LIBRARIES #
 
-$(TEST_NAME): $(TEST_OBJ) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o | $(MLX_LIB) $(LIBFT_LIB) objdirs
-	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDES) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o $(TEST_OBJ) $(LIBS) -o $(TEST_NAME)
-	./$(TEST_NAME)
+MLX_LIB = $(MLX_DIR)libmlx.a
+LIBFT_LIB = $(LIBFT_DIR)libft.a
 
 $(MLX_LIB):
 	$(MAKE) -C $(MLX_DIR)
@@ -116,7 +114,17 @@ $(MLX_LIB):
 $(LIBFT_LIB):
 	$(MAKE) -C $(LIBFT_DIR)
 
-$(NAME) : $(OBJ) .obj/main.o $(MLX_LIB) $(LIBFT_LIB) |  objdirs
+${VECTORS_LIB}:
+	$(MAKE) -C $(VECTORS_DIR)
+
+# ACTUAL RULES #
+
+$(TEST_NAME): $(TEST_OBJ) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o | $(MLX_LIB) $(LIBFT_LIB) objdirs
+	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDES) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o $(TEST_OBJ) $(LIBS) -o $(TEST_NAME)
+	./$(TEST_NAME)
+
+
+$(NAME) : $(OBJ) .obj/main.o $(MLX_LIB) $(LIBFT_LIB) $(VECTORS_LIB) |  objdirs
 	$(MAKE) -C $(MLX_DIR)
 	$(MAKE) -C $(LIBFT_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(OBJ_DIR)main.o $(LIBS) -o $(NAME)

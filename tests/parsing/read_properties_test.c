@@ -46,7 +46,7 @@ void	test_read_color(void)
 
 void	test_read_point(void)
 {
-	t_point	point;
+	t_vec3	point;
 	int		status;
 
 	status = read_point(&point, "1.0,2.0,3.0");

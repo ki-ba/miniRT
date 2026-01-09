@@ -21,7 +21,7 @@ void	print_cylinder(t_cylinder cy)
 	printf("height :	%.2f\n", cy.height);
 	printf("diameter :	%.2f\n", cy.diameter);
 	print_vector("normal", cy.normal);
-	print_point("center", cy.center);
+	print_vec3("center", cy.center);
 	print_color("color", cy.c);
 }
 
@@ -29,7 +29,7 @@ void	print_plane(t_plane pl)
 {
 	printf("PLANE\n");
 	print_vector("normal", pl.normal);
-	print_point("point", pl.p);
+	print_vec3("point", pl.p);
 	print_color("color", pl.c);
 }
 
@@ -37,14 +37,14 @@ void	print_sphere(t_sphere sp)
 {
 	printf("SPHERE\n");
 	printf("diameter :	%.2f\n", sp.diameter);
-	print_point("center", sp.center);
+	print_vec3("center", sp.center);
 	print_color("color", sp.c);
 }
 
 void	print_light(t_light l)
 {
 	printf("LIGHT\n");
-	print_point("origin", l.origin);
+	print_vec3("origin", l.origin);
 	print_color("color", l.color);
 	printf("brightness :	%.2f\n", l.intensity);
 }

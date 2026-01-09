@@ -14,8 +14,143 @@
 #include "core.h"
 #include "render.h"
 #include "mlx.h"
+#include "vectors.h"
 
 #include <fcntl.h>
+
+void	set_vec3_color(t_mini_rt *mini_rt, t_vec3 vp_point)
+{
+	t_vec3	ray;
+
+	ray.x = vp_point.x - mini_rt->camera.origin.x;
+	ray.y = vp_point.y - mini_rt->camera.origin.y;
+	ray.z = vp_point.z - mini_rt->camera.origin.z;
+}
+
+/**
+	* @brief takes a ray and a sphere and determines where the to meet if they do.
+	* @returns the value of t in the ray that intersects the sphere if it does,
+	* @returns -1 otherwise.
+	* NOTE: is -1 advisable? What other value could mean no intersection?
+*/
+int	check_intersect_sphere(t_camera cam, t_sphere *sp, t_ray ray)
+{
+	t_vec3		oc;
+	double		b;
+	double		c;
+	double		root;
+
+	root = 0;
+	oc = cam.origin;
+	b = 2 * (double)(ray.dir.x * (oc.x - sp->center.x)+ ray.dir.y *(oc.y - sp->center.y)  + ray.dir.z *(oc.z - sp->center.z));
+	c = (double)((oc.x - sp->center.x)*(oc.x - sp->center.x) + (oc.y - sp->center.y)*(oc.y - sp->center.y) + (oc.z - sp->center.z)*(oc.z - sp->center.z)- (sp->diameter / 2) * (sp->diameter / 2));
+	// printf("Checking intersection of ray (%f, %f, %f)\n", ray.dir.x, ray.dir.y, ray.dir.z);
+	if (resolve_eq2(1,b,c, &root) == TRUE)
+	{
+		// Print in GREEN in terminal if found
+		// printf("\033[0;32m");
+		// printf("Intersection at t = %f\n", root);
+		// printf("\033[0m");
+		return (root);
+	}
+	// Print in RED in terminal if not found
+	// printf("\033[0;31mNo intersection with ray at direction (%f, %f, %f)\033[0m\n",
+	// 	ray.dir.x, ray.dir.y, ray.dir.z);
+	return (0);
+}
+
+void	*get_inner_shape(t_list *shape)
+{
+	if (!shape)
+		return (NULL);
+	if (!shape->content)
+		return (NULL);
+	if (!((t_shape *)shape->content)->shape)
+		return (NULL);
+	return (((t_shape *)shape->content)->shape);
+}
+
+/**
+	* @brief takes a ray as param and loops through every object
+	* @brief to determine the nearest intersection.
+	* @return the value of t where the ray intersects the object closest to it,
+	* @return -1 if it doesn't intersect any.
+*/
+t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
+{
+	t_list	*shapes;
+	t_inter	intersection;
+	double	nearest;
+	void	*cur_object;
+	t_color	near_color;
+
+	// t_sphere	*sp;
+	// sp = get_inner_shape(mini_rt->objects);
+	// printf("Checking intersection with sphere at center (%f, %f, %f) and diameter %f\n",
+	// 	sp->center.x, sp->center.y, sp->center.z, sp->diameter);
+	nearest = INFINITY;
+	shapes = mini_rt->objects;
+	while (shapes)
+	{
+		if (((t_shape *)shapes->content)->type == SPHERE)
+		{
+			cur_object = get_inner_shape(shapes);
+			nearest = fmin(nearest, check_intersect_sphere(mini_rt->camera, (t_sphere *)cur_object, ray));
+			near_color = ((t_sphere *)cur_object)->c;
+		}
+		shapes = shapes->next;
+	}
+	ray.dir = (vec3_scale(&ray.dir, nearest));
+	intersection.p = *(t_vec3*)&ray.dir;
+	return (intersection);
+}
+
+/**
+	* @brief for a given point, shoots towards each light 
+	* @brief and calculates the color of the point.
+*/
+t_color	determine_color(t_vec3 ip, t_color ic, t_list *lights, t_list *objects)
+{
+	/* for every light, determine a vector from intersection to the light.
+		If the vector finds any object, discard said light.
+		It does not enlighten the intersection point.*/
+	(void)ip;
+	(void)ic;
+	(void)lights;
+	(void)objects;
+	return ((t_color)(uint32_t)255);
+}
+
+/*
+	* @brief defines a viewport in front of the camera at a distance of 1,
+	* @brief then shoot equally spaced "rays" through the viewport to the scene
+	* @brief . every ray that intersects an object then a light is shown.
+*/
+void	shoot_rays(t_mini_rt *mini_rt)
+{
+	double	x;
+	double	y;
+	t_inter	inter;
+	t_ray	temp_ray;
+
+	y = 0;
+	while (y < WIDTH)
+	{
+		x = 0;
+		while (x < HEIGHT)
+		{
+			temp_ray = (t_ray){0}; // Determine vect3 for this ray.
+			inter = check_intersect_obj(mini_rt, temp_ray);
+			if (inter.t > 0)
+			{
+				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, determine_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);
+			}
+			++x;
+		}
+		++y;
+	}
+	mlx_put_image_to_window(mini_rt->mlx.mlx, mini_rt->mlx.win, mini_rt->mlx.img.img, 0, 0);
+}
 
 int	check_properties(t_mini_rt *mini_rt)
 {

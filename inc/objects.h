@@ -21,14 +21,14 @@ typedef struct s_shape		t_shape;
 
 struct s_plane
 {
-	t_point	p;
+	t_vec3	p;
 	t_color	c;
 	t_vec3	normal;
 };
 
 struct s_cylinder
 {
-	t_point	center;
+	t_vec3	center;
 	t_color	c;
 	t_vec3	normal;
 	double	diameter;
@@ -37,7 +37,7 @@ struct s_cylinder
 
 struct s_sphere
 {
-	t_point	center;
+	t_vec3	center;
 	t_color	c;
 	double	diameter;
 };

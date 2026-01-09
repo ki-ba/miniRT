@@ -49,7 +49,6 @@ enum e_item_type
 /* UTILS */
 typedef union u_color		t_color;
 typedef struct s_ray		t_ray;
-typedef struct s_point		t_point;
 typedef struct s_light		t_light;
 typedef struct s_ambient	t_ambient;
 typedef struct s_camera		t_camera;
@@ -68,22 +67,15 @@ union u_color
 	};
 };
 
-struct s_point
-{
-	double	x;
-	double	y;
-	double	z;
-};
-
 struct s_ray
 {
-	t_point	origin;
+	t_vec3	origin;
 	t_vec3	dir;
 };
 
 struct s_light
 {
-	t_point	origin;
+	t_vec3	origin;
 	t_color	color;
 	double	intensity;
 };
@@ -92,7 +84,7 @@ struct s_light
 
 struct s_inter
 {
-	t_point	p;
+	t_vec3	p;
 	t_color	c;
 	double	t;
 };
@@ -108,7 +100,7 @@ struct s_ambient
 struct s_camera
 {
 	t_bool	is_defined;
-	t_point	origin;
+	t_vec3	origin;
 	t_vec3	dir;
 	t_vec3	up;
 	t_vec3	right;

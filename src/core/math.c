@@ -44,9 +44,9 @@ t_bool	resolve_eq2(double a, double b, double c, double *root)
 /**
 	* @brief computes a point along a ray at distance t from the ray origin.
 */
-t_point	vec_to_point(t_ray ray, double t)
+t_vec3	vec_to_point(t_ray ray, double t)
 {
-	t_point	point;
+	t_vec3	point;
 
 	point.x = ray.origin.x + ray.dir.x * t;
 	point.y = ray.origin.y + ray.dir.y * t;

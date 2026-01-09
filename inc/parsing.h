@@ -57,7 +57,7 @@ size_t			count_char_in_str(char *str, char c);
 /* READ PROPERTIES */
 
 int				read_color(t_color *c, char *string);
-int				read_point(t_point *p, char *string);
+int				read_point(t_vec3 *p, char *string);
 int				read_normalized_vec(t_vec3 *v, char *string);
 
 #endif

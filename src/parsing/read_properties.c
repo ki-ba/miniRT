@@ -75,7 +75,7 @@ int	fill_double_array(double *slots[3], char **arr, size_t size)
 	return (SUCCESS);
 }
 
-int	read_point(t_point *p, char *string)
+int	read_point(t_vec3 *p, char *string)
 {
 	char	**arr;
 	int		array_status;
