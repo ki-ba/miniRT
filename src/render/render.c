@@ -16,8 +16,35 @@
 #include "core.h"
 #include "debug.h"
 
+
+void	*get_inner_shape(t_list *shape)
+{
+	if (!shape)
+		return (NULL);
+	if (!shape->content)
+		return (NULL);
+	if (!((t_shape *)shape->content)->shape)
+		return (NULL);
+	return (((t_shape *)shape->content)->shape);
+}
+
 /**
-	* @brief takes a ray and a sphere and determines where the to meet if they do.
+	* @brief takes a ray and a plane and determines where the point where meet if they do.
+	* @returns the value of t in the ray that intersects the plane if it does,
+	* @returns -1 otherwise.
+	* NOTE: is -1 advisable? What other value could mean no intersection?
+*/
+double	check_intersect_plane(t_plane *pl, t_ray ray)
+{
+	double	t;
+
+	t = vec3_dot(vec3_substract(*(t_vec3 *)&pl->p, *(t_vec3 *)&ray.origin), pl->normal) / vec3_dot(ray.dir, pl->normal);
+	return (t);
+}
+
+
+/**
+	* @brief takes a ray and a sphere and determines where the point where meet if they do.
 	* @returns the value of t in the ray that intersects the sphere if it does,
 	* @returns -1 otherwise.
 	* NOTE: is -1 advisable? What other value could mean no intersection?
@@ -52,17 +79,6 @@ double	check_intersect_sphere(t_sphere *sp, t_ray ray)
 	return (0);
 }
 
-void	*get_inner_shape(t_list *shape)
-{
-	if (!shape)
-		return (NULL);
-	if (!shape->content)
-		return (NULL);
-	if (!((t_shape *)shape->content)->shape)
-		return (NULL);
-	return (((t_shape *)shape->content)->shape);
-}
-
 /**
 	* @brief takes a ray as param and loops through every object
 	* @brief to determine the nearest intersection.
@@ -73,9 +89,10 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 {
 	t_list	*shapes;
 	t_inter	intersection = (t_inter){0};
-	double	nearest;
 	void	*cur_object;
 	t_color	near_color = (t_color){0};
+	double	t;
+	double	nearest;
 
 	nearest = INFINITY;
 	shapes = mini_rt->objects;
@@ -84,11 +101,22 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 		cur_object = get_inner_shape(shapes);
 		if (((t_shape *)shapes->content)->type == SPHERE)
 		{
-			double t = check_intersect_sphere((t_sphere *)cur_object, ray);
+			t = check_intersect_sphere((t_sphere *)cur_object, ray);
 			if (t > 0 && t < nearest)
 			{
 				nearest = t;
 				near_color = ((t_sphere *)cur_object)->c;
+				// printf("Hit sphere with t=%f\n", t);
+			}
+		}
+		else if (((t_shape *)shapes->content)->type == PLANE)
+		{
+			t = check_intersect_plane((t_plane *)cur_object, ray);
+			if (t > 0 && t < nearest)
+			{
+				nearest = t;
+				near_color = ((t_sphere *)cur_object)->c;
+				// printf("Hit plane with t=%f\n", t);
 			}
 		}
 		shapes = shapes->next;
@@ -149,7 +177,7 @@ void	shoot_rays(t_mini_rt *mini_rt)
 
 	temp_ray = (t_ray) {mini_rt->camera.origin, (t_vec3) {0}};
 	y = 0;
-	print_properties(*mini_rt);
+	print_mini_rt(*mini_rt);
 	while (y < HEIGHT)
 	{
 		x = 0;

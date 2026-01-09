@@ -23,7 +23,7 @@
 */
 int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 {
-	double step = 1.5;
+	double step = 0.5;
 	if (keysym == 65307 || keysym == 113)
 		clean_exit(mini_rt, SUCCESS);
 	else if (keysym == 119)
@@ -31,9 +31,9 @@ int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 	else if (keysym == 115)
 		mini_rt->camera.origin.y -= step;
 	else if (keysym == 100)
-		mini_rt->camera.origin.x += step;
-	else if (keysym == 97)
 		mini_rt->camera.origin.x -= step;
+	else if (keysym == 97)
+		mini_rt->camera.origin.x += step;
 	else if (keysym == 65362)
 		mini_rt->camera.origin.z += step;
 	else if (keysym == 65364)
