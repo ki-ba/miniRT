@@ -63,11 +63,11 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 		return (GENERIC_ERR);
 	mini_rt->camera.fov = deg_to_rad(ft_strtod(property[3], &n));
 	world_up = (t_vec3) {0, 1, 0};
-	if (fabs(vec3_dot(&mini_rt->camera.dir, &world_up)) > 0.999)
+	if (fabs(vec3_dot(mini_rt->camera.dir, world_up)) > 0.999)
 		world_up = (t_vec3){0,0,1};
-	tmp = vec3_cross(&mini_rt->camera.dir, &world_up);
-	mini_rt->camera.right = vec3_normalize(&tmp);
-	mini_rt->camera.up = vec3_cross(&mini_rt->camera.dir, &mini_rt->camera.right);
+	tmp = vec3_cross(mini_rt->camera.dir, world_up);
+	mini_rt->camera.right = vec3_normalize(tmp);
+	mini_rt->camera.up = vec3_cross(mini_rt->camera.dir, mini_rt->camera.right);
 	mini_rt->camera.vp_width = 2 * tan(mini_rt->camera.fov / 2) * VP_DISTANCE;
 	mini_rt->camera.vp_height = mini_rt->camera.vp_width / aspect_ratio;
 	return (*n != '\0');

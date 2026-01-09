@@ -23,7 +23,7 @@
 */
 int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 {
-	double step = 2.5;
+	double step = 1.5;
 	if (keysym == 65307 || keysym == 113)
 		clean_exit(mini_rt, SUCCESS);
 	else if (keysym == 119)
@@ -34,9 +34,9 @@ int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 		mini_rt->camera.origin.x += step;
 	else if (keysym == 97)
 		mini_rt->camera.origin.x -= step;
-	else if (keysym == 122)
+	else if (keysym == 65362)
 		mini_rt->camera.origin.z += step;
-	else if (keysym == 120)
+	else if (keysym == 65364)
 		mini_rt->camera.origin.z -= step;
 	else if (keysym == 114)
 	{
@@ -44,7 +44,7 @@ int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 		mini_rt->camera.origin.y = 0;
 		mini_rt->camera.origin.z = 0;
 	}
-	printf("Key pressed: %d\n", keysym);
+	// printf("Key pressed: %d\n", keysym);
 	// printf("Camera position: x=%f, y=%f, z=%f\n", mini_rt->camera.origin.x, mini_rt->camera.origin.y, mini_rt->camera.origin.z);
 	shoot_rays(mini_rt);
 	return (0);

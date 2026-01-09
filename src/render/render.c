@@ -14,6 +14,7 @@
 #include <math.h>
 #include "render.h"
 #include "core.h"
+#include "debug.h"
 
 /**
 	* @brief takes a ray and a sphere and determines where the to meet if they do.
@@ -32,10 +33,10 @@ double	check_intersect_sphere(t_sphere *sp, t_ray ray)
 	oc.y = ray.origin.y - sp->center.y;
 	oc.z = ray.origin.z - sp->center.z;
 
-	a = vec3_dot(&ray.dir, &ray.dir);
-	double half_b = vec3_dot(&ray.dir, (t_vec3 *)&oc);
+	a = vec3_dot(ray.dir, ray.dir);
+	double half_b = vec3_dot(ray.dir, *(t_vec3 *)&oc);
 	b = 2.0 * half_b;
-	c = vec3_dot((t_vec3 *)&oc, (t_vec3 *)&oc) - (sp->diameter/2) * (sp->diameter/2);
+	c = vec3_dot(*(t_vec3 *)&oc, *(t_vec3 *)&oc) - (sp->diameter/2) * (sp->diameter/2);
 	double disc = b * b - 4 * a * c;
 	if (disc < 0)
 		return (0);
@@ -88,12 +89,11 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 			{
 				nearest = t;
 				near_color = ((t_sphere *)cur_object)->c;
-				//near_color = (t_color)2147483647U;
 			}
 		}
 		shapes = shapes->next;
 	}
-	ray.dir = (vec3_scale(&ray.dir, nearest));
+	ray.dir = (vec3_scale(ray.dir, nearest));
 	intersection.p = *(t_point*)&ray.dir;
 	intersection.c = near_color;
 	intersection.t = nearest;
@@ -131,35 +131,25 @@ void	shoot_rays(t_mini_rt *mini_rt)
 {
 	t_inter	inter;
 	t_ray	temp_ray;
-	double	x;
-	double	y;
+	int	x;
+	int	y;
 
 	double	u;
 	double	v;
-	// t_vec3	vp_point;
 
-	// double	d = 1.0;
-	// double	fov_rad = 60.0 * M_PI / 180.0;
-	// mini_rt->camera.origin = (t_point){0, 0, 0};
-	// mini_rt->camera.dir    = (t_vec3){0, 0, 1};   // looks towards +Z
-	// mini_rt->camera.right  = (t_vec3){1, 0, 0};
-	// mini_rt->camera.up     = (t_vec3){0, 1, 0};
-	// mini_rt->camera.vp_width = 2.0 * d * tan(fov_rad / 2.0);
-	// mini_rt->camera.vp_height = mini_rt->camera.vp_width * (double)HEIGHT / (double)WIDTH;
+	const t_vec3 hrz = vec3_scale(mini_rt->camera.right, mini_rt->camera.vp_width);
+	const t_vec3 vrt = vec3_scale(mini_rt->camera.up, mini_rt->camera.vp_height);
+	t_vec3 lower_left = vec3_add((*(t_vec3 *)&mini_rt->camera.origin), mini_rt->camera.dir);
 
-	const t_vec3 hrz = vec3_scale(&mini_rt->camera.right, mini_rt->camera.vp_width);
-	const t_vec3 vrt = vec3_scale(&mini_rt->camera.up, mini_rt->camera.vp_height);
-	// print_mini_rt(*mini_rt);
-	t_vec3 lower_left = vec3_add(((t_vec3 *)&mini_rt->camera.origin), &mini_rt->camera.dir);
+	const t_vec3 half_hrz = vec3_scale(hrz, 0.5);
+	const t_vec3 half_vrt = vec3_scale(vrt, 0.5);
 
-	const t_vec3 half_hrz = vec3_scale(&hrz, 0.5);
-	const t_vec3 half_vrt = vec3_scale(&vrt, 0.5);
-
-	lower_left = vec3_substract(&lower_left, &half_hrz);
-	lower_left = vec3_substract(&lower_left, &half_vrt);
+	lower_left = vec3_substract(lower_left, half_hrz);
+	lower_left = vec3_substract(lower_left, half_vrt);
 
 	temp_ray = (t_ray) {mini_rt->camera.origin, (t_vec3) {0}};
 	y = 0;
+	print_properties(*mini_rt);
 	while (y < HEIGHT)
 	{
 		x = 0;
@@ -168,22 +158,28 @@ void	shoot_rays(t_mini_rt *mini_rt)
 			u = (x + 0.5) / WIDTH;
 			v = (y + 0.5) / HEIGHT;
 
-			t_vec3 h_offset = vec3_scale(&hrz, u);
-			t_vec3 v_offset = vec3_scale(&vrt, v);
+			t_vec3 h_offset = vec3_scale(hrz, u);
+			t_vec3 v_offset = vec3_scale(vrt, v);
 
-			t_vec3 p = vec3_add(&lower_left, &h_offset);
-			p = vec3_add(&p, &v_offset);
+			t_vec3 p = vec3_add(lower_left, h_offset);
+			p = vec3_add(p, v_offset);
 
 			temp_ray.origin = mini_rt->camera.origin;
-			temp_ray.dir = vec3_substract(&p, (t_vec3 *)&mini_rt->camera.origin);
-			temp_ray.dir = vec3_normalize(&temp_ray.dir);
+			temp_ray.dir = vec3_substract(p, *(t_vec3 *)&mini_rt->camera.origin);
+			temp_ray.dir = vec3_normalize(temp_ray.dir);
 
 			inter = check_intersect_obj(mini_rt, temp_ray);
-			if (inter.t > 0)
-				my_mlx_pixel_put(&mini_rt->mlx.img, x, y,determine_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);
+			// printf("inter(pixel[%d,%d]): %f\n", x, y, inter.t);
+			if (inter.t > 0 && inter.t != INFINITY)
+			{
+				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, determine_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);
+			}
 			else
-				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, 0x00000000);
+			{
+				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, mini_rt->ambient_light.color.trgb);
+			}
 			++x;
+			// mlx_put_image_to_window(mini_rt->mlx.mlx, mini_rt->mlx.win, mini_rt->mlx.img.img, 0, 0);
 		}
 		++y;
 	}
