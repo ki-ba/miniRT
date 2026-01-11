@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "objects.h"
 #include "parsing.h"
 
 size_t	arr_len(char **arr)

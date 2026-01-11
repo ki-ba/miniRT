@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:13 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/10 11:38:44 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/11 11:57:56 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,27 @@
 #include "parsing.h"
 #include "core.h"
 #include "objects.h"
+#include "debug.h"
+#include "vectors.h"
 
+void	print_obj(t_object obj);
 /**
-	* @brief Generic function to add an item to a linked list.
+	* @brief Generic function to add an item to a vector.
 	* @param lst The linked list to which the item will be added.
 	* @param f The function used to create the item from the specifications.
 	* @param item_arr The array of strings representing the item specifications.
 */
-int	add_item(t_list **lst, void *(*f)(char **), char **item_arr)
-{
-	t_list	*new_node;
-	t_shape	*shape;
-	void	*item;
 
-	item = f(item_arr);
-	shape = ft_calloc(1, sizeof(t_shape));
-	new_node = ft_lstnew(shape);
-	if (!item || !new_node || !shape)
-	{
-		ft_lstdelone(new_node, destroy_shape);
-		free(item);
+int	add_item(t_vector **objects, int (*f)(void *, char **), char **item_arr)
+{
+	t_object	obj;
+
+	if (!objects)
 		return (GENERIC_ERR);
-	}
-	shape->shape = item;
-	shape->type = define_item_type(item_arr[0]);
-	ft_lstadd_back(lst, new_node);
+	obj = (t_object){0};
+	obj.type = define_item_type(item_arr[0]);
+	f(&obj, item_arr);
+	add_element(*objects, &obj);
 	return (0);
 }
 
@@ -152,21 +148,21 @@ int	format_line(char ***arr, char *line)
 */
 int	handle_line(t_mini_rt *mini_rt, char *line)
 {
-	void	*(*p[5])(char **);
-	t_list	**engine_lists[2];
-	int		status;
-	char	**object_arr;
-	int		type;
+	int			(*p[5])(void *, char **);
+	t_vector	**engine_lists[2];
+	int			status;
+	char		**object_arr;
+	int			type;
 
 	status = format_line(&object_arr, line);
 	if (status > 0)
 		return (!(status == COMMENT_OR_EMPTY_LINE));
 	engine_lists[0] = &mini_rt->objects;
 	engine_lists[1] = &mini_rt->lights;
-	p[0] = (void *)&create_sphere;
-	p[1] = (void *)&create_plane;
-	p[2] = (void *)&create_cylinder;
-	p[3] = (void *)&create_light;
+	p[0] = &create_sphere;
+	p[1] = &create_plane;
+	p[2] = &create_cylinder;
+	p[3] = &create_light;
 	p[4] = NULL;
 	type = define_item_type(object_arr[0]);
 	if (is_property_id(object_arr[0]))

@@ -14,9 +14,9 @@
 # define DEBUG_H
 
 # include "miniRT.h"
-# include "libft.h"
+# include "objects.h"
+# include "vectors.h"
 
-void	print_item_lst(t_list *lst);
 void	print_properties(t_mini_rt mini_rt);
 
 // DEBUG_UTILS
@@ -27,9 +27,6 @@ void	print_vector(char *name, t_vec3 vector);
 
 // DEBUG
 
-void	print_cylinder(t_cylinder cy);
-void	print_plane(t_plane pl);
-void	print_sphere(t_sphere sp);
-void	print_light(t_light l);
-void	print_item_lst(t_list *lst);
+void	print_item_lst(t_vector *objects);
+void	print_cylinder(t_object obj);
 #endif

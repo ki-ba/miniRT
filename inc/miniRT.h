@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "vec3.h"
+# include "vectors.h"
 # include "graphics.h"
 # include <stdint.h>
 
@@ -33,17 +34,9 @@ enum e_error_code
 	INVALID_VALUE_ERR,
 	MALLOC_ERR,
 	TOO_MUCH_ELEMENTS_ERR,
+	VECTOR_NOT_NORMALIZED_ERR,
 	COMMENT_OR_EMPTY_LINE,
 	E_ERROR_CODE_QTY
-};
-
-enum e_item_type
-{
-	SPHERE = 0,
-	PLANE,
-	CYLINDER,
-	LIGHT,
-	E_ITEM_TYPE_QTY
 };
 
 /* UTILS */
@@ -111,8 +104,8 @@ struct s_camera
 
 struct s_mini_rt
 {
-	t_list		*objects;
-	t_list		*lights;
+	t_vector	*objects;
+	t_vector	*lights;
 	t_camera	camera;
 	t_ambient	ambient_light;
 	t_mlx		mlx;

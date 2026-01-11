@@ -92,7 +92,7 @@ clean:
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(MLX_DIR) clean
-	$(MAKE -C $(VECTORS_DIR) fclean
+	$(MAKE) -C $(VECTORS_DIR) fclean
 	rm -f $(NAME)
 
 .PHONY : re
@@ -107,6 +107,7 @@ objdirs:
 
 MLX_LIB = $(MLX_DIR)libmlx.a
 LIBFT_LIB = $(LIBFT_DIR)libft.a
+VECTORS_LIB = $(VECTORS_DIR)libvectors.a
 
 $(MLX_LIB):
 	$(MAKE) -C $(MLX_DIR)

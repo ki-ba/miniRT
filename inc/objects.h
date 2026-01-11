@@ -17,41 +17,38 @@
 typedef struct s_plane		t_plane;
 typedef struct s_cylinder	t_cylinder;
 typedef struct s_sphere		t_sphere;
-typedef struct s_shape		t_shape;
+typedef struct s_object		t_object;
+typedef enum e_item_type	t_item_type;
 
 struct s_plane
 {
 	t_vec3	p;
-	t_color	c;
-	t_vec3	normal;
 };
 
-struct s_cylinder
+enum e_item_type
 {
-	t_vec3	center;
-	t_color	c;
-	t_vec3	normal;
-	double	diameter;
-	double	height;
+	SPHERE = 0,
+	PLANE,
+	CYLINDER,
+	LIGHT,
+	E_ITEM_TYPE_QTY
 };
 
-struct s_sphere
+struct s_object
 {
-	t_vec3	center;
-	t_color	c;
-	double	diameter;
+	t_item_type	type;
+	t_vec3		center;
+	t_vec3		normal;
+	t_vec3		point;
+	t_color		color;
+	double		diameter;
+	double		height;
+
 };
 
-struct s_shape
-{
-	enum e_item_type	type;
-	void				*shape;
-};
-
-t_plane		*create_plane(char **specs);
-t_cylinder	*create_cylinder(char **specs);
-t_sphere	*create_sphere(char **specs);
-t_light		*create_light(char **light_arr);
-void		destroy_shape(void *shape);
+int	create_plane(void *plane, char **specs);
+int	create_cylinder(void *cyl, char **specs);
+int	create_sphere(void *sp, char **specs);
+int	create_light(void *light, char **light_arr);
 
 #endif

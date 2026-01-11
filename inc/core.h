@@ -24,7 +24,7 @@ typedef struct s_roots
 
 void	destroy_mini_rt(t_mini_rt *mini_rt);
 void	init_mini_rt(t_mini_rt *mini_rt);
-void	print_mini_rt(t_mini_rt mini_rt);
+void	print_mini_rt(t_mini_rt *mini_rt);
 void	clean_exit(t_mini_rt *mini_rt, int exit_code);
 
 // MATH

@@ -13,7 +13,7 @@ P_INC = inc/
 P_LIBFT = ../libft/
 # --- SRC ---
 
-SRC = add_element.c clear_vector.c grow_vector.c
+SRC = add_element.c clear_vector.c grow_vector.c create_vector.c
 
 # --- RULES ---
 

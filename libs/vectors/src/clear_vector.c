@@ -15,9 +15,12 @@
 
 void	clear_vector(t_vector **vec)
 {
-	if ((*vec)->array)
+	if (!vec)
+		return;
+	if (*vec && (*vec)->array)
 	{
-		(*vec)->clear_array((*vec));
+		if ((*vec)->clear_array)
+			(*vec)->clear_array((*vec));
 		free((*vec)->array);
 		(*vec)->array = (void *)0;
 	}

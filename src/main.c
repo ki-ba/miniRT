@@ -18,6 +18,8 @@
 
 #include <fcntl.h>
 
+t_object	*get_ith_element(t_vector *vector, size_t	index); //TODO: remove
+
 void	set_vec3_color(t_mini_rt *mini_rt, t_vec3 vp_point)
 {
 	t_vec3	ray;
@@ -33,7 +35,7 @@ void	set_vec3_color(t_mini_rt *mini_rt, t_vec3 vp_point)
 	* @returns -1 otherwise.
 	* NOTE: is -1 advisable? What other value could mean no intersection?
 */
-int	check_intersect_sphere(t_camera cam, t_sphere *sp, t_ray ray)
+int	check_intersect_sphere(t_camera cam, t_object *sp, t_ray ray)
 {
 	t_vec3		oc;
 	double		b;
@@ -59,16 +61,6 @@ int	check_intersect_sphere(t_camera cam, t_sphere *sp, t_ray ray)
 	return (0);
 }
 
-void	*get_inner_shape(t_list *shape)
-{
-	if (!shape)
-		return (NULL);
-	if (!shape->content)
-		return (NULL);
-	if (!((t_shape *)shape->content)->shape)
-		return (NULL);
-	return (((t_shape *)shape->content)->shape);
-}
 
 /**
 	* @brief takes a ray as param and loops through every object
@@ -78,30 +70,27 @@ void	*get_inner_shape(t_list *shape)
 */
 t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 {
-	t_list	*shapes;
-	t_inter	intersection;
-	double	nearest;
-	void	*cur_object;
-	t_color	near_color;
+	t_inter		intersection;
+	double		nearest;
+	t_object	*cur_object;
+	t_color		near_color;
+	size_t		i;
 
-	// t_sphere	*sp;
-	// sp = get_inner_shape(mini_rt->objects);
-	// printf("Checking intersection with sphere at center (%f, %f, %f) and diameter %f\n",
-	// 	sp->center.x, sp->center.y, sp->center.z, sp->diameter);
 	nearest = INFINITY;
-	shapes = mini_rt->objects;
-	while (shapes)
+	i = 0;
+	while (i < mini_rt->objects->nb_elements)
 	{
-		if (((t_shape *)shapes->content)->type == SPHERE)
+		cur_object = get_ith_element(mini_rt->objects, i);
+		if (cur_object->type == SPHERE)
 		{
-			cur_object = get_inner_shape(shapes);
-			nearest = fmin(nearest, check_intersect_sphere(mini_rt->camera, (t_sphere *)cur_object, ray));
-			near_color = ((t_sphere *)cur_object)->c;
+			nearest = fmin(nearest, check_intersect_sphere(mini_rt->camera, cur_object, ray));
+			near_color = (cur_object)->color;
 		}
-		shapes = shapes->next;
+		++i;
 	}
 	ray.dir = (vec3_scale(&ray.dir, nearest));
-	intersection.p = *(t_vec3*)&ray.dir;
+	intersection.t = nearest;
+	intersection.p = *(t_vec3 *)&ray.dir;
 	return (intersection);
 }
 
@@ -109,7 +98,7 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 	* @brief for a given point, shoots towards each light 
 	* @brief and calculates the color of the point.
 */
-t_color	determine_color(t_vec3 ip, t_color ic, t_list *lights, t_list *objects)
+t_color	determine_color(t_vec3 ip, t_color ic, t_vector *lights, t_vector *objects)
 {
 	/* for every light, determine a vector from intersection to the light.
 		If the vector finds any object, discard said light.
@@ -159,7 +148,7 @@ int	check_properties(t_mini_rt *mini_rt)
 		write(2, MISSING_PROPERTY_MSG, ft_strlen(MISSING_PROPERTY_MSG));
 		return (GENERIC_ERR);
 	}
-	if (ft_lstsize(mini_rt->lights) > 1)
+	if (mini_rt->lights->nb_elements > 1)
 	{
 		write(2, TOO_MUCH_ELEMENTS_MSG, ft_strlen(TOO_MUCH_ELEMENTS_MSG));
 		return (GENERIC_ERR);
@@ -187,7 +176,7 @@ int	main(int argc, char *argv[])
 	if (check_properties(&mini_rt))
 		clean_exit(&mini_rt, GENERIC_ERR);
 	ft_init_mlx(&mini_rt);
-	print_mini_rt(mini_rt);
+	print_mini_rt(&mini_rt);
 	shoot_rays(&mini_rt);
 	mlx_loop(mini_rt.mlx.mlx);
 	destroy_mini_rt(&mini_rt);

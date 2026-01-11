@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "vectors.h"
+#include "libft.h"
 
 t_vector	*create_vector(size_t capacity, size_t datatype_size,
 		void (*clear_array)(t_vector *))

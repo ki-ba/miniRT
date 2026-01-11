@@ -10,118 +10,75 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "miniRT.h"
 #include "parsing.h"
 #include "objects.h"
 #include <unistd.h>
 
-void	destroy_shape(void *shape)
+int	create_plane(void *plane, char **specs)
 {
-	free(((t_shape *)shape)->shape);
-	free(((t_shape *)shape));
-}
+	t_object	*c_plane;
 
-t_plane	*create_plane(char **specs)
-{
-	t_plane	*plane;
-
+	c_plane = (t_object *)plane;
 	if (arr_len(specs) < 4)
-		return (NULL);
-	plane = ft_calloc(1, sizeof(t_plane));
-	if (!plane)
-		return (NULL);
-	if (read_point(&plane->p, specs[1]) || read_color(&plane->c, specs[3]))
-	{
-		free(plane);
-		return (NULL);
-	}
-	if (read_normalized_vec(&plane->normal, specs[2]))
-	{
-		free(plane);
-		return (NULL);
-	}
-	return (plane);
+		return (INVALID_VALUE_ERR);
+	if (read_point(&c_plane->point, specs[1]) || read_color(&c_plane->color, specs[3]))
+		return (INVALID_VALUE_ERR);
+	if (read_normalized_vec(&c_plane->normal, specs[2]))
+		return (VECTOR_NOT_NORMALIZED_ERR);
+	return (0);
 }
 
-t_cylinder	*create_cylinder(char **specs)
+int	create_cylinder(void *cyl, char **specs)
 {
-	t_cylinder	*cyl;
 	char		*n;
 	char		*n2;
+	t_object	*c_cyl;
 
+	c_cyl = (t_object *)cyl;
 	if (arr_len(specs) < 6)
-		return (NULL);
-	cyl = ft_calloc(1, sizeof(t_cylinder));
-	if (!cyl || read_normalized_vec(&cyl->normal, specs[2]))
-	{
-		free(cyl);
-		return (NULL);
-	}
-	if (read_point(&cyl->center, specs[1]) || read_color(&cyl->c, specs[5]))
-	{
-		free(cyl);
-		return (NULL);
-	}
-	cyl->diameter = ft_strtod(specs[3], &n);
-	cyl->height = ft_strtod(specs[4], &n2);
+		return (INVALID_VALUE_ERR);
+	if (!cyl || read_normalized_vec(&c_cyl->normal, specs[2]))
+		return (INVALID_VALUE_ERR);
+	if (read_point(&c_cyl->center, specs[1]) || read_color(&c_cyl->color, specs[5]))
+		return (INVALID_VALUE_ERR);
+	c_cyl->diameter = ft_strtod(specs[3], &n);
+	c_cyl->height = ft_strtod(specs[4], &n2);
 	if (*n != '\0' || *n2 != '\0')
-	{
-		free(cyl);
-		return (NULL);
-	}
-	return (cyl);
+		return (INVALID_VALUE_ERR);
+	return (0);
 }
 
-t_sphere	*create_sphere(char **specs)
+int	create_sphere(void *sp, char **specs)
 {
-	t_sphere	*sp;
 	char		*n;
+	t_object	*c_sp;
 
+	c_sp = (t_object *)sp;
 	if (arr_len(specs) < 4)
-		return (NULL);
-	sp = ft_calloc(1, sizeof(t_sphere));
-	if (!sp)
-		return (NULL);
-	if (read_point(&sp->center, specs[1]) || read_color(&sp->c, specs[3]))
-	{
-		free(sp);
-		return (NULL);
-	}
-	sp->diameter = ft_strtod(specs[2], &n);
+		return (INVALID_VALUE_ERR);
+	if (read_point(&c_sp->center, specs[1]) || read_color(&c_sp->color, specs[3]))
+		return (INVALID_VALUE_ERR);
+	c_sp->diameter = ft_strtod(specs[2], &n);
 	if (*n != '\0')
-	{
-		free(sp);
-		return (NULL);
-	}
-	return (sp);
+		return (INVALID_VALUE_ERR);
+	return (0);
 }
 
-t_light	*create_light(char **specs)
+int	create_light(void *light, char **specs)
 {
-	t_light	*light;
-	char	*n;
+	char		*n;
+	t_light		*c_light;
 
+	c_light = (t_light *)light;
 	if (arr_len(specs) < 4)
-		return (NULL);
-	light = ft_calloc(1, sizeof(t_light));
-	if (!light)
-		return (NULL);
-	if (read_color(&light->color, specs[3]))
-	{
-		free(light);
-		return (NULL);
-	}
-	if (read_point(&light->origin, specs[1]))
-	{
-		free(light);
-		return (NULL);
-	}
-	light->intensity = ft_strtod(specs[2], &n);
-	if (*n != '\0' || light->intensity < 0.0 || light->intensity > 1.0)
-	{
-		free(light);
-		return (NULL);
-	}
-	return (light);
+		return (INVALID_VALUE_ERR);
+	if (read_color(&c_light->color, specs[3]))
+		return (INVALID_VALUE_ERR);
+	if (read_point(&c_light->origin, specs[1]))
+		return (INVALID_VALUE_ERR);
+	c_light->intensity = ft_strtod(specs[2], &n);
+	if (*n != '\0' || c_light->intensity < 0.0 || c_light->intensity > 1.0)
+		return (INVALID_VALUE_ERR);
+	return (0);
 }
