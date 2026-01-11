@@ -22,9 +22,9 @@
 	* @returns -1 otherwise.
 	* NOTE: is -1 advisable? What other value could mean no intersection?
 */
-double	check_intersect_sphere(t_sphere *sp, t_ray ray)
+double	check_intersect_sphere(t_object *sp, t_ray ray)
 {
-	t_point		oc;
+	t_vec3		oc;
 	double		a;
 	double		b;
 	double		c;
@@ -32,7 +32,6 @@ double	check_intersect_sphere(t_sphere *sp, t_ray ray)
 	oc.x = ray.origin.x - sp->center.x;
 	oc.y = ray.origin.y - sp->center.y;
 	oc.z = ray.origin.z - sp->center.z;
-
 	a = vec3_dot(ray.dir, ray.dir);
 	double half_b = vec3_dot(ray.dir, *(t_vec3 *)&oc);
 	b = 2.0 * half_b;
@@ -52,17 +51,6 @@ double	check_intersect_sphere(t_sphere *sp, t_ray ray)
 	return (0);
 }
 
-void	*get_inner_shape(t_list *shape)
-{
-	if (!shape)
-		return (NULL);
-	if (!shape->content)
-		return (NULL);
-	if (!((t_shape *)shape->content)->shape)
-		return (NULL);
-	return (((t_shape *)shape->content)->shape);
-}
-
 /**
 	* @brief takes a ray as param and loops through every object
 	* @brief to determine the nearest intersection.
@@ -71,17 +59,14 @@ void	*get_inner_shape(t_list *shape)
 */
 t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 {
-	t_list	*shapes;
-	t_inter	intersection = (t_inter){0};
-	double	nearest;
-	void	*cur_object;
-	t_color	near_color = (t_color){0};
+	t_inter		intersection = (t_inter){0};
+	double		nearest;
+	t_object	*cur_object;
+	t_color		near_color = (t_color){0};
 
 	nearest = INFINITY;
-	shapes = mini_rt->objects;
 	while (shapes)
 	{
-		cur_object = get_inner_shape(shapes);
 		if (((t_shape *)shapes->content)->type == SPHERE)
 		{
 			double t = check_intersect_sphere((t_sphere *)cur_object, ray);
@@ -95,7 +80,7 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 		shapes = shapes->next;
 	}
 	ray.dir = (vec3_scale(ray.dir, nearest));
-	intersection.p = *(t_point*)&ray.dir;
+	intersection.p = *(t_vec3*)&ray.dir;
 	intersection.c = near_color;
 	intersection.t = nearest;
 	if (nearest > 0.0)
@@ -111,7 +96,7 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 	* @brief for a given point, shoots towards each light 
 	* @brief and calculates the color of the point.
 */
-t_color	determine_color(t_point ip, t_color ic, t_list *lights, t_list *objects)
+t_color	determine_color(t_vec3 ip, t_color ic, t_list *lights, t_list *objects)
 {
 	/* for every light, determine a vector from intersection to the light.
 		If the vector finds any object, discard said light.
