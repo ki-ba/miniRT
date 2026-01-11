@@ -69,9 +69,15 @@ static inline double	check_intersect_cylinder(t_object *cy, t_ray ray)
 	a = 1 - vec3_dot(ray.dir, cy->n) * vec3_dot(ray.dir, cy->n);
 	b = (2 * vec3_dot(ray.dir, vec3_substract(ray.ori, cy->center))) - (vec3_dot(ray.dir, cy->n) * vec3_dot(cy->n, vec3_substract(ray.ori, cy->center)));
 	c = vec3_dot(vec3_substract(ray.ori, cy->center), vec3_substract(ray.ori, cy->center)) - (vec3_dot(cy->n, vec3_substract(ray.ori, cy->center)) * vec3_dot(cy->n, vec3_substract(ray.ori, cy->center))) - cy->diam / 2;
-	if (resolve_eq2(a, b, c, &root))
-		return (root);
-	return (0);
+	resolve_eq2(a, b, c, &root);
+	if (!root)
+		return (0);
+	t_vec3	p = vec3_add(ray.ori, vec3_scale(ray.dir, root));
+	double res = vec3_dot(vec3_substract(p, cy->center), cy->n);
+	if (res < -(cy->h / 2) || res > (cy->h / 2) )
+		return (0);
+	return (root);
+
 }
 
 /**
