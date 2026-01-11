@@ -12,6 +12,7 @@
 
 #include "libft.h"
 #include "miniRT.h"
+#include "vec3.h"
 #include "parsing.h"
 #include <math.h>
 
@@ -117,10 +118,14 @@ int	read_normalized_vec(t_vec3 *v, char *string)
 	}
 	array_status = fill_double_array((double *[]){&v->x, &v->y, &v->z}, arr, 3);
 	ft_free_arr(arr);
-	if (array_status != SUCCESS || is_normalized(*v) == FALSE)
+	if (array_status != SUCCESS)
 	{
-		write(2, VECTOR_NOT_NORMALIZED, ft_strlen(VECTOR_NOT_NORMALIZED));
+		// write(2, VECTOR_NOT_NORMALIZED, ft_strlen(VECTOR_NOT_NORMALIZED));
 		return (INVALID_VALUE_ERR);
+	}
+	else if (is_normalized(*v) == FALSE)
+	{
+		*v = vec3_normalize(*v);
 	}
 	return (SUCCESS);
 }
