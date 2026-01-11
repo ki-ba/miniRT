@@ -38,7 +38,6 @@ double	check_intersect_sphere(t_object *sp, t_ray ray)
 	a = vec3_dot(ray.dir, ray.dir);
 	b = 2 * vec3_dot(ray.dir, oc);
 	c = vec3_dot(oc, oc) - (sp->diameter / 2) * (sp->diameter / 2);
-	// Return nearest VALID hit (avoid self-intersection)
 	if (resolve_eq2(a, b, c, &root))
 		return (root);
 	return (0);
@@ -49,50 +48,14 @@ double	check_intersect_sphere(t_object *sp, t_ray ray)
 	* @returns -1 otherwise.
 	* NOTE: is -1 advisable? What other value could mean no intersection?
 */
-double	check_intersect_plane(t_plane *pl, t_ray ray)
-{
-	double	t;
+// double	check_intersect_plane(t_plane *pl, t_ray ray)
+// {
+// 	double	t;
+//
+// 	t = vec3_dot(vec3_substract(*(t_vec3 *)&pl->p, *(t_vec3 *)&ray.origin), pl->normal) / vec3_dot(ray.dir, pl->normal);
+// 	return (t);
+// }
 
-	t = vec3_dot(vec3_substract(*(t_vec3 *)&pl->p, *(t_vec3 *)&ray.origin), pl->normal) / vec3_dot(ray.dir, pl->normal);
-	return (t);
-}
-
-
-/**
-	* @brief takes a ray and a sphere and determines where the point where meet if they do.
-	* @returns the value of t in the ray that intersects the sphere if it does,
-	* @returns -1 otherwise.
-	* NOTE: is -1 advisable? What other value could mean no intersection?
-*/
-double	check_intersect_sphere(t_sphere *sp, t_ray ray)
-{
-	const double	r = sp->diameter / 2;
-	t_point			oc;
-	double			a;
-	double			b;
-	double			c;
-
-	oc.x = ray.origin.x - sp->center.x;
-	oc.y = ray.origin.y - sp->center.y;
-	oc.z = ray.origin.z - sp->center.z;
-
-	a = vec3_dot(ray.dir, ray.dir);
-	double half_b = vec3_dot(ray.dir, *(t_vec3 *)&oc);
-	b = 2.0 * half_b;
-	c = vec3_dot(*(t_vec3 *)&oc, *(t_vec3 *)&oc) - r * r;
-	double disc = b * b - 4 * a * c;
-	if (disc < 0)
-		return (0);
-	double sqrtd = sqrt(disc);
-	double t1 = (-half_b - sqrtd) / (2 * a);
-	double t2 = (-half_b + sqrtd) / (2 * a);
-
-	if (t1 > 0.001)
-		return (t1);
-	if (t2 > 0.001)
-		return (t2);
-	return (0);
-}
 
 /**
 	* @brief takes a ray as param and loops through every object
@@ -170,11 +133,8 @@ void	shoot_rays(t_mini_rt *mini_rt)
 
 	temp_ray = (t_ray){mini_rt->cam.origin, (t_vec3){0}};
 	y = 0;
-<<<<<<< HEAD
 	init_vp(&vp, &mini_rt->cam);
-=======
 	// print_mini_rt(*mini_rt);
->>>>>>> feat/cylinder_intersection
 	while (y < HEIGHT)
 	{
 		x = 0;

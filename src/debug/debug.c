@@ -86,7 +86,7 @@ void	print_item_lst(t_vector *objects)
 
 	i = 0;
 	printf("[START]\n");
-	while (i < objects->nb_elements && i < 2)
+	while (i < objects->nb_elements)
 	{
 		obj = get_ith_element(objects, i);
 		if (!obj)
