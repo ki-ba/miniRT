@@ -31,9 +31,9 @@ int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 	else if (keysym == 115)
 		mini_rt->cam.ori.y -= step;
 	else if (keysym == 100)
-		mini_rt->cam.ori.x += step;
-	else if (keysym == 97)
 		mini_rt->cam.ori.x -= step;
+	else if (keysym == 97)
+		mini_rt->cam.ori.x += step;
 	else if (keysym == 65362)
 		mini_rt->cam.ori.z += step;
 	else if (keysym == 65364)

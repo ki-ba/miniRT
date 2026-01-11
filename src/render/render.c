@@ -24,7 +24,7 @@ t_object	*get_ith_element(t_vector *vector, size_t	index); //TODO: remove
 	* @returns -1 otherwise.
 	* NOTE: is -1 advisable? What other value could mean no intersection?
 */
-double	check_intersect_sphere(t_object *sp, t_ray ray)
+static double	check_intersect_sphere(t_object *sp, t_ray ray)
 {
 	t_vec3		oc;
 	double		a;
@@ -48,13 +48,10 @@ double	check_intersect_sphere(t_object *sp, t_ray ray)
 	* @returns -1 otherwise.
 	* NOTE: is -1 advisable? What other value could mean no intersection?
 */
-// double	check_intersect_plane(t_plane *pl, t_ray ray)
-// {
-// 	double	t;
-//
-// 	t = vec3_dot(vec3_substract(*(t_vec3 *)&pl->p, *(t_vec3 *)&ray.origin), pl->normal) / vec3_dot(ray.dir, pl->normal);
-// 	return (t);
-// }
+static inline double	check_intersect_plane(t_object *pl, t_ray ray)
+{
+	return (vec3_dot(vec3_substract(*(t_vec3 *)&pl->p, *(t_vec3 *)&ray.ori), pl->n) / vec3_dot(ray.dir, pl->n));
+}
 
 
 /**
@@ -63,7 +60,7 @@ double	check_intersect_sphere(t_object *sp, t_ray ray)
 	* @return the value of t where the ray intersects the object closest to it,
 	* @return -1 if it doesn't intersect any.
 */
-t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
+static t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 {
 	t_inter		inter;
 	t_object	*cur_object;
@@ -85,6 +82,15 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 				inter.c = (cur_object)->c;
 			}
 		}
+		else if (cur_object->type == PLANE)
+		{
+			t = check_intersect_plane(cur_object, ray);
+			if (t > 0.0 && t < inter.t)
+			{
+				inter.t = t;
+				inter.c = (cur_object)->c;
+			}
+		}
 		++i;
 	}
 	if (inter.t < INFINITY)
@@ -97,7 +103,7 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 	* @brief If the vector finds any object, discard said light.
 	* @brief It does not enlighten the intersection point.*/
 
-t_color	determine_color(t_vec3 ip, t_color ic, t_vector *lights, t_vector *objects)
+static t_color	get_color(t_vec3 ip, t_color ic, t_vector *lights, t_vector *objects)
 {
 	(void)ip;
 	(void)ic;
@@ -106,7 +112,7 @@ t_color	determine_color(t_vec3 ip, t_color ic, t_vector *lights, t_vector *objec
 	return (ic);
 }
 
-void	init_vp(t_viewport *vp, t_camera *cam)
+static void	init_vp(t_viewport *vp, t_camera *cam)
 {
 	vp->hrz = vec3_scale(cam->right, cam->vp_width);
 	vp->vrt = vec3_scale(cam->up, cam->vp_height);
@@ -146,7 +152,7 @@ void	shoot_rays(t_mini_rt *mini_rt)
 			temp_ray.dir = vec3_normalize(vec3_substract(p, mini_rt->cam.ori));
 			inter = check_intersect_obj(mini_rt, temp_ray);
 			if (inter.t > 0 && inter.t != INFINITY)
-				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, determine_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);
+				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, get_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);
 			else
 				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, mini_rt->amb.c.trgb);
 			++x;

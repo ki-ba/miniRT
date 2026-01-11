@@ -17,9 +17,9 @@
 #include "libft.h"
 #include "objects.h"
 
-double	check_intersect_sphere(t_object *sp, t_ray ray);
-t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray);
-t_color	determine_color(t_vec3 ip, t_color ic, t_vector *lights, t_vector *objects);
+// double	check_intersect_sphere(t_object *sp, t_ray ray);
+// t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray);
+// t_color	determine_color(t_vec3 ip, t_color ic, t_vector *lights, t_vector *objects);
 void	shoot_rays(t_mini_rt *mini_rt);
 
 #endif
