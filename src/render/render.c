@@ -53,6 +53,26 @@ static inline double	check_intersect_plane(t_object *pl, t_ray ray)
 	return (vec3_dot(vec3_substract(*(t_vec3 *)&pl->p, *(t_vec3 *)&ray.ori), pl->n) / vec3_dot(ray.dir, pl->n));
 }
 
+/**
+	* @brief takes a ray and a cylinder and determines where the point where meet if they do.
+	* @returns the value of t in the ray that intersects the cylinder if it does,
+	* @returns -1 otherwise.
+	* NOTE: is -1 advisable? What other value could mean no intersection?
+*/
+static inline double	check_intersect_cylinder(t_object *cy, t_ray ray)
+{
+	double	root;
+	double	a = 0;//1 - (Ca • Rd)^2)Hd^2;
+	double	b = 0;//2((Rd • Rl) - (Ca • Rd)(Ca • Rl));
+	double	c = 0;//(Rl • Rl) - (Ca • Rl)^2 - Cr^2;
+
+	a = 1 - vec3_dot(ray.dir, cy->n) * vec3_dot(ray.dir, cy->n);
+	b = (2 * vec3_dot(ray.dir, vec3_substract(ray.ori, cy->center))) - (vec3_dot(ray.dir, cy->n) * vec3_dot(cy->n, vec3_substract(ray.ori, cy->center)));
+	c = vec3_dot(vec3_substract(ray.ori, cy->center), vec3_substract(ray.ori, cy->center)) - (vec3_dot(cy->n, vec3_substract(ray.ori, cy->center)) * vec3_dot(cy->n, vec3_substract(ray.ori, cy->center))) - cy->diam / 2;
+	if (resolve_eq2(a, b, c, &root))
+		return (root);
+	return (0);
+}
 
 /**
 	* @brief takes a ray as param and loops through every object
@@ -85,6 +105,15 @@ static t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 		else if (cur_object->type == PLANE)
 		{
 			t = check_intersect_plane(cur_object, ray);
+			if (t > 0.0 && t < inter.t)
+			{
+				inter.t = t;
+				inter.c = (cur_object)->c;
+			}
+		}
+		else if (cur_object->type == CYLINDER)
+		{
+			t = check_intersect_cylinder(cur_object, ray);
 			if (t > 0.0 && t < inter.t)
 			{
 				inter.t = t;
