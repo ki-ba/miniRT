@@ -27,25 +27,25 @@ int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 	if (keysym == 65307 || keysym == 113)
 		clean_exit(mini_rt, SUCCESS);
 	else if (keysym == 119)
-		mini_rt->camera.origin.y += step;
+		mini_rt->cam.origin.y += step;
 	else if (keysym == 115)
-		mini_rt->camera.origin.y -= step;
+		mini_rt->cam.origin.y -= step;
 	else if (keysym == 100)
-		mini_rt->camera.origin.x += step;
+		mini_rt->cam.origin.x += step;
 	else if (keysym == 97)
-		mini_rt->camera.origin.x -= step;
+		mini_rt->cam.origin.x -= step;
 	else if (keysym == 65362)
-		mini_rt->camera.origin.z += step;
+		mini_rt->cam.origin.z += step;
 	else if (keysym == 65364)
-		mini_rt->camera.origin.z -= step;
+		mini_rt->cam.origin.z -= step;
 	else if (keysym == 114)
 	{
-		mini_rt->camera.origin.x = 0;
-		mini_rt->camera.origin.y = 0;
-		mini_rt->camera.origin.z = 0;
+		mini_rt->cam.origin.x = 0;
+		mini_rt->cam.origin.y = 0;
+		mini_rt->cam.origin.z = 0;
 	}
 	// printf("Key pressed: %d\n", keysym);
-	// printf("Camera position: x=%f, y=%f, z=%f\n", mini_rt->camera.origin.x, mini_rt->camera.origin.y, mini_rt->camera.origin.z);
+	// printf("Camera position: x=%f, y=%f, z=%f\n", mini_rt->cam.origin.x, mini_rt->cam.origin.y, mini_rt->cam.origin.z);
 	shoot_rays(mini_rt);
 	return (0);
 }

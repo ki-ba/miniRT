@@ -28,5 +28,6 @@ void	print_vector(char *name, t_vec3 vector);
 // DEBUG
 
 void	print_item_lst(t_vector *objects);
+void	print_lights(t_vector *lights);
 void	print_cylinder(t_object obj);
 #endif

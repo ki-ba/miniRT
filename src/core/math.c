@@ -13,8 +13,6 @@
 #include "core.h"
 #include <math.h>
 
-
-
 /**
 *	@brief Resolve a quadratic equation of the form ax^2 + bx + c = 0
 *	@param a Coefficient of x^2
@@ -25,7 +23,7 @@
 */
 t_bool	resolve_eq2(double a, double b, double c, double *root)
 {
-	double discriminant;
+	double	discriminant;
 
 	// printf("Resolving equation %fx^2 + %fx + %f = 0\n", a, b, c);
 	*root = 0;
@@ -36,7 +34,7 @@ t_bool	resolve_eq2(double a, double b, double c, double *root)
 		return (FALSE);
 	else
 		*root = (-b - sqrt(discriminant)) / (2 * a);
-	if (*root < 0)
+	if (*root < 0.001)
 		*root = (-b + sqrt(discriminant)) / (2 * a);
 	return (TRUE);
 }

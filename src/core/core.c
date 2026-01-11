@@ -37,15 +37,15 @@ void	init_mini_rt(t_mini_rt *mini_rt)
 	mini_rt->mlx.img = (t_data){0};
 	mini_rt->lights = create_vector(1, sizeof(t_light), NULL);
 	mini_rt->objects = create_vector(1, sizeof(t_object), NULL);
-	mini_rt->camera = (t_camera){0};
-	mini_rt->ambient_light = (t_ambient){0};
+	mini_rt->cam = (t_camera){0};
+	mini_rt->amb = (t_ambient){0};
 }
 
 void	print_mini_rt(t_mini_rt *mini_rt)
 {
 	print_properties(*mini_rt);
 	print_item_lst(mini_rt->objects);
-	print_item_lst(mini_rt->lights);
+	print_lights(mini_rt->lights);
 }
 
 void	clean_exit(t_mini_rt *mini_rt, int exit_code)

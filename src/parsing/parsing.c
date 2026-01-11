@@ -48,41 +48,41 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 	t_vec3			tmp;
 	char			*n;
 
-	if (mini_rt->camera.is_defined)
+	if (mini_rt->cam.is_defined)
 		return (TOO_MUCH_ELEMENTS_ERR);
-	mini_rt->camera.is_defined = TRUE;
+	mini_rt->cam.is_defined = TRUE;
 	if (arr_len(property) < 4)
 		return (GENERIC_ERR);
-	if (read_point(&mini_rt->camera.origin, property[1]))
+	if (read_point(&mini_rt->cam.origin, property[1]))
 		return (GENERIC_ERR);
-	if (read_normalized_vec(&mini_rt->camera.dir, property[2]))
+	if (read_normalized_vec(&mini_rt->cam.dir, property[2]))
 		return (GENERIC_ERR);
-	mini_rt->camera.fov = deg_to_rad(ft_strtod(property[3], &n));
+	mini_rt->cam.fov = deg_to_rad(ft_strtod(property[3], &n));
 	world_up = (t_vec3) {0, 1, 0};
-	if (fabs(vec3_dot(mini_rt->camera.dir, world_up)) > 0.999)
+	if (fabs(vec3_dot(mini_rt->cam.dir, world_up)) > 0.999)
 		world_up = (t_vec3){0,0,1};
-	tmp = vec3_cross(mini_rt->camera.dir, world_up);
-	mini_rt->camera.right = vec3_normalize(tmp);
-	mini_rt->camera.up = vec3_cross(mini_rt->camera.dir, mini_rt->camera.right);
-	mini_rt->camera.vp_width = 2 * tan(mini_rt->camera.fov / 2) * VP_DISTANCE;
-	mini_rt->camera.vp_height = mini_rt->camera.vp_width / aspect_ratio;
+	tmp = vec3_cross(mini_rt->cam.dir, world_up);
+	mini_rt->cam.right = vec3_normalize(tmp);
+	mini_rt->cam.up = vec3_cross(mini_rt->cam.dir, mini_rt->cam.right);
+	mini_rt->cam.vp_width = 2 * tan(mini_rt->cam.fov / 2) * VP_DISTANCE;
+	mini_rt->cam.vp_height = mini_rt->cam.vp_width / aspect_ratio;
 	return (*n != '\0');
 }
 
-int	set_ambient_light(t_mini_rt *mini_rt, char **property)
+int	set_amb(t_mini_rt *mini_rt, char **property)
 {
 	char	*n;
 
-	if (mini_rt->ambient_light.is_defined)
+	if (mini_rt->amb.is_defined)
 		return (TOO_MUCH_ELEMENTS_ERR);
-	mini_rt->ambient_light.is_defined = TRUE;
+	mini_rt->amb.is_defined = TRUE;
 	if (arr_len(property) < 3)
 		return (GENERIC_ERR);
-	if (read_color(&mini_rt->ambient_light.color, property[2]))
+	if (read_color(&mini_rt->amb.color, property[2]))
 		return (GENERIC_ERR);
-	mini_rt->ambient_light.intensity = ft_strtod(property[1], &n);
-	if (*n != '\0' || mini_rt->ambient_light.intensity < 0.0
-		|| mini_rt->ambient_light.intensity > 1.0)
+	mini_rt->amb.intensity = ft_strtod(property[1], &n);
+	if (*n != '\0' || mini_rt->amb.intensity < 0.0
+		|| mini_rt->amb.intensity > 1.0)
 		return (GENERIC_ERR);
 	return (0);
 }
@@ -101,7 +101,7 @@ int	set_property(t_mini_rt *mini_rt, char **property)
 	if (!ft_strncmp(property[0], CAMERA_ID, ft_strlen(CAMERA_ID) + 1))
 		status = (set_camera(mini_rt, property));
 	else if (!ft_strncmp(property[0], AMBIENT_ID, ft_strlen(AMBIENT_ID) + 1))
-		status = (set_ambient_light(mini_rt, property));
+		status = (set_amb(mini_rt, property));
 	if (status == TOO_MUCH_ELEMENTS_ERR)
 		write(2, TOO_MUCH_ELEMENTS_MSG, ft_strlen(TOO_MUCH_ELEMENTS_MSG));
 	return (status);

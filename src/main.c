@@ -20,7 +20,7 @@
 
 int	check_properties(t_mini_rt *mini_rt)
 {
-	if (!mini_rt->camera.is_defined || !mini_rt->ambient_light.is_defined)
+	if (!mini_rt->cam.is_defined || !mini_rt->cam.is_defined)
 	{
 		write(2, MISSING_PROPERTY_MSG, ft_strlen(MISSING_PROPERTY_MSG));
 		return (GENERIC_ERR);

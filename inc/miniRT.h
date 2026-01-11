@@ -19,8 +19,8 @@
 # include "graphics.h"
 # include <stdint.h>
 
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 1920
+# define HEIGHT 1080
 # define FOV 1.22173
 
 # define VP_DISTANCE 1
@@ -47,6 +47,7 @@ typedef struct s_ambient	t_ambient;
 typedef struct s_camera		t_camera;
 typedef struct s_mini_rt	t_mini_rt;
 typedef struct s_inter		t_inter;
+typedef struct s_viewport	t_viewport;
 
 union u_color
 {
@@ -102,12 +103,20 @@ struct s_camera
 	double	fov;
 };
 
+struct s_viewport
+{
+	t_vec3	lower_left;
+	t_vec3	hrz;
+	t_vec3	vrt;
+	double	delta_u;
+	double	delta_v;
+};
 struct s_mini_rt
 {
 	t_vector	*objects;
 	t_vector	*lights;
-	t_camera	camera;
-	t_ambient	ambient_light;
+	t_camera	cam;
+	t_ambient	amb;
 	t_mlx		mlx;
 };
 

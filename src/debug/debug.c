@@ -6,15 +6,15 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:35:49 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/11 12:00:25 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/11 12:00:23 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "debug.h"
 #include "objects.h"
+#include "vectors.h"
 
-t_object	*get_ith_element(t_vector *vector, size_t	index)
+t_object	*get_ith_element(t_vector *vector, size_t index)
 {
 	t_object	*array;
 
@@ -72,6 +72,7 @@ void	print_obj(t_object obj)
 
 void	print_light(t_light l)
 {
+
 	printf("LIGHT\n");
 	print_vec3("origin", l.origin);
 	print_color("color", l.color);
@@ -80,20 +81,44 @@ void	print_light(t_light l)
 
 void	print_item_lst(t_vector *objects)
 {
-	size_t			i;
-	t_object		*obj;
+	size_t		i;
+	t_object	*obj;
 
 	i = 0;
 	printf("[START]\n");
-	while (i < objects->nb_elements)
+	while (i < objects->nb_elements && i < 2)
 	{
 		obj = get_ith_element(objects, i);
-		if (obj->type == LIGHT)
-			print_light(*(t_light *)obj);
-		else
-			print_obj(*obj);
+		if (!obj)
+		{
+			printf("Error retrieving object at index %zu\n", i);
+			return ;
+		}
+		print_obj(*obj);
 		printf("\n\n");
 		++i;
 	}
 	printf("[END]\n\n\n");
+}
+
+void print_lights(t_vector *lights)
+{
+	size_t	i;
+	t_light	*light;
+
+	i = 0;
+	printf("----- LIGHTS LIST -----\n");
+	while (i < lights->nb_elements)
+	{
+		light = (t_light *)get_ith_element(lights, i);
+		if (!light)
+		{
+			printf("Error retrieving light at index %zu\n", i);
+			return ;
+		}
+		print_light(*light);
+		printf("\n");
+		++i;
+	}
+	printf("----- END OF LIGHTS LIST -----\n\n");
 }
