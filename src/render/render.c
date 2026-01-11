@@ -32,12 +32,12 @@ double	check_intersect_sphere(t_object *sp, t_ray ray)
 	double		c;
 	double		root;
 
-	oc.x = ray.origin.x - sp->center.x;
-	oc.y = ray.origin.y - sp->center.y;
-	oc.z = ray.origin.z - sp->center.z;
+	oc.x = ray.ori.x - sp->center.x;
+	oc.y = ray.ori.y - sp->center.y;
+	oc.z = ray.ori.z - sp->center.z;
 	a = vec3_dot(ray.dir, ray.dir);
 	b = 2 * vec3_dot(ray.dir, oc);
-	c = vec3_dot(oc, oc) - (sp->diameter / 2) * (sp->diameter / 2);
+	c = vec3_dot(oc, oc) - (sp->diam / 2) * (sp->diam / 2);
 	if (resolve_eq2(a, b, c, &root))
 		return (root);
 	return (0);
@@ -82,13 +82,13 @@ t_inter	check_intersect_obj(t_mini_rt *mini_rt, t_ray ray)
 			if (t > 0.0 && t < inter.t)
 			{
 				inter.t = t;
-				inter.c = (cur_object)->color;
+				inter.c = (cur_object)->c;
 			}
 		}
 		++i;
 	}
 	if (inter.t < INFINITY)
-		inter.p = vec3_add(ray.origin, vec3_scale(ray.dir, inter.t));
+		inter.p = vec3_add(ray.ori, vec3_scale(ray.dir, inter.t));
 	return (inter);
 }
 
@@ -110,7 +110,7 @@ void	init_vp(t_viewport *vp, t_camera *cam)
 {
 	vp->hrz = vec3_scale(cam->right, cam->vp_width);
 	vp->vrt = vec3_scale(cam->up, cam->vp_height);
-	vp->lower_left = vec3_add((cam->origin), cam->dir);
+	vp->lower_left = vec3_add((cam->ori), cam->dir);
 	vp->lower_left = vec3_substract(vp->lower_left, vec3_scale(vp->hrz, 0.5));
 	vp->lower_left = vec3_substract(vp->lower_left, vec3_scale(vp->vrt, 0.5));
 }
@@ -131,10 +131,9 @@ void	shoot_rays(t_mini_rt *mini_rt)
 	int			x;
 	int			y;
 
-	temp_ray = (t_ray){mini_rt->cam.origin, (t_vec3){0}};
+	temp_ray = (t_ray){mini_rt->cam.ori, (t_vec3){0}};
 	y = 0;
 	init_vp(&vp, &mini_rt->cam);
-	// print_mini_rt(*mini_rt);
 	while (y < HEIGHT)
 	{
 		x = 0;
@@ -143,13 +142,13 @@ void	shoot_rays(t_mini_rt *mini_rt)
 			h_offset = vec3_scale(vp.hrz, (x + 0.5) / WIDTH);
 			v_offset = vec3_scale(vp.vrt, (y + 0.5) / HEIGHT);
 			p = vec3_add(vec3_add(vp.lower_left, h_offset), v_offset);
-			temp_ray.origin = mini_rt->cam.origin;
-			temp_ray.dir = vec3_normalize(vec3_substract(p, mini_rt->cam.origin));
+			temp_ray.ori= mini_rt->cam.ori;
+			temp_ray.dir = vec3_normalize(vec3_substract(p, mini_rt->cam.ori));
 			inter = check_intersect_obj(mini_rt, temp_ray);
 			if (inter.t > 0 && inter.t != INFINITY)
 				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, determine_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);
 			else
-				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, mini_rt->amb.color.trgb);
+				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, mini_rt->amb.c.trgb);
 			++x;
 			// mlx_put_image_to_window(mini_rt->mlx.mlx, mini_rt->mlx.win, mini_rt->mlx.img.img, 0, 0);
 		}

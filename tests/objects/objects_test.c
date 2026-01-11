@@ -23,17 +23,17 @@ void test_create_plane(void)
 
 	create_plane(plane, plane_arr);
 	TEST_ASSERT_NOT_NULL(plane);
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, plane->point.x);
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, plane->point.y);
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, plane->point.z);
+	TEST_ASSERT_EQUAL_DOUBLE(0.0, plane->p.x);
+	TEST_ASSERT_EQUAL_DOUBLE(0.0, plane->p.y);
+	TEST_ASSERT_EQUAL_DOUBLE(0.0, plane->p.z);
 
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, plane->normal.x);
-	TEST_ASSERT_EQUAL_DOUBLE(1.0, plane->normal.y);
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, plane->normal.z);
+	TEST_ASSERT_EQUAL_DOUBLE(0.0, plane->n.x);
+	TEST_ASSERT_EQUAL_DOUBLE(1.0, plane->n.y);
+	TEST_ASSERT_EQUAL_DOUBLE(0.0, plane->n.z);
 
-	TEST_ASSERT_EQUAL_UINT8(255, plane->color.r);
-	TEST_ASSERT_EQUAL_UINT8(0, plane->color.g);
-	TEST_ASSERT_EQUAL_UINT8(0, plane->color.b);
+	TEST_ASSERT_EQUAL_UINT8(255, plane->c.r);
+	TEST_ASSERT_EQUAL_UINT8(0, plane->c.g);
+	TEST_ASSERT_EQUAL_UINT8(0, plane->c.b);
 
 	free(plane);
 }
@@ -50,16 +50,16 @@ void test_create_cylinder(void)
 	TEST_ASSERT_EQUAL_DOUBLE(0.0, cylinder->center.y);
 	TEST_ASSERT_EQUAL_DOUBLE(0.0, cylinder->center.z);
 
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, cylinder->normal.x);
-	TEST_ASSERT_EQUAL_DOUBLE(1.0, cylinder->normal.y);
-	TEST_ASSERT_EQUAL_DOUBLE(0.0, cylinder->normal.z);
+	TEST_ASSERT_EQUAL_DOUBLE(0.0, cylinder->n.x);
+	TEST_ASSERT_EQUAL_DOUBLE(1.0, cylinder->n.y);
+	TEST_ASSERT_EQUAL_DOUBLE(0.0, cylinder->n.z);
 
-	TEST_ASSERT_EQUAL_DOUBLE(5.0, cylinder->diameter);
-	TEST_ASSERT_EQUAL_DOUBLE(10.0, cylinder->height);
+	TEST_ASSERT_EQUAL_DOUBLE(5.0, cylinder->diam);
+	TEST_ASSERT_EQUAL_DOUBLE(10.0, cylinder->h);
 
-	TEST_ASSERT_EQUAL_UINT8(0, cylinder->color.r);
-	TEST_ASSERT_EQUAL_UINT8(255, cylinder->color.g);
-	TEST_ASSERT_EQUAL_UINT8(0, cylinder->color.b);
+	TEST_ASSERT_EQUAL_UINT8(0, cylinder->c.r);
+	TEST_ASSERT_EQUAL_UINT8(255, cylinder->c.g);
+	TEST_ASSERT_EQUAL_UINT8(0, cylinder->c.b);
 
 	free(cylinder);
 }
@@ -76,11 +76,11 @@ void test_create_sphere(void)
 	TEST_ASSERT_EQUAL_DOUBLE(0.0, sphere->center.y);
 	TEST_ASSERT_EQUAL_DOUBLE(0.0, sphere->center.z);
 
-	TEST_ASSERT_EQUAL_DOUBLE(10.0, sphere->diameter);
+	TEST_ASSERT_EQUAL_DOUBLE(10.0, sphere->diam);
 
-	TEST_ASSERT_EQUAL_UINT8(0, sphere->color.r);
-	TEST_ASSERT_EQUAL_UINT8(0, sphere->color.g);
-	TEST_ASSERT_EQUAL_UINT8(255, sphere->color.b);
+	TEST_ASSERT_EQUAL_UINT8(0, sphere->c.r);
+	TEST_ASSERT_EQUAL_UINT8(0, sphere->c.g);
+	TEST_ASSERT_EQUAL_UINT8(255, sphere->c.b);
 
 	free(sphere);
 }
@@ -94,15 +94,15 @@ void	test_create_light(void)
 
 	create_light(light, light_arr);
 	TEST_ASSERT_NOT_NULL(light);
-	TEST_ASSERT_EQUAL_DOUBLE(10.0, light->origin.x);
-	TEST_ASSERT_EQUAL_DOUBLE(20.0, light->origin.y);
-	TEST_ASSERT_EQUAL_DOUBLE(30.0, light->origin.z);
+	TEST_ASSERT_EQUAL_DOUBLE(10.0, light->ori.x);
+	TEST_ASSERT_EQUAL_DOUBLE(20.0, light->ori.y);
+	TEST_ASSERT_EQUAL_DOUBLE(30.0, light->ori.z);
 
-	TEST_ASSERT_EQUAL_DOUBLE(0.5, light->intensity);
+	TEST_ASSERT_EQUAL_DOUBLE(0.5, light->i);
 
-	TEST_ASSERT_EQUAL_UINT8(255, light->color.r);
-	TEST_ASSERT_EQUAL_UINT8(255, light->color.g);
-	TEST_ASSERT_EQUAL_UINT8(255, light->color.b);
+	TEST_ASSERT_EQUAL_UINT8(255, light->c.r);
+	TEST_ASSERT_EQUAL_UINT8(255, light->c.g);
+	TEST_ASSERT_EQUAL_UINT8(255, light->c.b);
 
 	free(light);
 }

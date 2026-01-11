@@ -38,11 +38,11 @@ struct s_object
 {
 	t_item_type	type;
 	t_vec3		center;
-	t_vec3		normal;
-	t_vec3		point;
-	t_color		color;
-	double		diameter;
-	double		height;
+	t_vec3		n;
+	t_vec3		p;
+	t_color		c;
+	double		diam;
+	double		h;
 
 };
 

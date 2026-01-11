@@ -46,9 +46,9 @@ t_vec3	vec_to_point(t_ray ray, double t)
 {
 	t_vec3	point;
 
-	point.x = ray.origin.x + ray.dir.x * t;
-	point.y = ray.origin.y + ray.dir.y * t;
-	point.z = ray.origin.z + ray.dir.z * t;
+	point.x = ray.ori.x + ray.dir.x * t;
+	point.y = ray.ori.y + ray.dir.y * t;
+	point.z = ray.ori.z + ray.dir.z * t;
 	return (point);
 }
 

@@ -22,9 +22,9 @@ int	create_plane(void *plane, char **specs)
 	c_plane = (t_object *)plane;
 	if (arr_len(specs) < 4)
 		return (INVALID_VALUE_ERR);
-	if (read_point(&c_plane->point, specs[1]) || read_color(&c_plane->color, specs[3]))
+	if (read_point(&c_plane->p, specs[1]) || read_color(&c_plane->c, specs[3]))
 		return (INVALID_VALUE_ERR);
-	if (read_normalized_vec(&c_plane->normal, specs[2]))
+	if (read_normalized_vec(&c_plane->n, specs[2]))
 		return (VECTOR_NOT_NORMALIZED_ERR);
 	return (0);
 }
@@ -38,12 +38,12 @@ int	create_cylinder(void *cyl, char **specs)
 	c_cyl = (t_object *)cyl;
 	if (arr_len(specs) < 6)
 		return (INVALID_VALUE_ERR);
-	if (!cyl || read_normalized_vec(&c_cyl->normal, specs[2]))
+	if (!cyl || read_normalized_vec(&c_cyl->n, specs[2]))
 		return (INVALID_VALUE_ERR);
-	if (read_point(&c_cyl->center, specs[1]) || read_color(&c_cyl->color, specs[5]))
+	if (read_point(&c_cyl->center, specs[1]) || read_color(&c_cyl->c, specs[5]))
 		return (INVALID_VALUE_ERR);
-	c_cyl->diameter = ft_strtod(specs[3], &n);
-	c_cyl->height = ft_strtod(specs[4], &n2);
+	c_cyl->diam = ft_strtod(specs[3], &n);
+	c_cyl->h= ft_strtod(specs[4], &n2);
 	if (*n != '\0' || *n2 != '\0')
 		return (INVALID_VALUE_ERR);
 	return (0);
@@ -57,9 +57,9 @@ int	create_sphere(void *sp, char **specs)
 	c_sp = (t_object *)sp;
 	if (arr_len(specs) < 4)
 		return (INVALID_VALUE_ERR);
-	if (read_point(&c_sp->center, specs[1]) || read_color(&c_sp->color, specs[3]))
+	if (read_point(&c_sp->center, specs[1]) || read_color(&c_sp->c, specs[3]))
 		return (INVALID_VALUE_ERR);
-	c_sp->diameter = ft_strtod(specs[2], &n);
+	c_sp->diam = ft_strtod(specs[2], &n);
 	if (*n != '\0')
 		return (INVALID_VALUE_ERR);
 	return (0);
@@ -73,12 +73,12 @@ int	create_light(void *light, char **specs)
 	c_light = (t_light *)light;
 	if (arr_len(specs) < 4)
 		return (INVALID_VALUE_ERR);
-	if (read_color(&c_light->color, specs[3]))
+	if (read_color(&c_light->c, specs[3]))
 		return (INVALID_VALUE_ERR);
-	if (read_point(&c_light->origin, specs[1]))
+	if (read_point(&c_light->ori, specs[1]))
 		return (INVALID_VALUE_ERR);
-	c_light->intensity = ft_strtod(specs[2], &n);
-	if (*n != '\0' || c_light->intensity < 0.0 || c_light->intensity > 1.0)
+	c_light->i = ft_strtod(specs[2], &n);
+	if (*n != '\0' || c_light->i < 0.0 || c_light->i > 1.0)
 		return (INVALID_VALUE_ERR);
 	return (0);
 }

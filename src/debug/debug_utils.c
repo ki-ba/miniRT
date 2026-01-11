@@ -30,11 +30,11 @@ void	print_vector(char *name, t_vec3 vector)
 void	print_properties(t_mini_rt mini_rt)
 {
 	printf("AMBIENT LIGHT :\n");
-	printf("intensity : %.2f\n", mini_rt.amb.intensity);
-	print_color("color", mini_rt.amb.color);
+	printf("intensity : %.2f\n", mini_rt.amb.i);
+	print_color("color", mini_rt.amb.c);
 	printf("\n\n");
 	printf("CAMERA :\n");
-	print_vec3("origin", mini_rt.cam.origin);
+	print_vec3("origin", mini_rt.cam.ori);
 	print_vector("orientation", mini_rt.cam.dir);
 	printf("fov : %f\n", mini_rt.cam.fov);
 	printf("right vec: %f %f %f\n", mini_rt.cam.right.x, mini_rt.cam.right.y, mini_rt.cam.right.z);

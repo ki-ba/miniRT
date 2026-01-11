@@ -61,18 +61,9 @@ union u_color
 
 struct s_ray
 {
-	t_vec3	origin;
+	t_vec3	ori;
 	t_vec3	dir;
 };
-
-struct s_light
-{
-	t_vec3	origin;
-	t_color	color;
-	double	intensity;
-};
-
-/* OBJECTS */
 
 struct s_inter
 {
@@ -85,14 +76,21 @@ struct s_inter
 struct s_ambient
 {
 	t_bool	is_defined;
-	double	intensity;
-	t_color	color;
+	double	i;
+	t_color	c;
+};
+
+struct s_light
+{
+	t_vec3	ori;
+	t_color	c;
+	double	i;
 };
 
 struct s_camera
 {
 	t_bool	is_defined;
-	t_vec3	origin;
+	t_vec3	ori;
 	t_vec3	dir;
 	t_vec3	up;
 	t_vec3	right;

@@ -53,7 +53,7 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 	mini_rt->cam.is_defined = TRUE;
 	if (arr_len(property) < 4)
 		return (GENERIC_ERR);
-	if (read_point(&mini_rt->cam.origin, property[1]))
+	if (read_point(&mini_rt->cam.ori, property[1]))
 		return (GENERIC_ERR);
 	if (read_normalized_vec(&mini_rt->cam.dir, property[2]))
 		return (GENERIC_ERR);
@@ -78,11 +78,11 @@ int	set_amb(t_mini_rt *mini_rt, char **property)
 	mini_rt->amb.is_defined = TRUE;
 	if (arr_len(property) < 3)
 		return (GENERIC_ERR);
-	if (read_color(&mini_rt->amb.color, property[2]))
+	if (read_color(&mini_rt->amb.c, property[2]))
 		return (GENERIC_ERR);
-	mini_rt->amb.intensity = ft_strtod(property[1], &n);
-	if (*n != '\0' || mini_rt->amb.intensity < 0.0
-		|| mini_rt->amb.intensity > 1.0)
+	mini_rt->amb.i = ft_strtod(property[1], &n);
+	if (*n != '\0' || mini_rt->amb.i < 0.0
+		|| mini_rt->amb.i > 1.0)
 		return (GENERIC_ERR);
 	return (0);
 }
