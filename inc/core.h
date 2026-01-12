@@ -29,9 +29,10 @@ void	clean_exit(t_mini_rt *mini_rt, int exit_code);
 
 // MATH
 
-t_bool resolve_eq2(double a, double b, double c, double *root);
+t_bool	resolve_eq2(double a, double b, double c, double *root);
 double	deg_to_rad(double deg);
-t_vec3 vec_to_point(t_ray ray, double t);
+double	rad_to_deg(double rad);
+t_vec3	vec_to_point(t_ray ray, double t);
 double	deg_to_rad(double deg);
 
 #endif

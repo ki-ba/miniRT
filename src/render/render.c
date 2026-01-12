@@ -181,12 +181,16 @@ static void	init_vp(t_viewport *vp, t_camera *cam)
 		world_up = (t_vec3){0,0,1};
 	cam->right = vec3_normalize(vec3_cross(world_up, cam->dir));
 	cam->up = vec3_cross(cam->dir, cam->right);
+	cam->vp_width = 2 * tan(cam->fov / 2) * VP_DISTANCE;
+	cam->vp_height = cam->vp_width / ((double)WIDTH / (double)HEIGHT);
 
 	vp->hrz = vec3_scale(cam->right, cam->vp_width);
 	vp->vrt = vec3_scale(cam->up, cam->vp_height);
 	vp->lower_left = vec3_add(cam->ori, cam->dir);
 	vp->lower_left = vec3_substract(vp->lower_left, vec3_scale(vp->hrz, 0.5));
 	vp->lower_left = vec3_substract(vp->lower_left, vec3_scale(vp->vrt, 0.5));
+	vp->delta_u = (t_vec3){0};
+	vp->delta_v = (t_vec3){0};
 }
 
 /*
@@ -206,7 +210,7 @@ void	shoot_rays(t_mini_rt *mini_rt)
 	y = 0;
 	init_vp(&vp, &mini_rt->cam);
 	print_properties(*mini_rt);
-	print_viewport(vp);
+	// print_viewport(vp);
 	while (y < HEIGHT)
 	{
 		x = 0;

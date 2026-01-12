@@ -18,11 +18,11 @@
 
 int	mouse_move(int x, int y, t_mini_rt *mini_rt)
 {
+	const t_vec3	mouse = {x, y, VP_DISTANCE};
 	const double	cx = WIDTH / 2;
 	const double	cy = HEIGHT / 2;
 	static t_vec3	center = {cx, cy, 0};
 	const double	sensivity = .02;
-	const t_vec3	mouse = {x, y, VP_DISTANCE};
 	const t_vec3	dir = vec3_scale(vec3_normalize(vec3_substract(mouse, center)), sensivity);
 
 
@@ -51,15 +51,20 @@ int	mouse_move(int x, int y, t_mini_rt *mini_rt)
 
 int	handle_mouse(int mouse_event, int x, int y, t_mini_rt	*mini_rt)
 {
-	double	step = 0.5;
+	const double	step = 0.05;
 	(void) x;
 	(void) y;
-	
 
 	if (mouse_event == 4)
-		mini_rt->cam.ori = vec3_add(mini_rt->cam.ori, vec3_scale(mini_rt->cam.dir, step));
+	{
+		if (rad_to_deg(mini_rt->cam.fov - step) > 0)
+			mini_rt->cam.fov -= step;
+	}
 	else if (mouse_event == 5)
-		mini_rt->cam.ori = vec3_substract(mini_rt->cam.ori, vec3_scale(mini_rt->cam.dir, step));
+	{
+		if (rad_to_deg(mini_rt->cam.fov + step) < 180)
+			mini_rt->cam.fov += step;
+	}
 	shoot_rays(mini_rt);
 	return (0);
 }
@@ -78,6 +83,10 @@ int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 		mini_rt->cam.ori = vec3_add(mini_rt->cam.ori, vec3_scale(mini_rt->cam.right, step));
 	else if (keysym == 97)
 		mini_rt->cam.ori = vec3_substract(mini_rt->cam.ori, vec3_scale(mini_rt->cam.right, step));
+	else if (keysym == 99)
+		mini_rt->cam.ori = vec3_add(mini_rt->cam.ori, vec3_scale(mini_rt->cam.dir, step));
+	else if (keysym == 122)
+		mini_rt->cam.ori = vec3_substract(mini_rt->cam.ori, vec3_scale(mini_rt->cam.dir, step));
 	else if (keysym == 114)
 	{
 		mini_rt->cam.ori.x = 0;
@@ -87,7 +96,6 @@ int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 		mini_rt->cam.dir.y = 0;
 		mini_rt->cam.dir.z = VP_DISTANCE;
 	}
-	// printf("Key pressed: %d\n", keysym);
 	// printf("Camera position: x=%f, y=%f, z=%f\n", mini_rt->cam.ori.x, mini_rt->cam.ori.y, mini_rt->cam.ori.z);
 	shoot_rays(mini_rt);
 	return (0);

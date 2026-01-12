@@ -61,3 +61,8 @@ extern inline double	deg_to_rad(double deg)
 {
 	return (deg * (M_PI / 180));
 }
+
+extern inline double	rad_to_deg(double rad)
+{
+	return (rad * (180 / M_PI));
+}
