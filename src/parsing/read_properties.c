@@ -120,7 +120,11 @@ int	read_normalized_vec(t_vec3 *v, char *string)
 	ft_free_arr(arr);
 	if (array_status != SUCCESS)
 	{
-		// write(2, VECTOR_NOT_NORMALIZED, ft_strlen(VECTOR_NOT_NORMALIZED));
+		return (INVALID_VALUE_ERR);
+	}
+	else if (v->x == 0 && v->y == 0 && v->z == 0)
+	{
+		write(2, VECTOR_NOT_NORMALIZED, ft_strlen(VECTOR_NOT_NORMALIZED));
 		return (INVALID_VALUE_ERR);
 	}
 	else if (is_normalized(*v) == FALSE)

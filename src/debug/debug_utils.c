@@ -27,6 +27,16 @@ void	print_vector(char *name, t_vec3 vector)
 	printf("%s: [%.2f, %.2f, %.2f]\n", name, vector.x, vector.y, vector.z);
 }
 
+void	print_viewport(t_viewport vp)
+{
+	printf("VIEWPORT :\n");
+	printf("lower_left: %f %f %f\n", vp.lower_left.x, vp.lower_left.y,vp.lower_left.z);
+	printf("hrz: %f %f %f \n", vp.hrz.x, vp.hrz.y, vp.hrz.z);
+	printf("vrt: %f %f %f \n", vp.vrt.x, vp.vrt.y, vp.vrt.z);
+	printf("delta_u: %f\n", vp.delta_u);
+	printf("delta_v: %f\n", vp.delta_v);
+}
+
 void	print_properties(t_mini_rt mini_rt)
 {
 	printf("AMBIENT LIGHT :\n");

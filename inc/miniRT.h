@@ -19,8 +19,8 @@
 # include "graphics.h"
 # include "color.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 800
+# define HEIGHT 800
 # define VP_DISTANCE 1
 
 /* ENUMS */
