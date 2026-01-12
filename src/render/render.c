@@ -174,6 +174,14 @@ static t_color	get_color(t_ambient amb, t_inter inter, t_light *light)
 
 static void	init_vp(t_viewport *vp, t_camera *cam)
 {
+	t_vec3 world_up;
+
+	world_up = (t_vec3) {0, 1, 0};
+	if (fabs(vec3_dot(cam->dir, world_up)) > 0.999)
+		world_up = (t_vec3){0,0,1};
+	cam->right = vec3_normalize(vec3_cross(world_up, cam->dir));
+	cam->up = vec3_cross(cam->dir, cam->right);
+
 	vp->hrz = vec3_scale(cam->right, cam->vp_width);
 	vp->vrt = vec3_scale(cam->up, cam->vp_height);
 	vp->lower_left = vec3_add(cam->ori, cam->dir);
@@ -191,8 +199,6 @@ void	shoot_rays(t_mini_rt *mini_rt)
 	t_viewport	vp;
 	t_inter		inter;
 	t_ray		temp_ray;
-	t_vec3		h_offset;
-	t_vec3		v_offset;
 	t_vec3		p;
 	int			x;
 	int			y;
@@ -206,9 +212,9 @@ void	shoot_rays(t_mini_rt *mini_rt)
 		x = 0;
 		while (x < WIDTH)
 		{
-			h_offset = vec3_scale(vp.hrz, (x + 0.5) / WIDTH);
-			v_offset = vec3_scale(vp.vrt, (y + 0.5) / HEIGHT);
-			p = vec3_add(vec3_add(vp.lower_left, h_offset), v_offset);
+			vp.delta_u = vec3_scale(vp.hrz, (x + 0.5) / WIDTH);
+			vp.delta_v = vec3_scale(vp.vrt, (y + 0.5) / HEIGHT);
+			p = vec3_add(vec3_add(vp.lower_left, vp.delta_u), vp.delta_v);
 			temp_ray.ori= mini_rt->cam.ori;
 
 			temp_ray.dir = vec3_normalize(vec3_substract(p, mini_rt->cam.ori));

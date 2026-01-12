@@ -33,8 +33,8 @@ void	print_viewport(t_viewport vp)
 	printf("lower_left: %f %f %f\n", vp.lower_left.x, vp.lower_left.y,vp.lower_left.z);
 	printf("hrz: %f %f %f \n", vp.hrz.x, vp.hrz.y, vp.hrz.z);
 	printf("vrt: %f %f %f \n", vp.vrt.x, vp.vrt.y, vp.vrt.z);
-	printf("delta_u: %f\n", vp.delta_u);
-	printf("delta_v: %f\n", vp.delta_v);
+	printf("delta_u: %f %f %f\n", vp.delta_u.x, vp.delta_u.y, vp.delta_u.z);
+	printf("delta_v: %f %f %f\n", vp.delta_v.x, vp.delta_v.y, vp.delta_v.z);
 }
 
 void	print_properties(t_mini_rt mini_rt)

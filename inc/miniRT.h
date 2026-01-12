@@ -19,8 +19,8 @@
 # include "graphics.h"
 # include "color.h"
 
-# define WIDTH 800
-# define HEIGHT 800
+# define WIDTH 200
+# define HEIGHT 200
 # define VP_DISTANCE 1
 
 /* ENUMS */
@@ -93,8 +93,8 @@ struct s_viewport
 	t_vec3	lower_left;
 	t_vec3	hrz;
 	t_vec3	vrt;
-	double	delta_u;
-	double	delta_v;
+	t_vec3	delta_u;
+	t_vec3	delta_v;
 };
 struct s_mini_rt
 {

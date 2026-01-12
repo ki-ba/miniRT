@@ -14,6 +14,7 @@
 #include "vec3.h"
 #include "render.h"
 #include "core.h"
+#include "mlx.h"
 
 int	mouse_move(int x, int y, t_mini_rt *mini_rt)
 {
@@ -24,6 +25,18 @@ int	mouse_move(int x, int y, t_mini_rt *mini_rt)
 	const t_vec3	mouse = {x, y, VP_DISTANCE};
 	const t_vec3	dir = vec3_scale(vec3_normalize(vec3_substract(mouse, center)), sensivity);
 
+
+	// int x1, y1 = 0;
+	// mlx_mouse_get_pos(mini_rt->mlx.mlx, mini_rt->mlx.win, &x1, &y1);
+	// if (x1 > WIDTH)
+	// 	mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, 0, y1);
+	// else if (x1 < 0)
+	// 	mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, WIDTH, y1);
+	// else if (y1 > HEIGHT)
+	// 	mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, x1, 0);
+	// else if (y1 < 0)
+	// 	mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, x1, HEIGHT);
+	//
 	// printf("x: %d | y: %d\n", x, y);
 	// printf("center: x: %f | y: %f | z: %f\n", center.x, center.y, center.z);
 	// printf("dir: x: %f | y: %f | z: %f\n", dir.x, dir.y, dir.z);

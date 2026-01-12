@@ -15,7 +15,9 @@
 
 # include "miniRT.h"
 
-int		handle_keypress(int keysym, t_mini_rt *mini_rt);
-int		handle_window_close(t_mini_rt *mini_rt);
+int	handle_keypress(int keysym, t_mini_rt *mini_rt);
+int	handle_mouse(int mouse_event, t_mini_rt	*mini_rt);
+int	mouse_move(int x, int y, t_mini_rt *mini_rt);
+int	handle_window_close(t_mini_rt *mini_rt);
 
 #endif
