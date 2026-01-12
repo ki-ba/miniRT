@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:08:42 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/07 15:28:26 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/12 11:20:15 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,8 @@ void	test_resolve_eq2(void);
 void	test_intersect_sphere(void);
 void	test_determine_color(void);
 void	test_shoot_rays(void);
+
+// COLOR
+
+void	test_scale_color(void);
 #endif

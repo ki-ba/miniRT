@@ -23,7 +23,7 @@
 */
 int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 {
-	double step = 0.5;
+	double step = 5;
 	if (keysym == 65307 || keysym == 113)
 		clean_exit(mini_rt, SUCCESS);
 	else if (keysym == 119)

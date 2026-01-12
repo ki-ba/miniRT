@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/07 09:46:06 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/12 11:16:53 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "vec3.h"
 # include "vectors.h"
 # include "graphics.h"
-# include <stdint.h>
+# include "color.h"
 
 # define WIDTH 1920
 # define HEIGHT 1080
@@ -38,7 +38,6 @@ enum e_error_code
 };
 
 /* UTILS */
-typedef union u_color		t_color;
 typedef struct s_ray		t_ray;
 typedef struct s_light		t_light;
 typedef struct s_ambient	t_ambient;
@@ -46,18 +45,6 @@ typedef struct s_camera		t_camera;
 typedef struct s_mini_rt	t_mini_rt;
 typedef struct s_inter		t_inter;
 typedef struct s_viewport	t_viewport;
-
-union u_color
-{
-	uint32_t	trgb;
-	struct
-	{
-		uint8_t	b;
-		uint8_t	g;
-		uint8_t	r;
-		uint8_t	t;
-	};
-};
 
 struct s_ray
 {
@@ -67,8 +54,10 @@ struct s_ray
 
 struct s_inter
 {
-	t_vec3	p;
-	t_color	c;
+	t_vec3		p;
+	t_vec3		n;
+	t_color		c;
+	struct s_object	*obj;
 	double	t;
 };
 
@@ -76,8 +65,8 @@ struct s_inter
 struct s_ambient
 {
 	t_bool	is_defined;
-	double	i;
 	t_color	c;
+	double	i;
 };
 
 struct s_light

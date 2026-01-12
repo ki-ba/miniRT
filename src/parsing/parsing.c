@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:13 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/11 11:57:56 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/12 15:20:59 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 	world_up = (t_vec3) {0, 1, 0};
 	if (fabs(vec3_dot(mini_rt->cam.dir, world_up)) > 0.999)
 		world_up = (t_vec3){0,0,1};
-	tmp = vec3_cross(mini_rt->cam.dir, world_up);
+	tmp = vec3_cross(world_up, mini_rt->cam.dir);
 	mini_rt->cam.right = vec3_normalize(tmp);
 	mini_rt->cam.up = vec3_cross(mini_rt->cam.dir, mini_rt->cam.right);
 	mini_rt->cam.vp_width = 2 * tan(mini_rt->cam.fov / 2) * VP_DISTANCE;

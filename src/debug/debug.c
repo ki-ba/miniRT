@@ -14,13 +14,23 @@
 #include "objects.h"
 #include "vectors.h"
 
-t_object	*get_ith_element(t_vector *vector, size_t index)
+t_object	*get_ith_obj(t_vector *vector, size_t index)
 {
 	t_object	*array;
 
 	if (index >= vector->nb_elements)
 		return (NULL);
 	array = (t_object *)(vector->array);
+	return (&(array[index]));
+}
+
+t_light		*get_ith_light(t_vector *vector, size_t index)
+{
+	t_light	*array;
+
+	if (index >= vector->nb_elements)
+		return (NULL);
+	array = (t_light *)(vector->array);
 	return (&(array[index]));
 }
 
@@ -88,7 +98,7 @@ void	print_item_lst(t_vector *objects)
 	printf("[START]\n");
 	while (i < objects->nb_elements)
 	{
-		obj = get_ith_element(objects, i);
+		obj = get_ith_obj(objects, i);
 		if (!obj)
 		{
 			printf("Error retrieving object at index %zu\n", i);
@@ -110,7 +120,7 @@ void print_lights(t_vector *lights)
 	printf("----- LIGHTS LIST -----\n");
 	while (i < lights->nb_elements)
 	{
-		light = (t_light *)get_ith_element(lights, i);
+		light = (t_light *)get_ith_light(lights, i);
 		if (!light)
 		{
 			printf("Error retrieving light at index %zu\n", i);
