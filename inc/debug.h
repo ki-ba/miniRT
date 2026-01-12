@@ -24,6 +24,7 @@ void	print_properties(t_mini_rt mini_rt);
 void	print_vec3(char *name, t_vec3 point);
 void	print_color(char *name, t_color color);
 void	print_vector(char *name, t_vec3 vector);
+void	print_viewport(t_viewport vp);
 
 // DEBUG
 

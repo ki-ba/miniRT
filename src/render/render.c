@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "vec3.h"
+#include "debug.h"
 #include <math.h>
 #include "render.h"
 #include "core.h"
@@ -62,15 +63,14 @@ static inline double	check_intersect_plane(t_object *pl, t_ray ray)
 static inline double	check_intersect_cylinder(t_object *cy, t_ray ray)
 {
 	double	root;
-	double	a = 0;//1 - (Ca • Rd)^2)Hd^2;
-	double	b = 0;//2((Rd • Rl) - (Ca • Rd)(Ca • Rl));
-	double	c = 0;//(Rl • Rl) - (Ca • Rl)^2 - Cr^2;
+	double	a;
+	double	b;
+	double	c;
 
 	a = 1 - vec3_dot(ray.dir, cy->n) * vec3_dot(ray.dir, cy->n);
 	b = (2 * vec3_dot(ray.dir, vec3_substract(ray.ori, cy->center))) - (vec3_dot(ray.dir, cy->n) * vec3_dot(cy->n, vec3_substract(ray.ori, cy->center)));
 	c = vec3_dot(vec3_substract(ray.ori, cy->center), vec3_substract(ray.ori, cy->center)) - (vec3_dot(cy->n, vec3_substract(ray.ori, cy->center)) * vec3_dot(cy->n, vec3_substract(ray.ori, cy->center))) - cy->diam / 2;
-	resolve_eq2(a, b, c, &root);
-	if (!root)
+	if (!resolve_eq2(a, b, c, &root))
 		return (0);
 	t_vec3	p = vec3_add(ray.ori, vec3_scale(ray.dir, root));
 	double res = vec3_dot(vec3_substract(p, cy->center), cy->n);
@@ -151,7 +151,7 @@ static void	init_vp(t_viewport *vp, t_camera *cam)
 {
 	vp->hrz = vec3_scale(cam->right, cam->vp_width);
 	vp->vrt = vec3_scale(cam->up, cam->vp_height);
-	vp->lower_left = vec3_add((cam->ori), cam->dir);
+	vp->lower_left = vec3_add(cam->ori, cam->dir);
 	vp->lower_left = vec3_substract(vp->lower_left, vec3_scale(vp->hrz, 0.5));
 	vp->lower_left = vec3_substract(vp->lower_left, vec3_scale(vp->vrt, 0.5));
 }
@@ -172,9 +172,10 @@ void	shoot_rays(t_mini_rt *mini_rt)
 	int			x;
 	int			y;
 
-	temp_ray = (t_ray){mini_rt->cam.ori, (t_vec3){0}};
 	y = 0;
 	init_vp(&vp, &mini_rt->cam);
+	print_properties(*mini_rt);
+	print_viewport(vp);
 	while (y < HEIGHT)
 	{
 		x = 0;
@@ -184,7 +185,9 @@ void	shoot_rays(t_mini_rt *mini_rt)
 			v_offset = vec3_scale(vp.vrt, (y + 0.5) / HEIGHT);
 			p = vec3_add(vec3_add(vp.lower_left, h_offset), v_offset);
 			temp_ray.ori= mini_rt->cam.ori;
+
 			temp_ray.dir = vec3_normalize(vec3_substract(p, mini_rt->cam.ori));
+			// printf("tmp_ray.dir: %f %f %f\n", temp_ray.dir.x, temp_ray.dir.y, temp_ray.dir.z);
 			inter = check_intersect_obj(mini_rt, temp_ray);
 			if (inter.t > 0 && inter.t != INFINITY)
 				my_mlx_pixel_put(&mini_rt->mlx.img, x, y, get_color(inter.p, inter.c, mini_rt->lights, mini_rt->objects).trgb);

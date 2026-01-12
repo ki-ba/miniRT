@@ -38,6 +38,10 @@ int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 		mini_rt->cam.ori.z += step;
 	else if (keysym == 65364)
 		mini_rt->cam.ori.z -= step;
+	else if (keysym == 65361)
+		mini_rt->cam.dir.x += step;
+	else if (keysym == 65363)
+		mini_rt->cam.dir.x -= step;
 	else if (keysym == 114)
 	{
 		mini_rt->cam.ori.x = 0;
