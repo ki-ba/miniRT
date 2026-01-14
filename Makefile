@@ -33,8 +33,9 @@ GRAPHICS_DIR	= graphics/
 CORE_DIR		= core/
 RENDER_DIR		= render/
 COLOR_DIR		= color/
+INTERSECT_DIR	= intersect/
 
-SUBDIRS = $(PARSING_DIR) $(OBJECTS_DIR) $(VEC3_DIR) $(DEBUG_DIR) $(GRAPHICS_DIR) $(CORE_DIR) $(RENDER_DIR) $(COLOR_DIR)
+SUBDIRS = $(PARSING_DIR) $(OBJECTS_DIR) $(VEC3_DIR) $(DEBUG_DIR) $(GRAPHICS_DIR) $(CORE_DIR) $(RENDER_DIR) $(COLOR_DIR) $(INTERSECT_DIR)
 TEST_SUBDIRS = $(addprefix tests/, $(SUBDIRS))
 
 # SOURCE FILES #
@@ -44,9 +45,10 @@ OBJECTS_FILENAMES 	= objects.c
 VEC3_FILENAMES		= vec3_create.c vec3_add.c vec3_cross.c vec3_dot.c vec3_scale.c vec3_normalize.c vec3_substract.c vec3_magnitude.c
 DEBUG_FILENAMES		= debug.c debug_utils.c
 GRAPHICS_FILENAMES	= graphics.c
-CORE_FILENAMES		= core.c hooks.c math.c
-RENDER_FILENAMES	= render.c
+CORE_FILENAMES		= core.c hooks.c math.c core_utils.c
+RENDER_FILENAMES	= render.c render_utils.c
 COLOR_FILENAMES		= color.c
+INTERSECT_FILENAMES = intersect.c
 
 # CATEGORY_FILENAMES = filename.c
 
@@ -58,9 +60,10 @@ GRAPHICS_SRC	= $(addprefix $(SRC_DIR)$(GRAPHICS_DIR), $(GRAPHICS_FILENAMES))
 CORE_SRC		= $(addprefix $(SRC_DIR)$(CORE_DIR), $(CORE_FILENAMES))
 RENDER_SRC		= $(addprefix $(SRC_DIR)$(RENDER_DIR), $(RENDER_FILENAMES))
 COLOR_SRC		= $(addprefix $(SRC_DIR)$(COLOR_DIR), $(COLOR_FILENAMES))
+INTERSECT_SRC	= $(addprefix $(SRC_DIR)$(INTERSECT_DIR), $(INTERSECT_FILENAMES))
 # CATEGORY_FULL_SRC = addprefix CATEGORY SOURCE_LIST
 
-SRC = $(PARSING_SRC) $(OBJECTS_SRC) $(VEC3_SRC) $(DEBUG_SRC) $(DESTROY_SRC) $(GRAPHICS_SRC) $(CORE_SRC) $(RENDER_SRC) $(COLOR_SRC)
+SRC = $(PARSING_SRC) $(OBJECTS_SRC) $(VEC3_SRC) $(DEBUG_SRC) $(DESTROY_SRC) $(GRAPHICS_SRC) $(CORE_SRC) $(RENDER_SRC) $(COLOR_SRC) $(INTERSECT_SRC)
 # add CAT_SRC here if a new category is added
 
 TEST_SRC = $(subst $(SRC_DIR), $(TEST_DIR), $(SRC:%.c=%_test.c))
