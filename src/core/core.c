@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "objects.h"
 #include "vectors.h"
 #include "debug.h"
@@ -56,9 +57,12 @@ void	clean_exit(t_mini_rt *mini_rt, int exit_code)
 
 void	init_vp(t_camera *cam)
 {
-	t_viewport	*vp;
+	const double	aspect_ratio = (double)WIDTH / (double)HEIGHT;
+	t_viewport		*vp;
 
 	vp = &(cam->vp);
+	vp->vp_width = 2 * tan(cam->fov / 2) * VP_DISTANCE;
+	vp->vp_height = vp->vp_width / aspect_ratio;
 	vp->hrz = vec3_scale(cam->right, cam->vp.vp_width);
 	vp->vrt = vec3_scale(cam->up, cam->vp.vp_height);
 	vp->lower_left = vec3_add((cam->ori), cam->dir);
