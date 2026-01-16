@@ -6,33 +6,14 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:35:49 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/11 12:00:23 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/14 16:37:21 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug.h"
 #include "objects.h"
 #include "vectors.h"
-
-t_object	*get_ith_obj(t_vector *vector, size_t index)
-{
-	t_object	*array;
-
-	if (index >= vector->nb_elements)
-		return (NULL);
-	array = (t_object *)(vector->array);
-	return (&(array[index]));
-}
-
-t_light		*get_ith_light(t_vector *vector, size_t index)
-{
-	t_light	*array;
-
-	if (index >= vector->nb_elements)
-		return (NULL);
-	array = (t_light *)(vector->array);
-	return (&(array[index]));
-}
+#include "core.h"
 
 void	print_cylinder(t_object cy)
 {
@@ -82,7 +63,6 @@ void	print_obj(t_object obj)
 
 void	print_light(t_light l)
 {
-
 	printf("LIGHT\n");
 	print_vec3("origin", l.ori);
 	print_color("color", l.c);
@@ -111,7 +91,7 @@ void	print_item_lst(t_vector *objects)
 	printf("[END]\n\n\n");
 }
 
-void print_lights(t_vector *lights)
+void	print_lights(t_vector *lights)
 {
 	size_t	i;
 	t_light	*light;

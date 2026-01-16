@@ -41,6 +41,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
+	// ft_printf("point %d, %d\n", x, y);
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel >> 3));
 	*(unsigned int *) dst = color;
 }

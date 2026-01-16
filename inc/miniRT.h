@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/12 11:16:53 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/14 16:43:48 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@
 # include "graphics.h"
 # include "color.h"
 
-# define WIDTH 160
-# define HEIGHT 160
+# define WIDTH 800
+# define HEIGHT 600
+
+# define W WIDTH
+# define H HEIGHT
+
 # define VP_DISTANCE 1
 
 /* ENUMS */
@@ -43,22 +47,12 @@ typedef struct s_light		t_light;
 typedef struct s_ambient	t_ambient;
 typedef struct s_camera		t_camera;
 typedef struct s_mini_rt	t_mini_rt;
-typedef struct s_inter		t_inter;
 typedef struct s_viewport	t_viewport;
 
 struct s_ray
 {
 	t_vec3	ori;
 	t_vec3	dir;
-};
-
-struct s_inter
-{
-	t_vec3		p;
-	t_vec3		n;
-	t_color		c;
-	struct s_object	*obj;
-	double	t;
 };
 
 /* SCENE */
@@ -76,18 +70,6 @@ struct s_light
 	double	i;
 };
 
-struct s_camera
-{
-	t_bool	is_defined;
-	t_vec3	ori;
-	t_vec3	dir;
-	t_vec3	up;
-	t_vec3	right;
-	double	vp_height;
-	double	vp_width;
-	double	fov;
-};
-
 struct s_viewport
 {
 	t_vec3	lower_left;
@@ -96,6 +78,20 @@ struct s_viewport
 	t_vec3	delta_u;
 	t_vec3	delta_v;
 };
+
+struct s_camera
+{
+	t_bool				is_defined;
+	t_vec3				ori;
+	t_vec3				dir;
+	t_vec3				up;
+	t_vec3				right;
+	struct s_viewport	vp;
+	double				vp_height;
+	double				vp_width;
+	double				fov;
+};
+
 struct s_mini_rt
 {
 	t_vector	*objects;

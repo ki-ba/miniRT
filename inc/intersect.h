@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphics.h                                         :+:      :+:    :+:   */
+/*   intersect.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/17 10:02:57 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/14 16:43:50 by kbarru           ###   ########lyon.fr   */
+/*   Created: 2026/01/14 16:25:58 by kbarru            #+#    #+#             */
+/*   Updated: 2026/01/14 16:31:07 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GRAPHICS_H
-# define GRAPHICS_H
+#ifndef INTERSECT_H
+# define INTERSECT_H
 
-typedef struct s_mini_rt	t_mini_rt;
-typedef struct s_data		t_data;
-typedef struct s_mlx		t_mlx;
+# include "objects.h"
 
-struct s_data
+typedef struct s_inter		t_inter;
+
+struct s_inter
 {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
+	t_vec3			p;
+	t_vec3			n;
+	t_color			c;
+	struct s_object	*obj;
+	double			t;
 };
 
-struct s_mlx
-{
-	void		*mlx;
-	void		*win;
-	t_data		img;
-};
-
-void	ft_init_mlx(t_mini_rt *mini_rt);
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-
+double	check_intersect_sphere(t_object *sp, t_ray ray);
+t_inter	check_intersect_obj(t_vector *objects, t_ray ray);
+int		is_in_shadow(t_vector *objects, t_light *light, t_vec3 point);
 
 #endif
