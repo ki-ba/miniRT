@@ -35,6 +35,8 @@ void	print_viewport(t_viewport vp)
 	printf("vrt: %f %f %f \n", vp.vrt.x, vp.vrt.y, vp.vrt.z);
 	printf("delta_u: %f %f %f\n", vp.delta_u.x, vp.delta_u.y, vp.delta_u.z);
 	printf("delta_v: %f %f %f\n", vp.delta_v.x, vp.delta_v.y, vp.delta_v.z);
+	printf("viewport width: %f\n", vp.vp_width);
+	printf("viewport height: %f\n", vp.vp_height);
 }
 
 void	print_properties(t_mini_rt mini_rt)
@@ -49,7 +51,6 @@ void	print_properties(t_mini_rt mini_rt)
 	printf("fov : %f\n", mini_rt.cam.fov);
 	printf("right vec: %f %f %f\n", mini_rt.cam.right.x, mini_rt.cam.right.y, mini_rt.cam.right.z);
 	printf("up vec: %f %f %f\n", mini_rt.cam.up.x, mini_rt.cam.up.y, mini_rt.cam.up.z);
-	printf("viewport width: %f\n", mini_rt.cam.vp_width);
-	printf("viewport height: %f\n", mini_rt.cam.vp_height);
+	print_viewport(mini_rt.cam.vp);
 	printf("\n\n");
 }

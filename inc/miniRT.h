@@ -77,6 +77,8 @@ struct s_viewport
 	t_vec3	vrt;
 	t_vec3	delta_u;
 	t_vec3	delta_v;
+	double	vp_height;
+	double	vp_width;
 };
 
 struct s_camera
@@ -86,9 +88,7 @@ struct s_camera
 	t_vec3				dir;
 	t_vec3				up;
 	t_vec3				right;
-	t_viewport	vp;
-	double				vp_height;
-	double				vp_width;
+	t_viewport			vp;
 	double				fov;
 };
 

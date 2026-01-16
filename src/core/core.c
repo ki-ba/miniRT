@@ -59,8 +59,8 @@ void	init_vp(t_camera *cam)
 	t_viewport	*vp;
 
 	vp = &(cam->vp);
-	vp->hrz = vec3_scale(cam->right, cam->vp_width);
-	vp->vrt = vec3_scale(cam->up, cam->vp_height);
+	vp->hrz = vec3_scale(cam->right, cam->vp.vp_width);
+	vp->vrt = vec3_scale(cam->up, cam->vp.vp_height);
 	vp->lower_left = vec3_add((cam->ori), cam->dir);
 	vp->lower_left = vec3_substract(vp->lower_left, vec3_scale(vp->hrz, 0.5));
 	vp->lower_left = vec3_substract(vp->lower_left, vec3_scale(vp->vrt, 0.5));

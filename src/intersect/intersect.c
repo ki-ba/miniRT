@@ -41,6 +41,26 @@ double	check_intersect_sphere(t_object *sp, t_ray ray)
 	return (0);
 }
 
+double	check_intersect_cylinder(t_object *cy, t_ray ray)
+{
+	double	root;
+	double	a;
+	double	b;
+	double	c;
+
+	a = 1 - vec3_dot(ray.dir, cy->n) * vec3_dot(ray.dir, cy->n);
+	b = (2 * vec3_dot(ray.dir, vec3_substract(ray.ori, cy->center))) - (vec3_dot(ray.dir, cy->n) * vec3_dot(cy->n, vec3_substract(ray.ori, cy->center)));
+	c = vec3_dot(vec3_substract(ray.ori, cy->center), vec3_substract(ray.ori, cy->center)) - (vec3_dot(cy->n, vec3_substract(ray.ori, cy->center)) * vec3_dot(cy->n, vec3_substract(ray.ori, cy->center))) - cy->diam / 2;
+	if (!resolve_eq2(a, b, c, &root))
+		return (0);
+	t_vec3	p = vec3_add(ray.ori, vec3_scale(ray.dir, root));
+	double res = vec3_dot(vec3_substract(p, cy->center), cy->n);
+	if (res < -(cy->h / 2) || res > (cy->h / 2) )
+		return (0);
+	return (root);
+
+}
+
 /**
 	* @brief takes a ray and a plane and determines where the point where meet 
 	* @brief if they do.
@@ -78,6 +98,16 @@ t_inter	check_intersect_obj(t_vector *objects, t_ray ray)
 		if (cur_object->type == SPHERE)
 		{
 			t = check_intersect_sphere(cur_object, ray);
+			if (t > 0.0 && t < inter.t)
+			{
+				inter.t = t;
+				inter.obj = cur_object;
+				inter.c = (cur_object)->c;
+			}
+		}
+		else if (cur_object->type == CYLINDER)
+		{
+			t = check_intersect_cylinder(cur_object, ray);
 			if (t > 0.0 && t < inter.t)
 			{
 				inter.t = t;
