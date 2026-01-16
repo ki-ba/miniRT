@@ -86,7 +86,7 @@ struct s_camera
 	t_vec3				dir;
 	t_vec3				up;
 	t_vec3				right;
-	struct s_viewport	vp;
+	t_viewport	vp;
 	double				vp_height;
 	double				vp_width;
 	double				fov;
