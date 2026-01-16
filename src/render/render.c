@@ -27,6 +27,7 @@
 */
 void	shoot_rays(t_mini_rt *m_rt)
 {
+	const	int	hw = H * W;
 	t_inter		inter;
 	t_ray		ray;
 	t_mlx		*mlx;
@@ -36,7 +37,7 @@ void	shoot_rays(t_mini_rt *m_rt)
 	ray = (t_ray){m_rt->cam.ori, (t_vec3){0}};
 	i = 0;
 	init_vp(&m_rt->cam);
-	while (i < H * W)
+	while (i < hw)
 	{
 		ray = create_ray(m_rt->cam, i);
 		inter = check_intersect_obj(m_rt->objects, ray);

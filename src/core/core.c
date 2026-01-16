@@ -38,6 +38,8 @@ void	init_mini_rt(t_mini_rt *mini_rt)
 	mini_rt->mlx.img = (t_data){0};
 	mini_rt->lights = create_vector(1, sizeof(t_light), NULL);
 	mini_rt->objects = create_vector(1, sizeof(t_object), NULL);
+	mini_rt->mode = (t_hooks){1 << RENDER};
+	mini_rt->mode = (t_hooks){0};
 	mini_rt->cam = (t_camera){0};
 	mini_rt->amb = (t_ambient){0};
 }

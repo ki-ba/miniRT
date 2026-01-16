@@ -14,6 +14,7 @@
 # define MINIRT_H
 
 # include "libft.h"
+# include "hooks.h"
 # include "vec3.h"
 # include "vectors.h"
 # include "graphics.h"
@@ -94,6 +95,7 @@ struct s_camera
 
 struct s_mini_rt
 {
+	t_hooks		mode;
 	t_vector	*objects;
 	t_vector	*lights;
 	t_camera	cam;

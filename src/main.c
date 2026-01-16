@@ -25,11 +25,11 @@ int	check_properties(t_mini_rt *mini_rt)
 		write(2, MISSING_PROPERTY_MSG, ft_strlen(MISSING_PROPERTY_MSG));
 		return (GENERIC_ERR);
 	}
-	if (mini_rt->lights->nb_elements > 1)
-	{
-		write(2, TOO_MUCH_ELEMENTS_MSG, ft_strlen(TOO_MUCH_ELEMENTS_MSG));
-		return (GENERIC_ERR);
-	}
+	// if (mini_rt->lights->nb_elements > 1)
+	// {
+	// 	write(2, TOO_MUCH_ELEMENTS_MSG, ft_strlen(TOO_MUCH_ELEMENTS_MSG));
+	// 	return (GENERIC_ERR);
+	// }
 	return (0);
 }
 

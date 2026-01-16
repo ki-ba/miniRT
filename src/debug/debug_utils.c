@@ -12,6 +12,15 @@
 
 #include "miniRT.h"
 
+void	print_binary(int const n)
+{
+	uint8_t	i;
+
+	i = 8;
+	while (--i ^ 0xFF)
+		printf("%c", ((n >> i) & 1) + '0');
+}
+
 void	print_vec3(char *name, t_vec3 point)
 {
 	printf("%s: [%.2f, %.2f, %.2f]\n", name, point.x, point.y, point.z);
