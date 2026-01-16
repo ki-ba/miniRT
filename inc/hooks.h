@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:43:22 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/16 18:44:27 by abetemps         ###   ########.fr       */
+/*   Updated: 2026/01/16 19:18:32 by abetemps         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@
 # define K_RENDER		'r'
 # define K_OBJ			'o'
 
-typedef struct s_mini_rt	t_mini_rt;
-typedef struct s_hooks	t_hooks;
+typedef struct 	s_mini_rt	t_mini_rt;
+typedef struct 	s_hooks	t_hooks;
+typedef enum	e_bool	t_bool;
 
 enum	e_mlx_event
 {
@@ -62,9 +63,10 @@ struct	s_hooks
 	unsigned int v: HOOKS_MODE_QTY;
 };
 
-int	handle_keypress(int keysym, t_mini_rt *mini_rt);
-int	handle_mouse_scroll(int mouse_event, int x, int y, t_mini_rt	*mini_rt);
-int	handle_mouse_move(int x, int y, t_mini_rt *mini_rt);
-int	handle_window_close(t_mini_rt *mini_rt);
+int		handle_keypress(int keysym, t_mini_rt *mini_rt);
+int		handle_mouse_scroll(int mouse_event, int x, int y, t_mini_rt	*mini_rt);
+int		handle_mouse_move(int x, int y, t_mini_rt *mini_rt);
+int		handle_window_close(t_mini_rt *mini_rt);
+t_bool is_set_bit(unsigned int v, unsigned int flag);
 
 #endif

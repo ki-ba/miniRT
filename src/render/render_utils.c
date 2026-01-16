@@ -17,19 +17,31 @@
 #include <math.h>
 #include "miniRT.h"
 
-void	draw_intersection(t_mini_rt *m_rt, t_inter *inter, int i)
+void	draw_intersection(t_mini_rt *m_rt, t_inter *inter, int *i)
 {
 	t_color	c;
 	t_light	*light;
+	int		j;
 
+	j = *i;
 	light = get_ith_light(m_rt->lights, 0);
 	if (inter->t > 0 && inter->t != INFINITY)
 	{
 		c = get_color(m_rt->objects, m_rt->amb, *inter, light);
-		my_mlx_pixel_put(&m_rt->mlx.img, i % W, i / W, c.trgb);
+		if (is_set_bit(m_rt->mode.v, RENDER))
+			my_mlx_pixel_put(&m_rt->mlx.img, *i % W, *i / W, c.trgb);
+		else
+		{
+			while (*i < j + LQ_STEP && *i % W < W && *i / W < H)
+			{
+				my_mlx_pixel_put(&m_rt->mlx.img, *i % W, *i / W, c.trgb);
+				++(*i);
+			}
+			--(*i);
+		}
 	}
 	else
-		my_mlx_pixel_put(&m_rt->mlx.img, i % W, i / W, 0);
+		my_mlx_pixel_put(&m_rt->mlx.img, *i % W, *i / W, 0);
 }
 
 t_ray	create_ray(t_camera cam, int index)

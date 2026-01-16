@@ -19,28 +19,30 @@
 #include "core.h"
 #include "debug.h"
 
-static inline t_bool is_set_bit(unsigned int v, unsigned int flag)
+extern inline t_bool is_set_bit(unsigned int v, unsigned int flag)
 {
 	return ((v >> flag) == 1);
 }
 
-static void	handle_hook_mode(t_hooks *mode, int keysym)
+static void	handle_hook_mode(t_mini_rt *mrt, int keysym)
 {
 	const char ctrls[HOOKS_MODE_QTY] = {K_RENDER, K_OBJ};
 	int	i;
 
 	i = 0;
 	while (i < HOOKS_MODE_QTY)
-	{ if (keysym == ctrls[i])
+	{
+		if (keysym == ctrls[i])
 		{
-			if (is_set_bit(mode->v, i))
-				mode->v ^= (1 << i);
+			if (is_set_bit(mrt->mode.v, i))
+				mrt->mode.v ^= (1 << i);
 			else
-				mode->v |= (1 << i);
+				mrt->mode.v |= (1 << i);
+			shoot_rays(mrt);
 		}
 		++i;
 	}
-	print_binary(mode->v);
+	print_binary(mrt->mode.v);
 	printf("\n");
 }
 
@@ -94,34 +96,33 @@ int	handle_keypress(int keysym, t_mini_rt *mini_rt)
 {
 	const double step = 0.5;
 
-	handle_hook_mode(&mini_rt->mode, keysym);
+	handle_hook_mode(mini_rt, keysym);
 	if (keysym == ESCAPE)
 		clean_exit(mini_rt, SUCCESS);
-	if (!is_set_bit(mini_rt->mode.v, RENDER))
+	if (is_set_bit(mini_rt->mode.v, RENDER))
+		return (0);
+	if (keysym == K_UP)
+		mini_rt->cam.ori = vec3_substract(mini_rt->cam.ori, vec3_scale(mini_rt->cam.up, step));
+	else if (keysym == K_DOWN)
+		mini_rt->cam.ori = vec3_add(mini_rt->cam.ori, vec3_scale(mini_rt->cam.up, step));
+	else if (keysym == K_RIGHT)
+		mini_rt->cam.ori = vec3_add(mini_rt->cam.ori, vec3_scale(mini_rt->cam.right, step));
+	else if (keysym == K_LEFT)
+		mini_rt->cam.ori = vec3_substract(mini_rt->cam.ori, vec3_scale(mini_rt->cam.right, step));
+	else if (keysym == K_FORWARD)
+		mini_rt->cam.ori = vec3_add(mini_rt->cam.ori, vec3_scale(mini_rt->cam.dir, step));
+	else if (keysym == K_BACKWARD)
+		mini_rt->cam.ori = vec3_substract(mini_rt->cam.ori, vec3_scale(mini_rt->cam.dir, step));
+	else if (keysym == K_RESET)
 	{
-		if (keysym == K_UP)
-			mini_rt->cam.ori = vec3_substract(mini_rt->cam.ori, vec3_scale(mini_rt->cam.up, step));
-		else if (keysym == K_DOWN)
-			mini_rt->cam.ori = vec3_add(mini_rt->cam.ori, vec3_scale(mini_rt->cam.up, step));
-		else if (keysym == K_RIGHT)
-			mini_rt->cam.ori = vec3_add(mini_rt->cam.ori, vec3_scale(mini_rt->cam.right, step));
-		else if (keysym == K_LEFT)
-			mini_rt->cam.ori = vec3_substract(mini_rt->cam.ori, vec3_scale(mini_rt->cam.right, step));
-		else if (keysym == K_FORWARD)
-			mini_rt->cam.ori = vec3_add(mini_rt->cam.ori, vec3_scale(mini_rt->cam.dir, step));
-		else if (keysym == K_BACKWARD)
-			mini_rt->cam.ori = vec3_substract(mini_rt->cam.ori, vec3_scale(mini_rt->cam.dir, step));
-		else if (keysym == K_RESET)
-		{
-			mini_rt->cam.ori.x = 0;
-			mini_rt->cam.ori.y = 0;
-			mini_rt->cam.ori.z = 0;
-			mini_rt->cam.dir.x = 0;
-			mini_rt->cam.dir.y = 0;
-			mini_rt->cam.dir.z = VP_DISTANCE;
-			shoot_rays(mini_rt);
-		}
+		mini_rt->cam.ori.x = 0;
+		mini_rt->cam.ori.y = 0;
+		mini_rt->cam.ori.z = 0;
+		mini_rt->cam.dir.x = 0;
+		mini_rt->cam.dir.y = 0;
+		mini_rt->cam.dir.z = VP_DISTANCE;
 	}
+	shoot_rays(mini_rt);
 	// printf("Camera position: x=%f, y=%f, z=%f\n", mini_rt->cam.ori.x, mini_rt->cam.ori.y, mini_rt->cam.ori.z);
 	// printf("keysym: %d\n", keysym);
 	return (0);

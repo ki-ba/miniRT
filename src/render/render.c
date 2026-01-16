@@ -41,7 +41,7 @@ void	shoot_rays(t_mini_rt *m_rt)
 	{
 		ray = create_ray(m_rt->cam, i);
 		inter = check_intersect_obj(m_rt->objects, ray);
-		draw_intersection(m_rt, &inter, i);
+		draw_intersection(m_rt, &inter, &i);
 		++i;
 	}
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);

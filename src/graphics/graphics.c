@@ -16,6 +16,7 @@
 #include "graphics.h"
 #include "mlx.h"
 #include "hooks.h"
+#include "debug.h"
 
 static void	init_mouse(t_mini_rt *mini_rt)
 {
