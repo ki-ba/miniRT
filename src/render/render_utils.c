@@ -19,11 +19,17 @@
 
 void	draw_intersection(t_mini_rt *m_rt, t_inter *inter, int *i)
 {
-	t_color	c;
-	t_light	*light;
-	int		j;
+	int	xmax = *i % W + LQ_STEP + 1;
+	int	ymax = *i / H + LQ_STEP + 1;
+	int			x;
+	int			y;
+	t_color		c;
+	t_light		*light;
 
-	j = *i;
+	x = *i % W;
+	y = *i / W;
+	// printf("xmax: %d, ymax: %d\n", xmax, ymax);
+	// printf("init x: %d, y: %d\n", x, y);
 	light = get_ith_light(m_rt->lights, 0);
 	if (inter->t > 0 && inter->t != INFINITY)
 	{
@@ -32,12 +38,17 @@ void	draw_intersection(t_mini_rt *m_rt, t_inter *inter, int *i)
 			my_mlx_pixel_put(&m_rt->mlx.img, *i % W, *i / W, c.trgb);
 		else
 		{
-			while (*i < j + LQ_STEP && *i % W < W && *i / W < H)
+			while (y < ymax && y < H)
 			{
-				my_mlx_pixel_put(&m_rt->mlx.img, *i % W, *i / W, c.trgb);
-				++(*i);
+				x = *i % W;
+				while (x < xmax && x < W)
+				{
+					my_mlx_pixel_put(&m_rt->mlx.img, x, y, c.trgb);
+					++x;
+				}
+				++y;
 			}
-			--(*i);
+			*i += LQ_STEP - 1;
 		}
 	}
 	else

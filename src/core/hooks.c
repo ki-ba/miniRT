@@ -42,8 +42,9 @@ static void	handle_hook_mode(t_mini_rt *mrt, int keysym)
 		}
 		++i;
 	}
-	print_binary(mrt->mode.v);
-	printf("\n");
+	// printf("mode: ");
+	// print_binary(mrt->mode.v);
+	// printf("\n");
 }
 
 int	handle_mouse_move(int x, int y, t_mini_rt *mini_rt)

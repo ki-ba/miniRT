@@ -20,8 +20,8 @@
 # include "graphics.h"
 # include "color.h"
 
-# define WIDTH 160
-# define HEIGHT 160
+# define WIDTH 1920
+# define HEIGHT 1080
 
 # define W WIDTH
 # define H HEIGHT
