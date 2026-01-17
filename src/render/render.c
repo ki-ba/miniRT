@@ -25,24 +25,21 @@
 */
 void	shoot_rays(t_mini_rt *m_rt)
 {
-	t_inter		inter;
-	t_ray		ray;
-	t_mlx		*mlx;
-	int			i;
-	int			rh;
-	int			rw;
+	const t_mlx		*mlx = &m_rt->mlx;
+	int				rhw;
+	t_inter			inter;
+	t_ray			ray;
+	int				i;
 
 	if (is_set_bit(m_rt->mode.v, RENDER))
 		m_rt->scale = HQ_SCALE;
 	else
 		m_rt->scale = LQ_SCALE;
-	rh = H / m_rt->scale;
-	rw = W / m_rt->scale;
-	mlx = &m_rt->mlx;
-	ray = (t_ray){m_rt->cam.ori, (t_vec3){0}};
 	i = 0;
+	rhw = (H / m_rt->scale) * (W  / m_rt->scale);
+	ray = (t_ray){m_rt->cam.ori, (t_vec3){0}};
 	init_vp(&m_rt->cam);
-	while (i < rh * rw)
+	while (i < rhw)
 	{
 		ray = create_ray(m_rt->cam, i, m_rt->scale);
 		inter = check_intersect_obj(m_rt->objects, ray);
