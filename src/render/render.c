@@ -10,16 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "hooks.h"
 #include "miniRT.h"
 #include "vec3.h"
 #include "render.h"
-#include "objects.h"
 #include "intersect.h"
 #include "core.h"
 #include "mlx.h"
-
-t_object	*get_ith_obj(t_vector *vector, size_t	index); //TODO: remove
-t_light		*get_ith_light(t_vector *vector, size_t index);
 
 /*
 	* @brief defines a viewport in front of the camera at a distance of 1,
@@ -35,6 +32,10 @@ void	shoot_rays(t_mini_rt *m_rt)
 	int			rh;
 	int			rw;
 
+	if (is_set_bit(m_rt->mode.v, RENDER))
+		m_rt->scale = HQ_SCALE;
+	else
+		m_rt->scale = LQ_SCALE;
 	rh = H / m_rt->scale;
 	rw = W / m_rt->scale;
 	mlx = &m_rt->mlx;

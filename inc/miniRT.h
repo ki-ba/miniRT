@@ -14,10 +14,17 @@
 # define MINIRT_H
 
 # include "libft.h"
+# include "hooks.h"
 # include "vec3.h"
 # include "vectors.h"
 # include "graphics.h"
 # include "color.h"
+
+# define WIDTH 1920
+# define HEIGHT 1080
+
+# define W WIDTH
+# define H HEIGHT
 
 # define VP_DISTANCE 1
 
@@ -69,8 +76,10 @@ struct s_viewport
 	t_vec3	lower_left;
 	t_vec3	hrz;
 	t_vec3	vrt;
-	double	delta_u;
-	double	delta_v;
+	t_vec3	delta_u;
+	t_vec3	delta_v;
+	double	vp_height;
+	double	vp_width;
 };
 
 struct s_camera
@@ -80,15 +89,14 @@ struct s_camera
 	t_vec3				dir;
 	t_vec3				up;
 	t_vec3				right;
-	struct s_viewport	vp;
-	double				vp_height;
-	double				vp_width;
+	t_viewport			vp;
 	double				fov;
 };
 
 struct s_mini_rt
 {
 	int			scale;
+	t_hooks		mode;
 	t_vector	*objects;
 	t_vector	*lights;
 	t_camera	cam;

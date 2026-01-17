@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 16:04:24 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/17 11:56:56 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/07 14:50:00 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_properties(t_mini_rt *mini_rt)
 		write(2, MISSING_PROPERTY_MSG, ft_strlen(MISSING_PROPERTY_MSG));
 		return (GENERIC_ERR);
 	}
-	return (0);
+		return (0);
 }
 
 int	main(int argc, char *argv[])
@@ -47,8 +47,8 @@ int	main(int argc, char *argv[])
 		clean_exit(&mini_rt, GENERIC_ERR);
 	if (check_properties(&mini_rt))
 		clean_exit(&mini_rt, GENERIC_ERR);
-	print_mini_rt(&mini_rt);
 	ft_init_mlx(&mini_rt);
+	print_mini_rt(&mini_rt);
 	shoot_rays(&mini_rt);
 	mlx_loop(mini_rt.mlx.mlx);
 	destroy_mini_rt(&mini_rt);

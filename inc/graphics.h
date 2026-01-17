@@ -21,7 +21,11 @@
 # define W WIDTH
 # define H HEIGHT
 
-# define SCALE 8
+# define LQ_SCALE 8
+# define HQ_SCALE 1
+
+// Common factors betweeen 1920 and 1080 are : 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60, 120
+
 
 typedef struct s_mini_rt	t_mini_rt;
 typedef struct s_data		t_data;

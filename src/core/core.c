@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "objects.h"
 #include "vectors.h"
 #include "debug.h"
@@ -32,12 +33,13 @@ void	destroy_mini_rt(t_mini_rt *mini_rt)
 
 void	init_mini_rt(t_mini_rt *mini_rt)
 {
-	mini_rt->scale = SCALE;
+	mini_rt->scale = HQ_SCALE;
 	mini_rt->mlx.mlx = NULL;
 	mini_rt->mlx.win = NULL;
 	mini_rt->mlx.img = (t_data){0};
 	mini_rt->lights = create_vector(1, sizeof(t_light), NULL);
 	mini_rt->objects = create_vector(1, sizeof(t_object), NULL);
+	mini_rt->mode = (t_hooks){1 << RENDER};
 	mini_rt->cam = (t_camera){0};
 	mini_rt->amb = (t_ambient){0};
 }
@@ -57,11 +59,14 @@ void	clean_exit(t_mini_rt *mini_rt, int exit_code)
 
 void	init_vp(t_camera *cam)
 {
-	t_viewport	*vp;
+	const double	aspect_ratio = (double)WIDTH / (double)HEIGHT;
+	t_viewport		*vp;
 
 	vp = &(cam->vp);
-	vp->hrz = vec3_scale(cam->right, cam->vp_width);
-	vp->vrt = vec3_scale(cam->up, cam->vp_height);
+	vp->vp_width = 2 * tan(cam->fov / 2) * VP_DISTANCE;
+	vp->vp_height = vp->vp_width / aspect_ratio;
+	vp->hrz = vec3_scale(cam->right, cam->vp.vp_width);
+	vp->vrt = vec3_scale(cam->up, cam->vp.vp_height);
 	vp->lower_left = vec3_add((cam->ori), cam->dir);
 	vp->lower_left = vec3_substract(vp->lower_left, vec3_scale(vp->hrz, 0.5));
 	vp->lower_left = vec3_substract(vp->lower_left, vec3_scale(vp->vrt, 0.5));

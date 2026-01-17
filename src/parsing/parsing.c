@@ -36,7 +36,8 @@ int	add_item(t_vector **objects, int (*f)(void *, char **), char **item_arr)
 		return (GENERIC_ERR);
 	obj = (t_object){0};
 	obj.type = define_item_type(item_arr[0]);
-	f(&obj, item_arr);
+	if (f(&obj, item_arr))
+		return (GENERIC_ERR);
 	add_element(*objects, &obj);
 	return (0);
 }
@@ -55,7 +56,7 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 		return (GENERIC_ERR);
 	if (read_point(&mini_rt->cam.ori, property[1]))
 		return (GENERIC_ERR);
-	if (read_normalized_vec(&mini_rt->cam.dir, property[2]))
+	if (read_normalized_vec(&mini_rt->cam.dir, property[2]) == INVALID_VALUE_ERR)
 		return (GENERIC_ERR);
 	mini_rt->cam.fov = deg_to_rad(ft_strtod(property[3], &n));
 	world_up = (t_vec3) {0, 1, 0};
@@ -64,8 +65,8 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 	tmp = vec3_cross(world_up, mini_rt->cam.dir);
 	mini_rt->cam.right = vec3_normalize(tmp);
 	mini_rt->cam.up = vec3_cross(mini_rt->cam.dir, mini_rt->cam.right);
-	mini_rt->cam.vp_width = 2 * tan(mini_rt->cam.fov / 2) * VP_DISTANCE;
-	mini_rt->cam.vp_height = mini_rt->cam.vp_width / aspect_ratio;
+	mini_rt->cam.vp.vp_width = 2 * tan(mini_rt->cam.fov / 2) * VP_DISTANCE;
+	mini_rt->cam.vp.vp_height = mini_rt->cam.vp.vp_width / aspect_ratio;
 	return (*n != '\0');
 }
 
@@ -105,7 +106,6 @@ int	set_property(t_mini_rt *mini_rt, char **property)
 	if (status == TOO_MUCH_ELEMENTS_ERR)
 		write(2, TOO_MUCH_ELEMENTS_MSG, ft_strlen(TOO_MUCH_ELEMENTS_MSG));
 	return (status);
-	return (0);
 }
 
 /**
@@ -195,5 +195,6 @@ int	parse_items_in_file(t_mini_rt *mini_rt, int fd)
 		free(line);
 		line = get_next_line(fd, &status);
 	}
+	printf("STATUS: %d\n", status);
 	return (status);
 }

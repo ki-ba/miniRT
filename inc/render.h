@@ -16,7 +16,7 @@
 # include "miniRT.h"
 # include "intersect.h"
 
-# define MOVE_STEP 5
+# define	LQ_STEP 10
 
 void	shoot_rays(t_mini_rt *mini_rt);
 
