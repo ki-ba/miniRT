@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 16:04:24 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/07 14:50:00 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/17 15:27:13 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "core.h"
 #include "render.h"
 #include "mlx.h"
-#include "vectors.h"
 
 #include <fcntl.h>
 
@@ -25,7 +24,7 @@ int	check_properties(t_mini_rt *mini_rt)
 		write(2, MISSING_PROPERTY_MSG, ft_strlen(MISSING_PROPERTY_MSG));
 		return (GENERIC_ERR);
 	}
-		return (0);
+	return (0);
 }
 
 int	main(int argc, char *argv[])

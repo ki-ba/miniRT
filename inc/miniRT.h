@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/17 11:40:44 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/17 16:42:02 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@
 # include "graphics.h"
 # include "color.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
-
-# define W WIDTH
-# define H HEIGHT
-
 # define VP_DISTANCE 1
 
 /* ENUMS */
@@ -34,7 +28,7 @@ enum e_error_code
 	SUCCESS = 0,
 	GENERIC_ERR,
 	NULL_PARAM_ERR,
-	INVALID_VALUE_ERR,
+	INVALID_VAL_ERR,
 	MALLOC_ERR,
 	TOO_MUCH_ELEMENTS_ERR,
 	VECTOR_NOT_NORMALIZED_ERR,

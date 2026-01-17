@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.h                                           :+:      :+:    :+:   */
+/*   vec3_sub.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abetemps <abetemps@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/22 19:22:16 by abetemps          #+#    #+#             */
-/*   Updated: 2026/01/17 16:32:06 by kbarru           ###   ########lyon.fr   */
+/*   Created: 2025/12/19 17:06:14 by abetemps          #+#    #+#             */
+/*   Updated: 2026/01/17 16:09:48 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RENDER_H
-# define RENDER_H
+#include "vec3.h"
 
-# include "miniRT.h"
-# include "intersect.h"
-
-# define LQ_STEP 10
-
-void	shoot_rays(t_mini_rt *mini_rt);
-
-// RENDER UTILS
-
-void	draw_intersection(t_mini_rt *m_rt, t_inter *inter, int i);
-t_ray	create_ray(t_camera cam, int index, int scale);
-t_color	get_color(t_vector *objects, t_ambient amb, t_inter inter, t_vector *l);
-
-#endif
+extern inline t_vec3	vec3_sub(t_vec3 u, t_vec3 v)
+{
+	return ((t_vec3){u.x - v.x, u.y - v.y, u.z - v.z});
+}

@@ -42,13 +42,13 @@ TEST_SUBDIRS = $(addprefix tests/, $(SUBDIRS))
 
 PARSING_FILENAMES 	= parsing.c parsing_utils.c read_properties.c str_utils.c
 OBJECTS_FILENAMES 	= objects.c
-VEC3_FILENAMES		= vec3_create.c vec3_add.c vec3_cross.c vec3_dot.c vec3_scale.c vec3_normalize.c vec3_substract.c vec3_magnitude.c
+VEC3_FILENAMES		= vec3_create.c vec3_add.c vec3_cross.c vec3_dot.c vec3_scale.c vec3_normalize.c vec3_sub.c vec3_magnitude.c
 DEBUG_FILENAMES		= debug.c debug_utils.c
 GRAPHICS_FILENAMES	= graphics.c
-CORE_FILENAMES		= core.c hooks.c math.c core_utils.c
+CORE_FILENAMES		= core.c hooks.c hooks_utils.c math.c core_utils.c
 RENDER_FILENAMES	= render.c render_utils.c
 COLOR_FILENAMES		= color.c
-INTERSECT_FILENAMES = intersect.c
+INTERSECT_FILENAMES = intersect.c normal.c
 
 # CATEGORY_FILENAMES = filename.c
 
@@ -96,9 +96,9 @@ clean:
 
 .PHONY : fclean
 fclean: clean
-	$(MAKE) -C $(LIBFT_DIR) fclean
-	$(MAKE) -C $(MLX_DIR) clean
-	$(MAKE) -C $(VECTORS_DIR) fclean
+	$(MAKE) -j4 -C $(LIBFT_DIR) fclean
+	$(MAKE) -j4 -C $(MLX_DIR) clean
+	$(MAKE) -j4 -C $(VECTORS_DIR) fclean
 	rm -f $(NAME)
 
 .PHONY : re

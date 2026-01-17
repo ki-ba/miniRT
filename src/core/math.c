@@ -25,7 +25,6 @@ t_bool	resolve_eq2(double a, double b, double c, double *root)
 {
 	double	discriminant;
 
-	// printf("Resolving equation %fx^2 + %fx + %f = 0\n", a, b, c);
 	*root = 0;
 	if (!root || a == 0)
 		return (FALSE);
