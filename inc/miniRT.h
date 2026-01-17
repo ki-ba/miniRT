@@ -6,77 +6,102 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2025/11/20 15:20:04 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/17 11:40:44 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include <stdint.h>
+# include "libft.h"
+# include "hooks.h"
+# include "vec3.h"
+# include "vectors.h"
+# include "graphics.h"
+# include "color.h"
 
-# define EXTENSION ".rt"
-# define PLANE "pl"
-# define CYLINDER "cy"
-# define SPHERE "sp"
-# define AMBIENT "A"
-# define LIGHT "L"
-# define CAMERA "C"
+# define WIDTH 1920
+# define HEIGHT 1080
+
+# define W WIDTH
+# define H HEIGHT
+
+# define VP_DISTANCE 1
+
+/* ENUMS */
+enum e_error_code
+{
+	SUCCESS = 0,
+	GENERIC_ERR,
+	NULL_PARAM_ERR,
+	INVALID_VALUE_ERR,
+	MALLOC_ERR,
+	TOO_MUCH_ELEMENTS_ERR,
+	VECTOR_NOT_NORMALIZED_ERR,
+	COMMENT_OR_EMPTY_LINE,
+	E_ERROR_CODE_QTY
+};
 
 /* UTILS */
+typedef struct s_ray		t_ray;
+typedef struct s_light		t_light;
+typedef struct s_ambient	t_ambient;
+typedef struct s_camera		t_camera;
+typedef struct s_mini_rt	t_mini_rt;
+typedef struct s_viewport	t_viewport;
 
-typedef union color
+struct s_ray
 {
-	int8_t	r;
-	int8_t	g;
-	int8_t	b;
-}	t_color;
+	t_vec3	ori;
+	t_vec3	dir;
+};
 
-typedef struct s_vec3
+/* SCENE */
+struct s_ambient
 {
-	int	x;
-	int	y;
-	int	z;
-}	t_vec3;
-
-typedef struct s_point
-{
-	int	x;
-	int	y;
-	int	z;
-}	t_point;
-
-typedef struct s_light
-{
-	t_point	origin;
-	t_color	color;
-	double	intensity;
-}	t_light;
-
-/* OBJECTS */
-
-typedef struct s_plane
-{
-	t_point	p;
+	t_bool	is_defined;
 	t_color	c;
-	t_vec3	normal;
-}	t_plane;
+	double	i;
+};
 
-typedef struct s_cylinder
+struct s_light
 {
-	t_point	center;
+	t_vec3	ori;
 	t_color	c;
-	t_vec3	normal;
-	double	diameter;
-	double	height;
-}	t_cylinder;
+	double	i;
+};
 
-typedef struct s_sphere
+struct s_viewport
 {
-	t_point	center;
-	t_color	c;
-	double	diameter;
-}	t_sphere;
+	t_vec3	lower_left;
+	t_vec3	hrz;
+	t_vec3	vrt;
+	t_vec3	delta_u;
+	t_vec3	delta_v;
+	double	vp_height;
+	double	vp_width;
+};
 
+struct s_camera
+{
+	t_bool				is_defined;
+	t_vec3				ori;
+	t_vec3				dir;
+	t_vec3				up;
+	t_vec3				right;
+	t_viewport			vp;
+	double				fov;
+};
+
+struct s_mini_rt
+{
+	int			scale;
+	t_hooks		mode;
+	t_vector	*objects;
+	t_vector	*lights;
+	t_camera	cam;
+	t_ambient	amb;
+	t_mlx		mlx;
+};
 
 #endif

@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static size_t	define_number_of_words(char const *s, char sep)
+static size_t	define_number_of_words(char const *s, char *charset)
 {
 	size_t	size;
 	int		i;
@@ -23,7 +23,7 @@ static size_t	define_number_of_words(char const *s, char sep)
 	size = 0;
 	while (s[i])
 	{
-		if (s[i] == sep)
+		if (ft_is_in(s[i], charset))
 			is_first_char = 1;
 		else if (is_first_char)
 		{
@@ -35,12 +35,12 @@ static size_t	define_number_of_words(char const *s, char sep)
 	return (size);
 }
 
-static size_t	define_word_size(char const *s, char sep)
+static size_t	define_word_size(char const *s, char *charset)
 {
 	size_t	i;
 
 	i = 0;
-	while (s[i] != sep && s[i])
+	while (ft_is_in(s[i], charset) == 0 && s[i])
 		++i;
 	return (i);
 }
@@ -59,7 +59,7 @@ static char	**free_arr(char **arr, size_t last_index)
 	return (0);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char *charset)
 {
 	char	**arr;
 	size_t	i;
@@ -69,15 +69,15 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	i = 0;
-	number_of_words = define_number_of_words(s, c);
+	number_of_words = define_number_of_words(s, charset);
 	arr = malloc((number_of_words + 1) * sizeof(char *));
 	if (!arr)
 		return (NULL);
 	while (number_of_words--)
 	{
-		while (*s == c)
+		while (ft_is_in(*s, charset))
 			++s;
-		word_size = define_word_size(s, c);
+		word_size = define_word_size(s, charset);
 		arr[i++] = ft_substr(s, 0, word_size);
 		if (!arr[i - 1])
 			return (free_arr(arr, i - 1));
