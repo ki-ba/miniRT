@@ -118,3 +118,17 @@ int	is_in_shadow(t_vector *objects, t_light *light, t_vec3 point)
 		return (TRUE);
 	return (FALSE);
 }
+
+t_vec3	get_normal_at_intersection(t_inter inter)
+{
+	t_vec3	normal;
+
+	if (inter.obj->type == SPHERE)
+	{
+		normal = vec3_substract(inter.p, inter.obj->center);
+		return (vec3_normalize(normal));
+	}
+	else if (inter.obj->type == PLANE)
+		return (vec3_normalize(inter.obj->n));
+	return ((t_vec3){0, 0, 0});
+}

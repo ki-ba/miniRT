@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 09:56:38 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/06 11:02:47 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/17 12:00:44 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_init_mlx(t_mini_rt *mini_rt)
 	mini_rt->mlx.img.addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
 			&img->line_length, &img->endian);
 	mlx_key_hook(mini_rt->mlx.win, handle_keypress, mini_rt);
+	mlx_hook(mini_rt->mlx.win, 17, 0, handle_window_close, mini_rt);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -36,3 +37,25 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel >> 3));
 	*(unsigned int *) dst = color;
 }
+
+void	draw_upscaled(t_data *img, int i, t_color c, int scale)
+{
+	int		rw;
+	int		w_x0;
+	int		w_y0;
+	int		dx;
+	int		dy;
+
+	rw = (W / scale);
+	w_x0 = (i % (rw)) * scale;
+	w_y0 = (i / (rw)) * scale;
+	dx = 0;
+	while (dx < scale)
+	{
+		dy = 0;
+		while (dy++ < scale)
+			my_mlx_pixel_put(img, w_x0 + dx, w_y0 + dy, c.trgb);
+		++dx;
+	}
+}
+

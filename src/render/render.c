@@ -6,7 +6,7 @@
 /*   By: abetemps <abetemps@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 19:21:16 by abetemps          #+#    #+#             */
-/*   Updated: 2026/01/14 16:38:22 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/17 11:24:16 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,18 @@ void	shoot_rays(t_mini_rt *m_rt)
 	t_ray		ray;
 	t_mlx		*mlx;
 	int			i;
+	int			rh;
+	int			rw;
 
+	rh = H / m_rt->scale;
+	rw = W / m_rt->scale;
 	mlx = &m_rt->mlx;
 	ray = (t_ray){m_rt->cam.ori, (t_vec3){0}};
 	i = 0;
 	init_vp(&m_rt->cam);
-	while (i < H * W)
+	while (i < rh * rw)
 	{
-		ray = create_ray(m_rt->cam, i);
+		ray = create_ray(m_rt->cam, i, m_rt->scale);
 		inter = check_intersect_obj(m_rt->objects, ray);
 		draw_intersection(m_rt, &inter, i);
 		++i;

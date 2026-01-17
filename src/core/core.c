@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:49:44 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/14 16:23:17 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/17 11:57:18 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	destroy_mini_rt(t_mini_rt *mini_rt)
 
 void	init_mini_rt(t_mini_rt *mini_rt)
 {
+	mini_rt->scale = SCALE;
 	mini_rt->mlx.mlx = NULL;
 	mini_rt->mlx.win = NULL;
 	mini_rt->mlx.img = (t_data){0};
