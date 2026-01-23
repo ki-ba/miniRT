@@ -13,6 +13,8 @@
 #ifndef HOOKS_H
 # define HOOKS_H
 
+typedef struct s_vec3	t_vec3;
+
 // SETTINGS
 # define SENSIVITY	 	0.002
 # define DEADZONE	 	0.1
@@ -66,7 +68,8 @@ struct	s_hooks
 void					handle_hook_mode(t_mini_rt *mrt, int keysym);
 int						handle_keypress(int keysym, void *param);
 int						handle_window_close(void *param);
-int						handle_mouse_scroll(int mouse_event, void *param);
+int						handle_mouse_scroll(int mouse_event, int x, int y, void *param);
+void					lock_mouse(t_mini_rt *mrt, t_vec3 *pos, int x, int y);
 int						handle_mouse_move(int x, int y, void *param);
 t_bool					is_set_bit(unsigned int v, unsigned int flag);
 
