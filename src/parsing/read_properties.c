@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:46:04 by kbarru            #+#    #+#             */
-/*   Updated: 2025/12/10 15:51:55 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/19 14:49:30 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,26 @@ int	read_color(t_color *c, char *string)
 	char	*n;
 	int		status;
 
-	status = 0;
+	status = SUCCESS;
 	if (!c || !string)
 		return (NULL_PARAM_ERR);
-	if (count_char_in_str(string, ',') != 2)
-		return (INVALID_VALUE_ERR);
 	arr = ft_split(string, ",");
 	if (!arr)
 		return (MALLOC_ERR);
-	if (arr_len(arr) < 3)
+	if (count_char_in_str(string, ',') != 2 || arr_len(arr) < 3)
 	{
 		ft_free_arr(arr);
-		return (INVALID_VALUE_ERR);
+		return (INVALID_VAL_ERR);
 	}
-	// c->t = ;+
 	c->r = ft_atoui_8(arr[0], &n);
 	if (*n != 0)
-		status = (INVALID_VALUE_ERR);
+		status = (INVALID_VAL_ERR);
 	c->g = ft_atoui_8(arr[1], &n);
 	if (*n != 0)
-		status = (INVALID_VALUE_ERR);
+		status = (INVALID_VAL_ERR);
 	c->b = ft_atoui_8(arr[2], &n);
 	if (*n != 0)
-		status = (INVALID_VALUE_ERR);
+		status = (INVALID_VAL_ERR);
 	ft_free_arr(arr);
 	return (status);
 }
@@ -71,7 +68,7 @@ int	fill_double_array(double *slots[3], char **arr, size_t size)
 	{
 		*slots[i] = ft_strtod(arr[i], &n);
 		if (*n != '\0')
-			return (INVALID_VALUE_ERR);
+			return (INVALID_VAL_ERR);
 		++i;
 	}
 	return (SUCCESS);
@@ -85,14 +82,14 @@ int	read_point(t_vec3 *p, char *string)
 	if (!p || !string)
 		return (NULL_PARAM_ERR);
 	if (count_char_in_str(string, ',') != 2)
-		return (INVALID_VALUE_ERR);
+		return (INVALID_VAL_ERR);
 	arr = ft_split(string, ",");
 	if (!arr)
 		return (MALLOC_ERR);
 	if (arr_len(arr) < 3)
 	{
 		ft_free_arr(arr);
-		return (INVALID_VALUE_ERR);
+		return (INVALID_VAL_ERR);
 	}
 	array_status = fill_double_array((double *[]){&p->x, &p->y, &p->z}, arr, 3);
 	ft_free_arr(arr);
@@ -106,30 +103,24 @@ int	read_normalized_vec(t_vec3 *v, char *string)
 
 	if (!string || !v)
 		return (NULL_PARAM_ERR);
-	if (count_char_in_str(string, ',') != 2)
-		return (INVALID_VALUE_ERR);
 	arr = ft_split(string, ",");
 	if (!arr)
 		return (MALLOC_ERR);
-	if (arr_len(arr) < 3)
+	if (count_char_in_str(string, ',') != 2 || arr_len(arr) < 3)
 	{
 		ft_free_arr(arr);
-		return (INVALID_VALUE_ERR);
+		return (INVALID_VAL_ERR);
 	}
 	array_status = fill_double_array((double *[]){&v->x, &v->y, &v->z}, arr, 3);
 	ft_free_arr(arr);
 	if (array_status != SUCCESS)
-	{
-		return (INVALID_VALUE_ERR);
-	}
+		return (INVALID_VAL_ERR);
 	else if (v->x == 0 && v->y == 0 && v->z == 0)
 	{
 		write(2, VECTOR_NOT_NORMALIZED, ft_strlen(VECTOR_NOT_NORMALIZED));
-		return (INVALID_VALUE_ERR);
+		return (INVALID_VAL_ERR);
 	}
 	else if (is_normalized(*v) == FALSE)
-	{
 		*v = vec3_normalize(*v);
-	}
 	return (SUCCESS);
 }

@@ -35,9 +35,9 @@ void	ft_init_mlx(t_mini_rt *mini_rt)
 			&img->line_length, &img->endian);
 	init_mouse(mini_rt);
 	mlx_key_hook(mini_rt->mlx.win, handle_keypress, mini_rt);
-	mlx_hook(mini_rt->mlx.win, MotionNotify, PointerMotionMask, handle_mouse_move, mini_rt);
-	mlx_hook(mini_rt->mlx.win, ON_DESTROY , 0, handle_window_close, mini_rt);
 	mlx_mouse_hook(mini_rt->mlx.win, handle_mouse_scroll, mini_rt);
+	mlx_hook(mini_rt->mlx.win, MotionNotify, PointerMotionMask, handle_mouse_move, mini_rt);
+	mlx_hook(mini_rt->mlx.win, ON_DESTROY, 0, handle_window_close, mini_rt);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -57,8 +57,8 @@ void	draw_upscaled(t_data *img, int i, t_color c, int scale)
 	int		dy;
 
 	rw = (W / scale);
-	w_x0 = (i % (rw)) * scale;
-	w_y0 = (i / (rw)) * scale;
+	w_x0 = (i % rw) * scale;
+	w_y0 = (i / rw) * scale;
 	dx = 0;
 	while (dx < scale)
 	{

@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/17 11:40:44 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/19 14:54:01 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,8 @@
 # include "graphics.h"
 # include "color.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
-
-# define W WIDTH
-# define H HEIGHT
-
 # define VP_DISTANCE 1
+# define SHININESS 50
 
 /* ENUMS */
 enum e_error_code
@@ -34,7 +29,7 @@ enum e_error_code
 	SUCCESS = 0,
 	GENERIC_ERR,
 	NULL_PARAM_ERR,
-	INVALID_VALUE_ERR,
+	INVALID_VAL_ERR,
 	MALLOC_ERR,
 	TOO_MUCH_ELEMENTS_ERR,
 	VECTOR_NOT_NORMALIZED_ERR,
@@ -49,6 +44,7 @@ typedef struct s_ambient	t_ambient;
 typedef struct s_camera		t_camera;
 typedef struct s_mini_rt	t_mini_rt;
 typedef struct s_viewport	t_viewport;
+typedef struct s_scene		t_scene;
 
 struct s_ray
 {
@@ -87,20 +83,27 @@ struct s_camera
 	t_bool				is_defined;
 	t_vec3				ori;
 	t_vec3				dir;
+	t_vec3				wup;
 	t_vec3				up;
 	t_vec3				right;
 	t_viewport			vp;
 	double				fov;
+	t_vec3				rot;
+};
+
+struct s_scene
+{
+	t_vector	*objects;
+	t_vector	*lights;
+	t_camera	cam;
+	t_ambient	amb;
 };
 
 struct s_mini_rt
 {
 	int			scale;
 	t_hooks		mode;
-	t_vector	*objects;
-	t_vector	*lights;
-	t_camera	cam;
-	t_ambient	amb;
+	t_scene		scene;
 	t_mlx		mlx;
 };
 

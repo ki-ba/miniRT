@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:08:42 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/14 16:42:52 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/17 16:40:55 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	test_shoot_rays(void);
 
 void	test_scale_color(void);
 
-
 // INTERSECT
 
 void	test_check_intersect_sphere(void);
@@ -89,4 +88,11 @@ void	test_get_ith_light(void);
 // RENDER UTILS
 
 void	test_draw_intersection(void);
+
+// NORMAL
+
+void	test_get_normal_sphere(void);
+
+// HOOKS UTILS
+void	test_is_set_bit(void);
 #endif

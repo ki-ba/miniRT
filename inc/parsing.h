@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 16:03:01 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/07 09:50:19 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/17 16:45:44 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ uint8_t			ft_atoui_8(const char *nptr, char **n);
 double			ft_strtod(char *str, char **n);
 int				check_extension(char *filename, char *extension);
 size_t			count_char_in_str(char *str, char c);
+int				format_line(char ***arr, char *line);
 
 /* READ PROPERTIES */
 

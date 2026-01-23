@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:13 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/12 15:20:59 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/17 16:45:07 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,14 @@
 #include "parsing.h"
 #include "core.h"
 #include "objects.h"
-#include "debug.h"
 #include "vectors.h"
 
-void	print_obj(t_object obj);
 /**
 	* @brief Generic function to add an item to a vector.
 	* @param lst The linked list to which the item will be added.
 	* @param f The function used to create the item from the specifications.
 	* @param item_arr The array of strings representing the item specifications.
 */
-
 int	add_item(t_vector **objects, int (*f)(void *, char **), char **item_arr)
 {
 	t_object	obj;
@@ -44,46 +41,51 @@ int	add_item(t_vector **objects, int (*f)(void *, char **), char **item_arr)
 
 int	set_camera(t_mini_rt *mini_rt, char **property)
 {
-	const double	aspect_ratio = (double)WIDTH / (double)HEIGHT;
+	const double	aspect_ratio = (double)W / (double)H;
 	t_vec3			world_up;
 	t_vec3			tmp;
 	char			*n;
+	t_scene			*scene;
 
-	if (mini_rt->cam.is_defined)
+	scene = &mini_rt->scene;
+	if (scene->cam.is_defined)
 		return (TOO_MUCH_ELEMENTS_ERR);
-	mini_rt->cam.is_defined = TRUE;
+	scene->cam.is_defined = TRUE;
 	if (arr_len(property) < 4)
 		return (GENERIC_ERR);
-	if (read_point(&mini_rt->cam.ori, property[1]))
+	if (read_point(&scene->cam.ori, property[1]))
 		return (GENERIC_ERR);
-	if (read_normalized_vec(&mini_rt->cam.dir, property[2]) == INVALID_VALUE_ERR)
+	if (read_normalized_vec(&scene->cam.dir, property[2]) == INVALID_VAL_ERR)
 		return (GENERIC_ERR);
-	mini_rt->cam.fov = deg_to_rad(ft_strtod(property[3], &n));
-	world_up = (t_vec3) {0, 1, 0};
-	if (fabs(vec3_dot(mini_rt->cam.dir, world_up)) > 0.999)
-		world_up = (t_vec3){0,0,1};
-	tmp = vec3_cross(world_up, mini_rt->cam.dir);
-	mini_rt->cam.right = vec3_normalize(tmp);
-	mini_rt->cam.up = vec3_cross(mini_rt->cam.dir, mini_rt->cam.right);
-	mini_rt->cam.vp.vp_width = 2 * tan(mini_rt->cam.fov / 2) * VP_DISTANCE;
-	mini_rt->cam.vp.vp_height = mini_rt->cam.vp.vp_width / aspect_ratio;
+	scene->cam.fov = deg_to_rad(ft_strtod(property[3], &n));
+	world_up = (t_vec3){0, 1, 0};
+	if (fabs(vec3_dot(scene->cam.dir, world_up)) > 0.999)
+		world_up = (t_vec3){0, 0, 1};
+	tmp = vec3_cross(world_up, scene->cam.dir);
+	scene->cam.right = vec3_normalize(tmp);
+	scene->cam.up = vec3_cross(scene->cam.dir, scene->cam.right);
+	scene->cam.vp.vp_width = 2 * tan(scene->cam.fov / 2) * VP_DISTANCE;
+	scene->cam.vp.vp_height = scene->cam.vp.vp_width / aspect_ratio;
+	scene->cam.rot = (t_vec3){atan2(scene->cam.dir.z, scene->cam.dir.x),asin(scene->cam.dir.y), 0};
 	return (*n != '\0');
 }
 
 int	set_amb(t_mini_rt *mini_rt, char **property)
 {
 	char	*n;
+	t_scene	*scene;
 
-	if (mini_rt->amb.is_defined)
+	scene = &mini_rt->scene;
+	if (scene->amb.is_defined)
 		return (TOO_MUCH_ELEMENTS_ERR);
-	mini_rt->amb.is_defined = TRUE;
+	scene->amb.is_defined = TRUE;
 	if (arr_len(property) < 3)
 		return (GENERIC_ERR);
-	if (read_color(&mini_rt->amb.c, property[2]))
+	if (read_color(&scene->amb.c, property[2]))
 		return (GENERIC_ERR);
-	mini_rt->amb.i = ft_strtod(property[1], &n);
-	if (*n != '\0' || mini_rt->amb.i < 0.0
-		|| mini_rt->amb.i > 1.0)
+	scene->amb.i = ft_strtod(property[1], &n);
+	if (*n != '\0' || scene->amb.i < 0.0
+		|| scene->amb.i > 1.0)
 		return (GENERIC_ERR);
 	return (0);
 }
@@ -109,38 +111,6 @@ int	set_property(t_mini_rt *mini_rt, char **property)
 }
 
 /**
- * @brief Format a line by trimming whitespace and splitting into tokens.
- * @param arr Pointer to store the resulting array of strings.
- * @param line The input line to format.
- * @return 0 on success, or an error code on failure.
- */
-int	format_line(char ***arr, char *line)
-{
-	char	*trimmed_line;
-
-	*arr = NULL;
-	trimmed_line = ft_strtrim(line, WHITESPACES);
-	if (!trimmed_line)
-	{
-		free(trimmed_line);
-		return (MALLOC_ERR);
-	}
-	if (trimmed_line[0] == '#' || trimmed_line[0] == '\0')
-	{
-		free(trimmed_line);
-		return (COMMENT_OR_EMPTY_LINE);
-	}
-	*arr = ft_split(line, WHITESPACES);
-	if (!arr)
-	{
-		free(trimmed_line);
-		return (MALLOC_ERR);
-	}
-	free(trimmed_line);
-	return (0);
-}
-
-/**
 	* @brief Handle a single line from the input file.
 	* @param mini_rt The main miniRT structure to populate.
 	* @param line The line to process.
@@ -157,8 +127,8 @@ int	handle_line(t_mini_rt *mini_rt, char *line)
 	status = format_line(&object_arr, line);
 	if (status > 0)
 		return (!(status == COMMENT_OR_EMPTY_LINE));
-	engine_lists[0] = &mini_rt->objects;
-	engine_lists[1] = &mini_rt->lights;
+	engine_lists[0] = &mini_rt->scene.objects;
+	engine_lists[1] = &mini_rt->scene.lights;
 	p[0] = &create_sphere;
 	p[1] = &create_plane;
 	p[2] = &create_cylinder;
@@ -170,7 +140,7 @@ int	handle_line(t_mini_rt *mini_rt, char *line)
 	else if (type >= 0)
 		status = (add_item(engine_lists[type == LIGHT], p[type], object_arr));
 	else
-		status = INVALID_VALUE_ERR;
+		status = INVALID_VAL_ERR;
 	ft_free_arr(object_arr);
 	return (status);
 }

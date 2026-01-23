@@ -6,13 +6,15 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 15:51:25 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/07 09:51:04 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/17 16:44:33 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "stdint.h"
 #include <math.h>
+#include "miniRT.h"
+#include "parsing.h"
 
 size_t	count_char_in_str(char *str, char c)
 {
@@ -106,4 +108,36 @@ int	check_extension(char *filename, char *extension)
 	if (ft_strncmp(&filename[len - 3], extension, 4))
 		return (FALSE);
 	return (TRUE);
+}
+
+/**
+ * @brief Format a line by trimming whitespace and splitting into tokens.
+ * @param arr Pointer to store the resulting array of strings.
+ * @param line The input line to format.
+ * @return 0 on success, or an error code on failure.
+ */
+int	format_line(char ***arr, char *line)
+{
+	char	*trimmed_line;
+
+	*arr = NULL;
+	trimmed_line = ft_strtrim(line, WHITESPACES);
+	if (!trimmed_line)
+	{
+		free(trimmed_line);
+		return (MALLOC_ERR);
+	}
+	if (trimmed_line[0] == '#' || trimmed_line[0] == '\0')
+	{
+		free(trimmed_line);
+		return (COMMENT_OR_EMPTY_LINE);
+	}
+	*arr = ft_split(line, WHITESPACES);
+	if (!arr)
+	{
+		free(trimmed_line);
+		return (MALLOC_ERR);
+	}
+	free(trimmed_line);
+	return (0);
 }

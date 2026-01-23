@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 11:02:52 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/14 16:42:53 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/17 16:40:37 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,12 @@ int	main(void)
 	
 	RUN_TEST(test_get_ith_obj);
 	RUN_TEST(test_get_ith_light);
+
+	// NORMAL TESTS
+	RUN_TEST(test_get_normal_sphere);
+
+
+	// HOOKS UTILS TESTS
+	void	test_is_set_bit(void);
 	return (0);
 }
