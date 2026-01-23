@@ -14,16 +14,8 @@
 
 # include "miniRT.h"
 
-typedef struct s_plane		t_plane;
-typedef struct s_cylinder	t_cylinder;
-typedef struct s_sphere		t_sphere;
 typedef struct s_object		t_object;
 typedef enum e_item_type	t_item_type;
-
-struct s_plane
-{
-	t_vec3	p;
-};
 
 enum e_item_type
 {

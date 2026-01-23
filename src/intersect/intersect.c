@@ -43,22 +43,25 @@ double	intersect_sphere(t_object *sp, t_ray ray)
 
 double	intersect_cylinder(t_object *cy, t_ray ray)
 {
+	const t_vec3	oc = vec3_sub(ray.ori, cy->center);
+	const double	dir_norm = vec3_dot(ray.dir, cy->n);
+	const double	oc_norm = vec3_dot(oc, cy->n);
+	const double	r = cy->diam / 2;
 	double	root;
 	double	a;
 	double	b;
 	double	c;
-	t_vec3	p;
 
-	a = 1 - vec3_dot(ray.dir, cy->n) * vec3_dot(ray.dir, cy->n);
-	b = (2 * vec3_dot(ray.dir, vec3_sub(ray.ori, cy->center))) - (vec3_dot(ray.dir, cy->n) * vec3_dot(cy->n, vec3_sub(ray.ori, cy->center)));
-	c = vec3_dot(vec3_sub(ray.ori, cy->center), vec3_sub(ray.ori, cy->center)) - (vec3_dot(cy->n, vec3_sub(ray.ori, cy->center)) * vec3_dot(cy->n, vec3_sub(ray.ori, cy->center))) - cy->diam / 2;
+	a = vec3_dot(ray.dir, ray.dir) - (dir_norm * dir_norm);
+	b = 2 * (vec3_dot(oc, ray.dir) - dir_norm * oc_norm);
+	c = vec3_dot(oc, oc) - (oc_norm * oc_norm) - (r * r);
 	if (!resolve_eq2(a, b, c, &root))
 		return (0);
-	p = vec3_add(ray.ori, vec3_scale(ray.dir, root));
-	double res = vec3_dot(vec3_sub(p, cy->center), cy->n);
-	if (res < -(cy->h / 2) || res > (cy->h / 2))
-		return (0);
-	return (root);
+	t_vec3	p = vec3_add(ray.ori, vec3_scale(ray.dir, root));
+	double	h = fabs(vec3_dot(vec3_sub(p, cy->center), cy->n));
+	if (h <= cy->h / 2)
+		return (root);
+	return (0);
 }
 
 /**
