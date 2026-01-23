@@ -87,10 +87,12 @@ struct s_camera
 	t_bool				is_defined;
 	t_vec3				ori;
 	t_vec3				dir;
+	t_vec3				wup;
 	t_vec3				up;
 	t_vec3				right;
 	t_viewport			vp;
 	double				fov;
+	t_vec3				rot;
 };
 
 struct s_mini_rt

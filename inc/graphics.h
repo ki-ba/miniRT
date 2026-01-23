@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:02:57 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/17 11:27:35 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/23 14:17:47 by abetemps         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,10 @@
 
 #include "color.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
-
 # define W WIDTH
 # define H HEIGHT
 
-# define LQ_SCALE 8
+# define LQ_SCALE 30
 # define HQ_SCALE 1
 
 // Common factors betweeen 1920 and 1080 are : 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60, 120

@@ -55,7 +55,7 @@ double	check_intersect_cylinder(t_object *cy, t_ray ray)
 		return (0);
 	t_vec3	p = vec3_add(ray.ori, vec3_scale(ray.dir, root));
 	double res = vec3_dot(vec3_substract(p, cy->center), cy->n);
-	if (res < -(cy->h / 2) || res > (cy->h / 2) )
+	if (res > (cy->h / 2) )
 		return (0);
 	return (root);
 

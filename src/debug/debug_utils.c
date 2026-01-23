@@ -48,18 +48,23 @@ void	print_viewport(t_viewport vp)
 	printf("viewport height: %f\n", vp.vp_height);
 }
 
+void	print_camera(t_camera cam)
+{
+	printf("CAMERA :\n");
+	print_vec3("origin", cam.ori);
+	print_vector("orientation", cam.dir);
+	printf("fov : %f\n", cam.fov);
+	printf("right vec: %f %f %f\n", cam.right.x, cam.right.y, cam.right.z);
+	printf("up vec: %f %f %f\n\n", cam.up.x, cam.up.y, cam.up.z);
+}
+
 void	print_properties(t_mini_rt mini_rt)
 {
 	printf("AMBIENT LIGHT :\n");
 	printf("intensity : %.2f\n", mini_rt.amb.i);
 	print_color("color", mini_rt.amb.c);
+	print_camera(mini_rt.cam);
 	printf("\n\n");
-	printf("CAMERA :\n");
-	print_vec3("origin", mini_rt.cam.ori);
-	print_vector("orientation", mini_rt.cam.dir);
-	printf("fov : %f\n", mini_rt.cam.fov);
-	printf("right vec: %f %f %f\n", mini_rt.cam.right.x, mini_rt.cam.right.y, mini_rt.cam.right.z);
-	printf("up vec: %f %f %f\n", mini_rt.cam.up.x, mini_rt.cam.up.y, mini_rt.cam.up.z);
 	print_viewport(mini_rt.cam.vp);
 	printf("\n\n");
 }

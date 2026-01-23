@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <X11/keysymdef.h>
+#include <math.h>
 #include "mlx.h"
 #include "hooks.h"
 #include "vec3.h"
@@ -41,44 +42,61 @@ static void	handle_hook_mode(t_mini_rt *mrt, int keysym)
 		}
 		++i;
 	}
-	printf("mode: ");
-	print_binary(mrt->mode.v);
-	printf("\n");
+	// printf("mode: ");
+	// print_binary(mrt->mode.v);
+	// printf("\n");
 }
 
-int	handle_mouse_move(int x, int y, void *param)
+int handle_mouse_move(int x, int y, void *param)
 {
-	t_mini_rt *mini_rt;
+	static t_vec3	last_pos = {W / 2, H / 2, 0};
+	t_vec3	mouse_delta = {x - last_pos.x, y - last_pos.y, 0};
 
+	t_mini_rt		*mini_rt;
 	mini_rt = (t_mini_rt *)param;
-	const t_vec3	mouse = {x, y, VP_DISTANCE};
-	const double	cx = (double)W / 2;
-	const double	cy = (double)H / 2;
-	static t_vec3	center = {cx, cy, 0};
-	const double	sensivity = SENSIVITY;
-	const t_vec3	dir = vec3_scale(vec3_normalize(vec3_substract(mouse, center)), sensivity);
+	t_vec3	rotation_delta = {-SENSIVITY * mouse_delta.x, SENSIVITY * mouse_delta.y, 0};
 
-	if (is_set_bit(mini_rt->mode.v, OBJ))
+	if (!is_set_bit(mini_rt->mode.v, RENDER))
 	{
-		mlx_mouse_show(mini_rt->mlx.mlx, mini_rt->mlx.win);
-	}
-	else if (!is_set_bit(mini_rt->mode.v, RENDER))
-	{
-		mini_rt->cam.dir = vec3_add(mini_rt->cam.dir, dir);
-		center = mouse;
+		// mini_rt->cam.right = vec3_normalize(vec3_cross(mini_rt->cam.wup, dir));
+		// mini_rt->cam.up = vec3_cross(dir, mini_rt->cam.right);
+		mini_rt->cam.dir = vec3_normalize((t_vec3) {cos(mini_rt->cam.rot.y) * cos(mini_rt->cam.rot.x), sin(mini_rt->cam.rot.y), cos(mini_rt->cam.rot.y) * sin(mini_rt->cam.rot.x)});
+		mini_rt->cam.rot = vec3_add(mini_rt->cam.rot, rotation_delta);
+
 		shoot_rays(mini_rt);
-		// mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, W >> 1, H >> 1);
+		last_pos = (t_vec3) {x, y, 0};
+		if (x > (W - (W * 0.01)))
+		{
+			mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, 1 + (W * 0.1), y);
+			last_pos = (t_vec3) {1 + (W * 0.1), y, 0};
+		}
+		else if (x < (0 + (W * 0.01)))
+		{
+			mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, W - (W * 0.1), y);
+			last_pos = (t_vec3) {W - (W * 0.1), y, 0};
+		}
+		if (y > (H - (H * 0.01)))
+		{
+			mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, x, 1 + (H * 0.1));
+			last_pos = (t_vec3) {x, 1 + (H * 0.1), 0};
+		}
+		else if (y < (0 + (H * 0.01)))
+		{
+			mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, x, H - (H * 0.1));
+			last_pos = (t_vec3) {x, H - (H * 0.1), 0};
+		}
 	}
 	return (0);
 }
 
 int	handle_mouse_scroll(int mouse_event, int x, int y, void *param)
-{ t_mini_rt *mini_rt;
-	mini_rt = (t_mini_rt *)param;
+{
 	const double	step = 0.02;
+	t_mini_rt		*mini_rt;
 	(void) x;
 	(void) y;
 	
+	mini_rt = (t_mini_rt *)param;
 	if (is_set_bit(mini_rt->mode.v, RENDER))
 		return (0);
 	if (mouse_event == ON_MOUSEDOWN)

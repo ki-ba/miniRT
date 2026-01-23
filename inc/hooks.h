@@ -14,7 +14,7 @@
 # define HOOKS_H
 
 // SETTINGS
-# define SENSIVITY	 	0.02
+# define SENSIVITY	 	0.002
 # define MIN_FOV_DEG 	0
 # define MAX_FOV_DEG 	180
 
