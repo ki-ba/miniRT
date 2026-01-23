@@ -21,26 +21,29 @@
 
 void	lock_mouse(t_mini_rt *mrt, t_vec3 *pos, int x, int y)
 {
+	const int w_deadzone = W * DEADZONE;
+	const int h_deadzone = H * DEADZONE;
+
 	*pos = (t_vec3) {x, y, 0};
-	if (x > (W - (W * DEADZONE)))
+	if (x > (W - (w_deadzone)))
 	{
-		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, 1 + (W * DEADZONE), y);
-		*pos = (t_vec3) {1 + (W * DEADZONE), y, 0};
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, 1 + (w_deadzone), y);
+		*pos = (t_vec3) {1 + (w_deadzone), y, 0};
 	}
-	else if (x < (0 + (W * DEADZONE)))
+	else if (x < (0 + (w_deadzone)))
 	{
-		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, W - (W * DEADZONE), y);
-		*pos = (t_vec3) {W - (W * DEADZONE), y, 0};
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, W - (w_deadzone), y);
+		*pos = (t_vec3) {W - (w_deadzone), y, 0};
 	}
-	if (y > (H - (H * DEADZONE)))
+	if (y > (H - (h_deadzone)))
 	{
-		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, x, 1 + (H * DEADZONE));
-		*pos = (t_vec3) {x, 1 + (H * DEADZONE), 0};
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, x, 1 + (h_deadzone));
+		*pos = (t_vec3) {x, 1 + (h_deadzone), 0};
 	}
-	else if (y < (0 + (H * DEADZONE)))
+	else if (y < (0 + (h_deadzone)))
 	{
-		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, x, H - (H * DEADZONE));
-		*pos = (t_vec3) {x, H - (H * DEADZONE), 0};
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, x, H - (h_deadzone));
+		*pos = (t_vec3) {x, H - (h_deadzone), 0};
 	}
 
 }

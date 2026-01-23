@@ -33,9 +33,6 @@ void	handle_hook_mode(t_mini_rt *mrt, int keysym)
 		}
 		++i;
 	}
-	printf("mode: ");
-	print_binary(mrt->mode.v);
-	printf("\n");
 }
 
 extern inline t_bool	is_set_bit(unsigned int v, unsigned int flag)
