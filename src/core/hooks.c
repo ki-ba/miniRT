@@ -47,44 +47,49 @@ static void	handle_hook_mode(t_mini_rt *mrt, int keysym)
 	// printf("\n");
 }
 
+void	lock_mouse(t_mini_rt *mrt, t_vec3 *pos, int x, int y)
+{
+	*pos = (t_vec3) {x, y, 0};
+	if (x > (W - (W * DEADZONE)))
+	{
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, 1 + (W * DEADZONE), y);
+		*pos = (t_vec3) {1 + (W * DEADZONE), y, 0};
+	}
+	else if (x < (0 + (W * DEADZONE)))
+	{
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, W - (W * DEADZONE), y);
+		*pos = (t_vec3) {W - (W * DEADZONE), y, 0};
+	}
+	if (y > (H - (H * DEADZONE)))
+	{
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, x, 1 + (H * DEADZONE));
+		*pos = (t_vec3) {x, 1 + (H * DEADZONE), 0};
+	}
+	else if (y < (0 + (H * DEADZONE)))
+	{
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, x, H - (H * DEADZONE));
+		*pos = (t_vec3) {x, H - (H * DEADZONE), 0};
+	}
+
+}
+
 int handle_mouse_move(int x, int y, void *param)
 {
 	static t_vec3	last_pos = {W / 2, H / 2, 0};
-	t_vec3	mouse_delta = {x - last_pos.x, y - last_pos.y, 0};
-
+	const t_vec3	mouse_delta = {x - last_pos.x, y - last_pos.y, 0};
+	const t_vec3	rotation_delta = {-SENSIVITY * mouse_delta.x, SENSIVITY * mouse_delta.y, 0};
 	t_mini_rt		*mini_rt;
-	mini_rt = (t_mini_rt *)param;
-	t_vec3	rotation_delta = {-SENSIVITY * mouse_delta.x, SENSIVITY * mouse_delta.y, 0};
 
+	mini_rt = (t_mini_rt *)param;
 	if (!is_set_bit(mini_rt->mode.v, RENDER))
 	{
-		// mini_rt->cam.right = vec3_normalize(vec3_cross(mini_rt->cam.wup, dir));
-		// mini_rt->cam.up = vec3_cross(dir, mini_rt->cam.right);
-		mini_rt->cam.dir = vec3_normalize((t_vec3) {cos(mini_rt->cam.rot.y) * cos(mini_rt->cam.rot.x), sin(mini_rt->cam.rot.y), cos(mini_rt->cam.rot.y) * sin(mini_rt->cam.rot.x)});
+		mini_rt->cam.dir = vec3_normalize((t_vec3) {
+				cos(mini_rt->cam.rot.y) * cos(mini_rt->cam.rot.x),
+				sin(mini_rt->cam.rot.y),
+				cos(mini_rt->cam.rot.y) * sin(mini_rt->cam.rot.x)});
 		mini_rt->cam.rot = vec3_add(mini_rt->cam.rot, rotation_delta);
-
 		shoot_rays(mini_rt);
-		last_pos = (t_vec3) {x, y, 0};
-		if (x > (W - (W * 0.01)))
-		{
-			mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, 1 + (W * 0.1), y);
-			last_pos = (t_vec3) {1 + (W * 0.1), y, 0};
-		}
-		else if (x < (0 + (W * 0.01)))
-		{
-			mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, W - (W * 0.1), y);
-			last_pos = (t_vec3) {W - (W * 0.1), y, 0};
-		}
-		if (y > (H - (H * 0.01)))
-		{
-			mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, x, 1 + (H * 0.1));
-			last_pos = (t_vec3) {x, 1 + (H * 0.1), 0};
-		}
-		else if (y < (0 + (H * 0.01)))
-		{
-			mlx_mouse_move(mini_rt->mlx.mlx, mini_rt->mlx.win, x, H - (H * 0.1));
-			last_pos = (t_vec3) {x, H - (H * 0.1), 0};
-		}
+		lock_mouse(mini_rt, &last_pos, x, y);
 	}
 	return (0);
 }
