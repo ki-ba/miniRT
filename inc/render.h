@@ -24,6 +24,6 @@ void	shoot_rays(t_mini_rt *mini_rt);
 
 void	draw_intersection(t_mini_rt *m_rt, t_inter *inter, int i);
 t_ray	create_ray(t_camera cam, int index, int scale);
-t_color	get_color(t_vector *objects, t_ambient amb, t_inter inter, t_vector *l);
+t_color	get_color(t_inter inter, t_scene *scene);
 
 #endif

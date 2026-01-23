@@ -24,14 +24,14 @@ int	handle_mouse_move(int x, int y, void *param)
 	static t_vec3	center = {(double)W / 2, (double)H / 2, 0};
 	t_vec3			dir;
 
+	mini_rt = (t_mini_rt *)param;
 	dir = vec3_normalize(vec3_sub(mouse, center));
 	dir = vec3_scale(dir, SENSITIVITY);
-	mini_rt = (t_mini_rt *)param;
 	if (is_set_bit(mini_rt->mode.v, OBJ))
 		mlx_mouse_show(mini_rt->mlx.mlx, mini_rt->mlx.win);
 	else if (!is_set_bit(mini_rt->mode.v, RENDER))
 	{
-		mini_rt->cam.dir = vec3_add(mini_rt->cam.dir, dir);
+		mini_rt->scene.cam.dir = vec3_add(mini_rt->scene.cam.dir, dir);
 		center = mouse;
 		shoot_rays(mini_rt);
 	}
@@ -48,13 +48,13 @@ int	handle_mouse_scroll(int mouse_event, void *param)
 		return (0);
 	if (mouse_event == ON_MOUSEDOWN)
 	{
-		if (rad_to_deg(mini_rt->cam.fov - step) > MIN_FOV_DEG)
-			mini_rt->cam.fov -= step;
+		if (rad_to_deg(mini_rt->scene.cam.fov - step) > MIN_FOV_DEG)
+			mini_rt->scene.cam.fov -= step;
 	}
 	else if (mouse_event == ON_MOUSEUP)
 	{
-		if (rad_to_deg(mini_rt->cam.fov + step) < MAX_FOV_DEG)
-			mini_rt->cam.fov += step;
+		if (rad_to_deg(mini_rt->scene.cam.fov + step) < MAX_FOV_DEG)
+			mini_rt->scene.cam.fov += step;
 	}
 	shoot_rays(mini_rt);
 	return (0);
@@ -67,25 +67,25 @@ static int	handle_move_keypress(int keysym, void *param)
 
 	mrt = (t_mini_rt *)param;
 	if (keysym == K_UP)
-		mrt->cam.ori = vec3_sub(mrt->cam.ori, vec3_scale(mrt->cam.up, s));
+		mrt->scene.cam.ori = vec3_sub(mrt->scene.cam.ori, vec3_scale(mrt->scene.cam.up, s));
 	else if (keysym == K_DOWN)
-		mrt->cam.ori = vec3_add(mrt->cam.ori, vec3_scale(mrt->cam.up, s));
+		mrt->scene.cam.ori = vec3_add(mrt->scene.cam.ori, vec3_scale(mrt->scene.cam.up, s));
 	else if (keysym == K_RIGHT)
-		mrt->cam.ori = vec3_add(mrt->cam.ori, vec3_scale(mrt->cam.right, s));
+		mrt->scene.cam.ori = vec3_add(mrt->scene.cam.ori, vec3_scale(mrt->scene.cam.right, s));
 	else if (keysym == K_LEFT)
-		mrt->cam.ori = vec3_sub(mrt->cam.ori, vec3_scale(mrt->cam.right, s));
+		mrt->scene.cam.ori = vec3_sub(mrt->scene.cam.ori, vec3_scale(mrt->scene.cam.right, s));
 	else if (keysym == K_FORWARD)
-		mrt->cam.ori = vec3_add(mrt->cam.ori, vec3_scale(mrt->cam.dir, s));
+		mrt->scene.cam.ori = vec3_add(mrt->scene.cam.ori, vec3_scale(mrt->scene.cam.dir, s));
 	else if (keysym == K_BACKWARD)
-		mrt->cam.ori = vec3_sub(mrt->cam.ori, vec3_scale(mrt->cam.dir, s));
+		mrt->scene.cam.ori = vec3_sub(mrt->scene.cam.ori, vec3_scale(mrt->scene.cam.dir, s));
 	else if (keysym == K_RESET)
 	{
-		mrt->cam.ori.x = 0;
-		mrt->cam.ori.y = 0;
-		mrt->cam.ori.z = 0;
-		mrt->cam.dir.x = 0;
-		mrt->cam.dir.y = 0;
-		mrt->cam.dir.z = VP_DISTANCE;
+		mrt->scene.cam.ori.x = 0;
+		mrt->scene.cam.ori.y = 0;
+		mrt->scene.cam.ori.z = 0;
+		mrt->scene.cam.dir.x = 0;
+		mrt->scene.cam.dir.y = 0;
+		mrt->scene.cam.dir.z = VP_DISTANCE;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 16:24:56 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/17 15:33:41 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/19 15:01:14 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ double	intersect_plane(t_object *pl, t_ray ray)
 	double	denom;
 
 	denom = vec3_dot(ray.dir, pl->n);
+	if (fabs(denom) < EPSILON)
+		return (0);
 	return (vec3_dot(vec3_sub(pl->p, ray.ori), pl->n) / denom);
 }
 
@@ -122,7 +124,7 @@ int	is_in_shadow(t_vector *objects, t_light *light, t_vec3 point)
 	ray.ori = vec3_add(point, vec3_scale(vec3_normalize(to_light), 1e-4));
 	ray.dir = vec3_normalize(to_light);
 	shadow_hit = check_intersect_obj(objects, ray);
-	if (shadow_hit.t > 0.0 && shadow_hit.t < dist_light)
+	if (shadow_hit.t > EPSILON && shadow_hit.t < dist_light)
 		return (TRUE);
 	return (FALSE);
 }

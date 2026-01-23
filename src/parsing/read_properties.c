@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 17:46:04 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/17 16:43:30 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/19 14:49:30 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ int	read_color(t_color *c, char *string)
 	if (*n != 0)
 		status = (INVALID_VAL_ERR);
 	c->b = ft_atoui_8(arr[2], &n);
+	if (*n != 0)
+		status = (INVALID_VAL_ERR);
 	ft_free_arr(arr);
-	return ((*n != 0) & status);
+	return (status);
 }
 
 int	fill_double_array(double *slots[3], char **arr, size_t size)

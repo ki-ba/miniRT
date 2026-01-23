@@ -67,8 +67,8 @@ t_bool					is_set_bit(unsigned int v, unsigned int flag);
 
 int						handle_keypress(int keysym, void *param);
 int						handle_window_close(void *param);
-int						handle_mouse_scroll(int mouse_event, void *mini_rt);
-int						handle_mouse_move(int x, int y, void *mini_rt);
+int						handle_mouse_scroll(int mouse_event, void *param);
+int						handle_mouse_move(int x, int y, void *param);
 t_bool					is_set_bit(unsigned int v, unsigned int flag);
 
 #endif

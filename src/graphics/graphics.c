@@ -36,7 +36,7 @@ void	ft_init_mlx(t_mini_rt *mini_rt)
 	init_mouse(mini_rt);
 	mlx_key_hook(mini_rt->mlx.win, handle_keypress, mini_rt);
 	mlx_hook(mini_rt->mlx.win, MotionNotify, PointerMotionMask, handle_mouse_move, mini_rt);
-	mlx_hook(mini_rt->mlx.win, ON_DESTROY , 0, handle_window_close, mini_rt);
+	mlx_hook(mini_rt->mlx.win, ON_DESTROY, 0, handle_window_close, mini_rt);
 	mlx_mouse_hook(mini_rt->mlx.win, handle_mouse_scroll, mini_rt);
 }
 

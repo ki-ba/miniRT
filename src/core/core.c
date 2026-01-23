@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:49:44 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/17 15:33:22 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/19 14:52:29 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 void	destroy_mini_rt(t_mini_rt *mini_rt)
 {
-	clear_vector(&mini_rt->objects);
-	clear_vector(&mini_rt->lights);
+	clear_vector(&mini_rt->scene.objects);
+	clear_vector(&mini_rt->scene.lights);
 	if (mini_rt->mlx.img.img)
 		mlx_destroy_image(mini_rt->mlx.mlx, mini_rt->mlx.img.img);
 	if (mini_rt->mlx.win)
@@ -37,18 +37,18 @@ void	init_mini_rt(t_mini_rt *mini_rt)
 	mini_rt->mlx.mlx = NULL;
 	mini_rt->mlx.win = NULL;
 	mini_rt->mlx.img = (t_data){0};
-	mini_rt->lights = create_vector(1, sizeof(t_light), NULL);
-	mini_rt->objects = create_vector(1, sizeof(t_object), NULL);
 	mini_rt->mode = (t_hooks){1 << RENDER};
-	mini_rt->cam = (t_camera){0};
-	mini_rt->amb = (t_ambient){0};
+	mini_rt->scene.lights = create_vector(1, sizeof(t_light), NULL);
+	mini_rt->scene.objects = create_vector(1, sizeof(t_object), NULL);
+	mini_rt->scene.cam = (t_camera){0};
+	mini_rt->scene.amb = (t_ambient){0};
 }
 
 void	print_mini_rt(t_mini_rt *mini_rt)
 {
 	print_properties(*mini_rt);
-	print_item_lst(mini_rt->objects);
-	print_lights(mini_rt->lights);
+	print_item_lst(mini_rt->scene.objects);
+	print_lights(mini_rt->scene.lights);
 }
 
 void	clean_exit(t_mini_rt *mini_rt, int exit_code)

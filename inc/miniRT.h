@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/17 16:42:02 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/19 14:54:01 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "color.h"
 
 # define VP_DISTANCE 1
+# define SHININESS 50
 
 /* ENUMS */
 enum e_error_code
@@ -43,6 +44,7 @@ typedef struct s_ambient	t_ambient;
 typedef struct s_camera		t_camera;
 typedef struct s_mini_rt	t_mini_rt;
 typedef struct s_viewport	t_viewport;
+typedef struct s_scene		t_scene;
 
 struct s_ray
 {
@@ -87,14 +89,19 @@ struct s_camera
 	double				fov;
 };
 
-struct s_mini_rt
+struct s_scene
 {
-	int			scale;
-	t_hooks		mode;
 	t_vector	*objects;
 	t_vector	*lights;
 	t_camera	cam;
 	t_ambient	amb;
+};
+
+struct s_mini_rt
+{
+	int			scale;
+	t_hooks		mode;
+	t_scene		scene;
 	t_mlx		mlx;
 };
 

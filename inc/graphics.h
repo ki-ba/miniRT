@@ -21,7 +21,7 @@
 # define W WIDTH
 # define H HEIGHT
 
-# define LQ_SCALE 8
+# define LQ_SCALE 20
 # define HQ_SCALE 1
 
 // Common factors betweeen 1920 and 1080 are :
