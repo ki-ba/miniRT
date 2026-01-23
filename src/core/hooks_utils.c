@@ -38,7 +38,7 @@ void	handle_hook_mode(t_mini_rt *mrt, int keysym)
 	printf("\n");
 }
 
-t_bool	is_set_bit(unsigned int v, unsigned int flag)
+extern inline t_bool	is_set_bit(unsigned int v, unsigned int flag)
 {
 	return ((v >> flag) == 1);
 }

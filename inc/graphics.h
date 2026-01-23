@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:02:57 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/17 16:32:17 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/23 14:59:36 by abetemps         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define W WIDTH
 # define H HEIGHT
 
-# define LQ_SCALE 20
+# define LQ_SCALE 30
 # define HQ_SCALE 1
 
 // Common factors betweeen 1920 and 1080 are :

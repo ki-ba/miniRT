@@ -41,7 +41,7 @@ int	add_item(t_vector **objects, int (*f)(void *, char **), char **item_arr)
 
 int	set_camera(t_mini_rt *mini_rt, char **property)
 {
-	const double	aspect_ratio = (double)WIDTH / (double)HEIGHT;
+	const double	aspect_ratio = (double)W / (double)H;
 	t_vec3			world_up;
 	t_vec3			tmp;
 	char			*n;
@@ -66,6 +66,16 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 	scene->cam.up = vec3_cross(scene->cam.dir, scene->cam.right);
 	scene->cam.vp.vp_width = 2 * tan(scene->cam.fov / 2) * VP_DISTANCE;
 	scene->cam.vp.vp_height = scene->cam.vp.vp_width / aspect_ratio;
+// 	mini_rt->cam.fov = deg_to_rad(ft_strtod(property[3], &n));
+// 	world_up = (t_vec3) {0, 1, 0};
+// 	if (fabs(vec3_dot(mini_rt->cam.dir, world_up)) > 0.999)
+// 		world_up = (t_vec3){0,0,1};
+// 	tmp = vec3_cross(world_up, mini_rt->cam.dir);
+// 	mini_rt->cam.right = vec3_normalize(tmp);
+// 	mini_rt->cam.up = vec3_cross(mini_rt->cam.dir, mini_rt->cam.right);
+// 	mini_rt->cam.vp.vp_width = 2 * tan(mini_rt->cam.fov / 2) * VP_DISTANCE;
+// 	mini_rt->cam.vp.vp_height = mini_rt->cam.vp.vp_width / aspect_ratio;
+	scene->cam.rot = (t_vec3){atan2(scene->cam.dir.z, scene->cam.dir.x),asin(scene->cam.dir.y), 0};
 	return (*n != '\0');
 }
 

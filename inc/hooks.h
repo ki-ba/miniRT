@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 15:43:22 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/17 16:30:20 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/01/23 14:58:46 by abetemps         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 # define HOOKS_H
 
 // SETTINGS
-# define SENSITIVITY	 	0.02
-# define MIN_FOV_DEG	 	0
-# define MAX_FOV_DEG	 	180
+# define SENSIVITY	 	0.002
+# define DEADZONE	 	0.1
+# define MIN_FOV_DEG 	0
+# define MAX_FOV_DEG 	180
 
 // KEYSYMS
 # define ESCAPE			65307
@@ -63,8 +64,6 @@ struct	s_hooks
 };
 
 void					handle_hook_mode(t_mini_rt *mrt, int keysym);
-t_bool					is_set_bit(unsigned int v, unsigned int flag);
-
 int						handle_keypress(int keysym, void *param);
 int						handle_window_close(void *param);
 int						handle_mouse_scroll(int mouse_event, void *param);

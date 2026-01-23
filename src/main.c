@@ -14,8 +14,7 @@
 #include "core.h"
 #include "render.h"
 #include "mlx.h"
-
-#include <fcntl.h>
+#include "vectors.h"
 
 int	check_properties(t_mini_rt *mini_rt)
 {

@@ -61,8 +61,14 @@ void	init_vp(t_camera *cam)
 {
 	const double	aspect_ratio = (double)WIDTH / (double)HEIGHT;
 	t_viewport		*vp;
+	t_vec3			world_up;
 
 	vp = &(cam->vp);
+	cam->wup = (t_vec3) {0, 1, 0};
+	if (fabs(vec3_dot(cam->dir, cam->wup)) > 0.999)
+		world_up = (t_vec3){0,0,1};
+	cam->right = vec3_normalize(vec3_cross(cam->wup, cam->dir));
+	cam->up = vec3_cross(cam->dir, cam->right);
 	vp->vp_width = 2 * tan(cam->fov / 2) * VP_DISTANCE;
 	vp->vp_height = vp->vp_width / aspect_ratio;
 	vp->hrz = vec3_scale(cam->right, cam->vp.vp_width);

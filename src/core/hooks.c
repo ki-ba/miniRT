@@ -11,29 +11,59 @@
 /* ************************************************************************** */
 
 #include <X11/keysymdef.h>
+#include <math.h>
 #include "mlx.h"
 #include "hooks.h"
 #include "vec3.h"
 #include "render.h"
 #include "core.h"
+#include "debug.h"
 
-int	handle_mouse_move(int x, int y, void *param)
+void	lock_mouse(t_mini_rt *mrt, t_vec3 *pos, int x, int y)
 {
+	*pos = (t_vec3) {x, y, 0};
+	if (x > (W - (W * DEADZONE)))
+	{
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, 1 + (W * DEADZONE), y);
+		*pos = (t_vec3) {1 + (W * DEADZONE), y, 0};
+	}
+	else if (x < (0 + (W * DEADZONE)))
+	{
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, W - (W * DEADZONE), y);
+		*pos = (t_vec3) {W - (W * DEADZONE), y, 0};
+	}
+	if (y > (H - (H * DEADZONE)))
+	{
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, x, 1 + (H * DEADZONE));
+		*pos = (t_vec3) {x, 1 + (H * DEADZONE), 0};
+	}
+	else if (y < (0 + (H * DEADZONE)))
+	{
+		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, x, H - (H * DEADZONE));
+		*pos = (t_vec3) {x, H - (H * DEADZONE), 0};
+	}
+
+}
+
+int handle_mouse_move(int x, int y, void *param)
+{
+	static t_vec3	last_pos = {W / 2, H / 2, 0};
+	const t_vec3	mouse_delta = {x - last_pos.x, y - last_pos.y, 0};
+	const t_vec3	rotation_delta = {-SENSIVITY * mouse_delta.x, SENSIVITY * mouse_delta.y, 0};
 	t_mini_rt		*mini_rt;
-	const t_vec3	mouse = {x, y, VP_DISTANCE};
-	static t_vec3	center = {(double)W / 2, (double)H / 2, 0};
-	t_vec3			dir;
+	t_scene			*scene;
 
 	mini_rt = (t_mini_rt *)param;
-	dir = vec3_normalize(vec3_sub(mouse, center));
-	dir = vec3_scale(dir, SENSITIVITY);
-	if (is_set_bit(mini_rt->mode.v, OBJ))
-		mlx_mouse_show(mini_rt->mlx.mlx, mini_rt->mlx.win);
-	else if (!is_set_bit(mini_rt->mode.v, RENDER))
+	scene = &mini_rt->scene;
+	if (!is_set_bit(mini_rt->mode.v, RENDER))
 	{
-		mini_rt->scene.cam.dir = vec3_add(mini_rt->scene.cam.dir, dir);
-		center = mouse;
+		scene->cam.dir = vec3_normalize((t_vec3) {
+				cos(scene->cam.rot.y) * cos(scene->cam.rot.x),
+				sin(scene->cam.rot.y),
+				cos(scene->cam.rot.y) * sin(scene->cam.rot.x)});
+		scene->cam.rot = vec3_add(scene->cam.rot, rotation_delta);
 		shoot_rays(mini_rt);
+		lock_mouse(mini_rt, &last_pos, x, y);
 	}
 	return (0);
 }
