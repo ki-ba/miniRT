@@ -72,8 +72,8 @@ struct s_viewport
 	t_vec3	lower_left;
 	t_vec3	hrz;
 	t_vec3	vrt;
-	t_vec3	delta_u;
-	t_vec3	delta_v;
+	double 	delta_u;
+	double 	delta_v;
 	double	vp_height;
 	double	vp_width;
 };

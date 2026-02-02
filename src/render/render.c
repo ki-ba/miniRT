@@ -18,6 +18,7 @@
 #include "hooks.h"
 #include "core.h"
 #include "mlx.h"
+#include "debug.h"
 
 /*
 	* @brief defines a viewport in front of the camera at a distance of 1,
@@ -41,6 +42,7 @@ void	shoot_rays(t_mini_rt *m_rt)
 	ray = (t_ray){m_rt->scene.cam.ori, (t_vec3){0}};
 	i = 0;
 	init_vp(&m_rt->scene.cam);
+	print_properties(*m_rt);
 	while (i < rdim)
 	{
 		ray = create_ray(m_rt->scene.cam, i, m_rt->scale);
