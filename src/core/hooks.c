@@ -23,7 +23,7 @@ int handle_mouse_move(int x, int y, void *param)
 {
 	static t_vec3	last_pos = {W / 2, H / 2, 0};
 	const t_vec3	mouse_delta = {x - last_pos.x, y - last_pos.y, 0};
-	const t_vec3	rotation_delta = {-SENSIVITY * mouse_delta.x, SENSIVITY * mouse_delta.y, 0};
+	const t_vec3	rotation_delta = {-SENSIVITY * mouse_delta.x, -SENSIVITY * mouse_delta.y, 0};
 	t_mini_rt		*mini_rt;
 	t_scene			*scene;
 

@@ -38,10 +38,10 @@ t_ray	create_ray(t_camera cam, int i, int scale)
 	t_vec3	d_v;
 	t_vec3	p;
 
-	double dth = i % (W / scale) - (W / 2);
+	double dth = i % (W / scale) - (W / scale / 2);
 	// double dthu = dth * cam.vp.delta_u;
 
-	double dtv = i / (W / scale) - (H / 2);
+	double dtv = i / (W / scale) - (H / scale / 2);
 	// double dtvv = dtv * cam.vp.delta_v;
 
 	// d_h = vec3_scale(cam.vp.hrz, (i % (W / scale) + 0.5) / (W / scale));
@@ -53,7 +53,7 @@ t_ray	create_ray(t_camera cam, int i, int scale)
 	// d_h = vec3_scale(cam.vp.hrz, dthu);
 	// d_v = vec3_scale(cam.vp.vrt, dthv);
 
-	p = vec3_add(vec3_add(cam.vp.lower_left, d_h), d_v);
+	p = vec3_add(vec3_add(cam.vp.ori, d_h), d_v);
 	ray.ori = cam.ori;
 	ray.dir = vec3_normalize(vec3_sub(p, cam.ori));
 	return (ray);

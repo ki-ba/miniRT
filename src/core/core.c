@@ -68,13 +68,11 @@ void	init_vp(t_camera *cam)
 		cam->wup = (t_vec3){0,0,1};
 	cam->right = vec3_normalize(vec3_cross(cam->wup, cam->dir));
 	cam->up = vec3_cross(cam->dir, cam->right);
-	vp->vp_width = 2 * tan(cam->fov / 2) * VP_DISTANCE;
-	vp->vp_height = vp->vp_width / aspect_ratio;
-	vp->hrz = vec3_scale(cam->right, cam->vp.vp_width);
-	vp->vrt = vec3_scale(cam->up, cam->vp.vp_height);
-	vp->lower_left = vec3_add(cam->ori, cam->dir);							// center
-	vp->delta_u = vp->vp_width / W; // hrz
-	vp->delta_v	= vp->vp_height / H;	// vrt
-	// vp->lower_left = vec3_sub(vp->lower_left, vec3_scale(vp->hrz, 0.5));	// center
-	// vp->lower_left = vec3_sub(vp->lower_left, vec3_scale(vp->vrt, 0.5)); 	// center
+	vp->width = 2 * tan(cam->fov / 2) * VP_DISTANCE;
+	vp->height = vp->width / aspect_ratio;
+	vp->hrz = vec3_scale(cam->right, cam->vp.width);
+	vp->vrt = vec3_scale(cam->up, cam->vp.height);
+	vp->ori = vec3_add(cam->ori, cam->dir);
+	vp->delta_h = vp->width / W;
+	vp->delta_v	= vp->height / H;
 }
