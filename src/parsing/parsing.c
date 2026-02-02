@@ -42,8 +42,6 @@ int	add_item(t_vector **objects, int (*f)(void *, char **), char **item_arr)
 int	set_camera(t_mini_rt *mini_rt, char **property)
 {
 	const double	aspect_ratio = (double)W / (double)H;
-	t_vec3			world_up;
-	t_vec3			tmp;
 	char			*n;
 	t_scene			*scene;
 
@@ -58,11 +56,10 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 	if (read_normalized_vec(&scene->cam.dir, property[2]) == INVALID_VAL_ERR)
 		return (GENERIC_ERR);
 	scene->cam.fov = deg_to_rad(ft_strtod(property[3], &n));
-	world_up = (t_vec3){0, 1, 0};
-	if (fabs(vec3_dot(scene->cam.dir, world_up)) > 0.999)
-		world_up = (t_vec3){0, 0, 1};
-	tmp = vec3_cross(world_up, scene->cam.dir);
-	scene->cam.right = vec3_normalize(tmp);
+	scene->cam.wup = (t_vec3){0, 1, 0};
+	if (fabs(vec3_dot(scene->cam.dir, scene->cam.wup)) > 0.999)
+		scene->cam.wup = (t_vec3){0, 0, 1};
+	scene->cam.right = vec3_normalize(vec3_cross(scene->cam.wup, scene->cam.dir));
 	scene->cam.up = vec3_cross(scene->cam.dir, scene->cam.right);
 	scene->cam.vp.vp_width = 2 * tan(scene->cam.fov / 2) * VP_DISTANCE;
 	scene->cam.vp.vp_height = scene->cam.vp.vp_width / aspect_ratio;
@@ -118,7 +115,7 @@ int	set_property(t_mini_rt *mini_rt, char **property)
 */
 int	handle_line(t_mini_rt *mini_rt, char *line)
 {
-	int			(*p[5])(void *, char **);
+	int			(*p[E_ITEM_TYPE_QTY + 1])(void *, char **);
 	t_vector	**engine_lists[2];
 	int			status;
 	char		**object_arr;
@@ -132,8 +129,9 @@ int	handle_line(t_mini_rt *mini_rt, char *line)
 	p[0] = &create_sphere;
 	p[1] = &create_plane;
 	p[2] = &create_cylinder;
-	p[3] = &create_light;
-	p[4] = NULL;
+	p[3] = &create_cone;
+	p[4] = &create_light;
+	p[5] = NULL;
 	type = define_item_type(object_arr[0]);
 	if (is_property_id(object_arr[0]))
 		status = (set_property(mini_rt, object_arr));

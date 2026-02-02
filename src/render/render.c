@@ -44,6 +44,7 @@ void	shoot_rays(t_mini_rt *m_rt)
 	while (i < rdim)
 	{
 		ray = create_ray(m_rt->scene.cam, i, m_rt->scale);
+		// printf("%f %f %f\n", ray.dir.x, ray.dir.y, ray.dir.z);
 		inter = check_intersect_obj(m_rt->scene.objects, ray);
 		draw_intersection(m_rt, &inter, i);
 		++i;

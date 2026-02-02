@@ -22,6 +22,7 @@
 
 # define PLANE_ID "pl"
 # define CYLINDER_ID "cy"
+# define CONE_ID "co"
 # define SPHERE_ID "sp"
 # define AMBIENT_ID "A"
 # define LIGHT_ID "L"

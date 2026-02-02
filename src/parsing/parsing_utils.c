@@ -37,6 +37,8 @@ int	define_item_type(char *id)
 		return (PLANE);
 	else if (ft_strncmp(id, CYLINDER_ID, ft_strlen(id) + 1) == 0)
 		return (CYLINDER);
+	else if (ft_strncmp(id, CONE_ID, ft_strlen(id) + 1) == 0)
+		return (CONE);
 	else if (ft_strncmp(id, LIGHT_ID, ft_strlen(id) + 1) == 0)
 		return (LIGHT);
 	return (-1);

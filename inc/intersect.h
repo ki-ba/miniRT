@@ -25,14 +25,12 @@ struct s_inter
 	double			t;
 };
 
-double	check_intersect_sphere(t_object *sp, t_ray ray);
 t_inter	check_intersect_obj(t_vector *objects, t_ray ray);
 int		is_in_shadow(t_vector *objects, t_light *light, t_vec3 point);
-t_vec3	get_normal_at_intersection(t_inter inter);
-
 t_vec3	get_normal_sphere(t_inter inter);
 t_vec3	get_normal_plane(t_inter inter);
 t_vec3	get_normal_cylinder(t_inter inter);
+t_vec3	get_normal_cone(t_inter inter);
 t_vec3	get_normal_at_intersection(t_inter inter);
 
 #endif

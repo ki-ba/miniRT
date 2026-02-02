@@ -16,6 +16,15 @@
 #include "core.h"
 #include "intersect.h"
 
+double	intersect_cone(t_object *co, t_ray ray)
+{
+	(void)co;
+	(void)ray;
+	double		root = 0;
+
+	return (root);
+}
+
 /**
 	* @brief takes a ray and a sphere and determines where the to meet
 	* @brief if they do.
@@ -41,7 +50,7 @@ double	intersect_sphere(t_object *sp, t_ray ray)
 	return (0);
 }
 
-double	intersect_cylinder_caps(t_object *cy, t_ray ray, const double r, const bool tb)
+static double	intersect_cylinder_caps(t_object *cy, t_ray ray, const double r, const bool tb)
 {
 	t_vec3	n_cap;
 	t_vec3	c_cap;
@@ -73,7 +82,7 @@ double	intersect_cylinder_caps(t_object *cy, t_ray ray, const double r, const bo
 	return (0);
 }
 
-double	intersect_cylinder_body(t_object *cy, t_ray ray, const double dir_norm, const double r)
+static double	intersect_cylinder_body(t_object *cy, t_ray ray, const double dir_norm, const double r)
 {
 	const t_vec3	oc = vec3_sub(ray.ori, cy->center);
 	const double	oc_norm = vec3_dot(oc, cy->n);
@@ -149,13 +158,14 @@ t_inter	check_intersect_obj(t_vector *objects, t_ray ray)
 {
 	double		t;
 	size_t		i;
-	double		(*f_i[3])(t_object *, t_ray);
+	double		(*f_i[4])(t_object *, t_ray);
 	t_inter		inter;
 	t_object	*cur_object;
 
 	f_i[0] = intersect_sphere;
 	f_i[1] = intersect_plane;
 	f_i[2] = intersect_cylinder;
+	f_i[3] = intersect_cone;
 	i = 0;
 	inter.t = INFINITY;
 	while (i < objects->nb_elements)
