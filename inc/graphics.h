@@ -22,7 +22,9 @@
 # define H HEIGHT
 
 # define LQ_SCALE 30
-# define HQ_SCALE 1
+# ifndef HQ_SCALE
+#  define HQ_SCALE 1
+# endif
 
 // Common factors betweeen 1920 and 1080 are :
 // 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60, 120
