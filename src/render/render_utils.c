@@ -40,7 +40,7 @@ t_ray	create_ray(t_camera cam, int i, int scale)
 
 	d_h = vec3_scale(cam.vp.hrz, (i % (W / scale) + 0.5) / (W / scale));
 	d_v = vec3_scale(cam.vp.vrt, (i / (W / scale) + 0.5) / (H / scale));
-	p = vec3_add(vec3_add(cam.vp.lower_left, d_h), d_v);
+	p = vec3_sub(vec3_add(cam.vp.lower_left, d_h), d_v);
 	ray.ori = cam.ori;
 	ray.dir = vec3_normalize(vec3_sub(p, cam.ori));
 	return (ray);
@@ -55,8 +55,6 @@ t_color	get_diffuse_color(t_light *l, t_inter inter, t_vec3 normal)
 
 	obj_c = inter.obj->c;
 	diffuse.trgb = 0;
-	light_dir = (t_vec3){0};
-	normal = (t_vec3){0};
 	light_dir = vec3_normalize(vec3_sub(l->ori, inter.p));
 	ndotl = fmax(0, vec3_dot(normal, light_dir));
 	diffuse = scale_color(scale_color(mul_color(obj_c, l->c), ndotl), l->i);
