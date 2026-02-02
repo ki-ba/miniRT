@@ -6,3 +6,4 @@ miniRT
 run_tests
 maps/
 libs/*/*.a
+*.out
