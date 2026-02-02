@@ -55,8 +55,6 @@ t_color	get_diffuse_color(t_light *l, t_inter inter, t_vec3 normal)
 
 	obj_c = inter.obj->c;
 	diffuse.trgb = 0;
-	light_dir = (t_vec3){0};
-	normal = (t_vec3){0};
 	light_dir = vec3_normalize(vec3_sub(l->ori, inter.p));
 	ndotl = fmax(0, vec3_dot(normal, light_dir));
 	diffuse = scale_color(scale_color(mul_color(obj_c, l->c), ndotl), l->i);
@@ -97,15 +95,19 @@ t_color	get_color(t_inter inter, t_scene *scene)
 	normal = get_normal_at_intersection(inter);
 	if (vec3_dot(normal, view_dir) < 0)
 		normal = vec3_scale(normal, -1);
-	i = -1;
+	i = 0;
 	c = mul_color(scale_color(scene->amb.c, scene->amb.i), inter.obj->c);
-	while (++i < scene->lights->nb_elements)
+	while (i < scene->lights->nb_elements)
 	{
 		light = get_ith_light(scene->lights, i);
 		if (is_in_shadow(scene->objects, light, inter.p))
+		{
+			i++;
 			continue ;
+		}
 		c = add_color(get_diffuse_color(light, inter, normal), c);
 		c = add_color(get_specular_color(light, inter, scene->cam, normal), c);
+		i++;
 	}
 	return (c);
 }
