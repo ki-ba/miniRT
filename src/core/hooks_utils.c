@@ -29,7 +29,7 @@ void	handle_hook_mode(t_mini_rt *mrt, int keysym)
 				mrt->mode.v ^= (1 << i);
 			else
 				mrt->mode.v |= (1 << i);
-			shoot_rays(mrt);
+			render_scene(mrt);
 		}
 		++i;
 	}

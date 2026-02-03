@@ -47,7 +47,8 @@ int	main(int argc, char *argv[])
 		clean_exit(&mini_rt, GENERIC_ERR);
 	ft_init_mlx(&mini_rt);
 	print_mini_rt(&mini_rt);
-	shoot_rays(&mini_rt);
+	render_scene(&mini_rt);
+	// shoot_rays(&mini_rt);
 	mlx_loop(mini_rt.mlx.mlx);
 	destroy_mini_rt(&mini_rt);
 	return (0);

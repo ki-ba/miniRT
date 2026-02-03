@@ -7,21 +7,20 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:02:57 by kbarru            #+#    #+#             */
 /*   Updated: 2026/01/23 14:59:36 by abetemps         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*                                                                            */ /* ************************************************************************** */
 
 #ifndef GRAPHICS_H
 # define GRAPHICS_H
 
 # include "color.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 960
+# define HEIGHT 540
 
 # define W WIDTH
 # define H HEIGHT
 
-# define LQ_SCALE 30
+# define LQ_SCALE 20
 # ifndef HQ_SCALE
 #  define HQ_SCALE 1
 # endif

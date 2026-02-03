@@ -31,27 +31,15 @@ void	draw_intersection(t_mini_rt *m_rt, t_inter *inter, int i)
 		draw_upscaled(&m_rt->mlx.img, i, (t_color){0}, m_rt->scale);
 }
 
-t_ray	create_ray(t_camera cam, int i, int scale)
+t_ray	create_ray(t_camera cam, int dth, int dtv)
 {
 	t_ray	ray;
 	t_vec3	d_h;
 	t_vec3	d_v;
 	t_vec3	p;
 
-	double dth = i % (W / scale) - (W / scale / 2);
-	// double dthu = dth * cam.vp.delta_u;
-
-	double dtv = i / (W / scale) - (H / scale / 2);
-	// double dtvv = dtv * cam.vp.delta_v;
-
-	// d_h = vec3_scale(cam.vp.hrz, (i % (W / scale) + 0.5) / (W / scale));
-	// d_v = vec3_scale(cam.vp.vrt, (i / (W / scale) + 0.5) / (H / scale));
-
-	d_h = vec3_scale(cam.vp.hrz, dth / (W / scale));
-	d_v = vec3_scale(cam.vp.vrt, -dtv / (H / scale));
-
-	// d_h = vec3_scale(cam.vp.hrz, dthu);
-	// d_v = vec3_scale(cam.vp.vrt, dthv);
+	d_h = vec3_scale(cam.vp.hrz, dth);
+	d_v = vec3_scale(cam.vp.vrt, -dtv);
 
 	p = vec3_add(vec3_add(cam.vp.ori, d_h), d_v);
 	ray.ori = cam.ori;

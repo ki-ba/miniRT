@@ -36,7 +36,7 @@ int handle_mouse_move(int x, int y, void *param)
 				sin(scene->cam.rot.y),
 				cos(scene->cam.rot.y) * sin(scene->cam.rot.x)});
 		scene->cam.rot = vec3_add(scene->cam.rot, rotation_delta);
-		shoot_rays(mini_rt);
+		render_scene(mini_rt);
 		lock_mouse(mini_rt, &last_pos, x, y);
 	}
 	return (0);
@@ -56,13 +56,13 @@ int	handle_mouse_scroll(int mouse_event, int x, int y, void *param)
 	{
 		if (rad_to_deg(mini_rt->scene.cam.fov - step) > MIN_FOV_DEG)
 			mini_rt->scene.cam.fov -= step;
-		shoot_rays(mini_rt);
+		render_scene(mini_rt);
 	}
 	else if (mouse_event == ON_MOUSEUP)
 	{
 		if (rad_to_deg(mini_rt->scene.cam.fov + step) < MAX_FOV_DEG)
 			mini_rt->scene.cam.fov += step;
-		shoot_rays(mini_rt);
+		render_scene(mini_rt);
 	}
 	return (0);
 }
@@ -115,7 +115,7 @@ int	handle_keypress(int keysym, void *param)
 	else if (is_set_bit(mini_rt->mode.v, RENDER))
 		return (0);
 	handle_move_keypress(keysym, param);
-	shoot_rays(mini_rt);
+	render_scene(mini_rt);
 	return (0);
 }
 

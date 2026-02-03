@@ -50,17 +50,16 @@ void	print_camera(t_camera cam)
 	print_vec3("orientation", cam.dir);
 	printf("fov : %f\n", cam.fov);
 	printf("right vec: %f %f %f\n", cam.right.x, cam.right.y, cam.right.z);
-	printf("up vec: %f %f %f\n\n", cam.up.x, cam.up.y, cam.up.z);
+	printf("up vec: %f %f %f\n", cam.up.x, cam.up.y, cam.up.z);
+	printf("rot: %f %f %f\n\n", cam.rot.x, cam.rot.y, cam.rot.z);
 }
 
 void	print_properties(t_mini_rt mini_rt)
 {
-	printf("AMBIENT LIGHT :\n");
-	printf("intensity : %.2f\n", mini_rt.scene.amb.i);
-	print_color("color", mini_rt.scene.amb.c);
-	printf("\n\n");
-	printf("intensity : %.2f\n", mini_rt.scene.amb.i);
-	print_color("color", mini_rt.scene.amb.c);
+	// printf("AMBIENT LIGHT :\n");
+	// printf("intensity : %.2f\n", mini_rt.scene.amb.i);
+	// print_color("color", mini_rt.scene.amb.c);
+	// printf("\n\n");
 	print_camera(mini_rt.scene.cam);
 	print_viewport(mini_rt.scene.cam.vp);
 	printf("\n\n");

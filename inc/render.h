@@ -16,14 +16,13 @@
 # include "miniRT.h"
 # include "intersect.h"
 
-# define LQ_STEP 10
-
-void	shoot_rays(t_mini_rt *mini_rt);
+// RENDER
+void	render_scene(t_mini_rt *m_rt);
 
 // RENDER UTILS
 
 void	draw_intersection(t_mini_rt *m_rt, t_inter *inter, int i);
-t_ray	create_ray(t_camera cam, int index, int scale);
+t_ray	create_ray(t_camera cam, double dth, double dtv);//, int scale);
 t_color	get_color(t_inter inter, t_scene *scene);
 
 #endif
