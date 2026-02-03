@@ -26,7 +26,9 @@ static void	init_mouse(t_mini_rt *mini_rt)
 void	ft_init_mlx(t_mini_rt *mini_rt)
 {
 	t_data		*img;
+	void		*win;
 
+	win = &mini_rt->mlx.win;
 	img = &mini_rt->mlx.img;
 	mini_rt->mlx.mlx = mlx_init();
 	mini_rt->mlx.win = mlx_new_window(mini_rt->mlx.mlx, W, H, "miniRT");
@@ -36,15 +38,16 @@ void	ft_init_mlx(t_mini_rt *mini_rt)
 	init_mouse(mini_rt);
 	mlx_key_hook(mini_rt->mlx.win, handle_keypress, mini_rt);
 	mlx_mouse_hook(mini_rt->mlx.win, handle_mouse_scroll, mini_rt);
-	mlx_hook(mini_rt->mlx.win, MotionNotify, PointerMotionMask, handle_mouse_move, mini_rt);
-	mlx_hook(mini_rt->mlx.win, ON_DESTROY, 0, handle_window_close, mini_rt);
+	mlx_hook(win, MotionNotify, PointerMotionMask, handle_mouse_move, mini_rt);
+	mlx_hook(win, ON_DESTROY, 0, handle_window_close, mini_rt);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel >> 3));
+	dst = data->addr;
+	dst += (y * data->line_length + x * (data->bits_per_pixel >> 3));
 	*(unsigned int *) dst = color;
 }
 
@@ -71,4 +74,3 @@ void	draw_upscaled(t_data *img, int i, t_color c, int scale)
 		++dx;
 	}
 }
-

@@ -43,12 +43,11 @@ int	create_cylinder(void *cyl, char **specs)
 	if (read_point(&c_cyl->center, specs[1]) || read_color(&c_cyl->c, specs[5]))
 		return (INVALID_VAL_ERR);
 	c_cyl->diam = ft_strtod(specs[3], &n);
-	c_cyl->h= ft_strtod(specs[4], &n2);
+	c_cyl->h = ft_strtod(specs[4], &n2);
 	if (*n != '\0' || *n2 != '\0')
 		return (INVALID_VAL_ERR);
 	return (0);
 }
-
 
 int	create_cone(void *cone, char **specs)
 {
@@ -61,10 +60,12 @@ int	create_cone(void *cone, char **specs)
 		return (INVALID_VAL_ERR);
 	if (!cone || read_normalized_vec(&c_cone->n, specs[2]))
 		return (INVALID_VAL_ERR);
-	if (read_point(&c_cone->center, specs[1]) || read_color(&c_cone->c, specs[5]))
+	if (read_point(&c_cone->center, specs[1]))
+		return (INVALID_VAL_ERR);
+	if (read_color(&c_cone->c, specs[5]))
 		return (INVALID_VAL_ERR);
 	c_cone->diam = ft_strtod(specs[3], &n);
-	c_cone->h= ft_strtod(specs[4], &n2);
+	c_cone->h = ft_strtod(specs[4], &n2);
 	if (*n != '\0' || *n2 != '\0')
 		return (INVALID_VAL_ERR);
 	return (0);

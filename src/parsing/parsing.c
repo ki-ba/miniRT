@@ -19,39 +19,19 @@
 #include "objects.h"
 #include "vectors.h"
 
-/**
-	* @brief Generic function to add an item to a vector.
-	* @param lst The linked list to which the item will be added.
-	* @param f The function used to create the item from the specifications.
-	* @param item_arr The array of strings representing the item specifications.
-*/
-int	add_item(t_vector **objects, int (*f)(void *, char **), char **item_arr)
-{
-	t_object	obj;
-
-	if (!objects)
-		return (GENERIC_ERR);
-	obj = (t_object){0};
-	obj.type = define_item_type(item_arr[0]);
-	if (f(&obj, item_arr))
-		return (GENERIC_ERR);
-	add_element(*objects, &obj);
-	return (0);
-}
-
 int	set_camera(t_mini_rt *mini_rt, char **property)
 {
 	const double	aspect_ratio = (double)W / (double)H;
 	char			*n;
 	t_scene			*scene;
+	t_vec3			*dir;
 
 	scene = &mini_rt->scene;
+	dir = &scene->cam.dir;
 	if (scene->cam.is_defined)
 		return (TOO_MUCH_ELEMENTS_ERR);
 	scene->cam.is_defined = TRUE;
-	if (arr_len(property) < 4)
-		return (GENERIC_ERR);
-	if (read_point(&scene->cam.ori, property[1]))
+	if (arr_len(property) < 4 || read_point(&scene->cam.ori, property[1]))
 		return (GENERIC_ERR);
 	if (read_normalized_vec(&scene->cam.dir, property[2]) == INVALID_VAL_ERR)
 		return (GENERIC_ERR);
@@ -59,11 +39,11 @@ int	set_camera(t_mini_rt *mini_rt, char **property)
 	scene->cam.wup = (t_vec3){0, 1, 0};
 	if (fabs(vec3_dot(scene->cam.dir, scene->cam.wup)) > 0.999)
 		scene->cam.wup = (t_vec3){0, 0, 1};
-	scene->cam.right = vec3_normalize(vec3_cross(scene->cam.wup, scene->cam.dir));
+	scene->cam.right = vec3_normalize(vec3_cross(scene->cam.wup, *dir));
 	scene->cam.up = vec3_cross(scene->cam.dir, scene->cam.right);
 	scene->cam.vp.vp_width = 2 * tan(scene->cam.fov / 2) * VP_DISTANCE;
 	scene->cam.vp.vp_height = scene->cam.vp.vp_width / aspect_ratio;
-	scene->cam.rot = (t_vec3){atan2(scene->cam.dir.z, scene->cam.dir.x),asin(scene->cam.dir.y), 0};
+	scene->cam.rot = (t_vec3){atan2(dir->z, dir->x), asin(dir->y), 0};
 	return (*n != '\0');
 }
 
@@ -116,10 +96,10 @@ int	set_property(t_mini_rt *mini_rt, char **property)
 int	handle_line(t_mini_rt *mini_rt, char *line)
 {
 	int			(*p[E_ITEM_TYPE_QTY + 1])(void *, char **);
-	t_vector	**engine_lists[2];
 	int			status;
-	char		**object_arr;
 	int			type;
+	char		**object_arr;
+	t_vector	**engine_lists[2];
 
 	status = format_line(&object_arr, line);
 	if (status > 0)
@@ -133,12 +113,11 @@ int	handle_line(t_mini_rt *mini_rt, char *line)
 	p[4] = &create_light;
 	p[5] = NULL;
 	type = define_item_type(object_arr[0]);
+	status = INVALID_VAL_ERR;
 	if (is_property_id(object_arr[0]))
 		status = (set_property(mini_rt, object_arr));
 	else if (type >= 0)
 		status = (add_item(engine_lists[type == LIGHT], p[type], object_arr));
-	else
-		status = INVALID_VAL_ERR;
 	ft_free_arr(object_arr);
 	return (status);
 }
