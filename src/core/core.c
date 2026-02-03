@@ -60,6 +60,8 @@ void	clean_exit(t_mini_rt *mini_rt, int exit_code)
 void	init_vp(t_camera *cam, int scale)
 {
 	const double	aspect_ratio = (double)WIDTH / (double)HEIGHT;
+	const double	w_ratio = (double)W / scale;
+	const double	h_ratio = (double)H / scale;
 	t_viewport		*vp;
 
 	vp = &(cam->vp);
@@ -70,8 +72,8 @@ void	init_vp(t_camera *cam, int scale)
 	cam->up = vec3_cross(cam->dir, cam->right);
 	vp->width = 2 * tan(cam->fov / 2) * VP_DISTANCE;
 	vp->height = vp->width / aspect_ratio;
-	vp->hrz = vec3_scale(cam->right, cam->vp.width / (W / scale));
-	vp->vrt = vec3_scale(cam->up, cam->vp.height / (H / scale));
+	vp->hrz = vec3_scale(cam->right, cam->vp.width / w_ratio);
+	vp->vrt = vec3_scale(cam->up, cam->vp.height / (h_ratio));
 	vp->ori = vec3_add(cam->ori, cam->dir);
 	vp->delta_h = vp->width / W;
 	vp->delta_v = vp->height / H;
