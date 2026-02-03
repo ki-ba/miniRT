@@ -16,16 +16,6 @@
 #include "core.h"
 #include "intersect.h"
 
-double	intersect_cone(t_object *co, t_ray ray)
-{
-	double		root;
-
-	(void)co;
-	(void)ray;
-	root = 0;
-	return (root);
-}
-
 /**
 	* @brief takes a ray and a sphere and determines where the to meet
 	* @brief if they do.

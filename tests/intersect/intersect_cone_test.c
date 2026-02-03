@@ -1,13 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersect_test.h                                   :+:      :+:    :+:   */
+/*   intersect_cone_test.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/14 16:40:51 by kbarru            #+#    #+#             */
-/*   Updated: 2026/02/03 14:58:45 by abetemps         ###   ########.fr       */
+/*   Created: 2026/02/03 13:31:21 by kbarru            #+#    #+#             */
+/*   Updated: 2026/02/03 14:57:17 by abetemps         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#
+#include "intersect.h"
+#include "unity.h"
+
+void	test_inter_cone(void)
+{
+	TEST_IGNORE();
+}

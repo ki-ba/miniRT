@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 11:02:52 by kbarru            #+#    #+#             */
-/*   Updated: 2026/02/03 13:37:24 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/02/03 14:58:13 by abetemps         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ int	main(void)
 
 	// NORMAL TESTS
 	RUN_TEST(test_get_normal_sphere);
-
 	RUN_TEST(test_inter_cyl);
+	RUN_TEST(test_inter_cone);
 
 
 	// HOOKS UTILS TESTS

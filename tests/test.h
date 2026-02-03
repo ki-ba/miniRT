@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 15:08:42 by kbarru            #+#    #+#             */
-/*   Updated: 2026/02/03 13:37:16 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/02/03 14:58:52 by abetemps         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	test_scale_color(void);
 
 void	test_check_intersect_sphere(void);
 void	test_inter_cyl(void);
+void	test_inter_cone(void);
 
 // UTILS
 

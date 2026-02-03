@@ -38,5 +38,6 @@ t_vec3	get_normal_at_intersection(t_inter inter);
 double	inter_cyl_caps(t_object *cy, t_ray ray, const double r, const bool tb);
 double	inter_cyl_body(t_object *cy, t_ray ray, double dir_norm, double r);
 double	intersect_cylinder(t_object *cy, t_ray ray);
+double	intersect_cone(t_object *co, t_ray ray);
 
 #endif
