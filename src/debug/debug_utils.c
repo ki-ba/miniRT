@@ -34,34 +34,32 @@ void	print_vec3(char *name, t_vec3 vector)
 void	print_viewport(t_viewport vp)
 {
 	printf("VIEWPORT :\n");
-	printf("lower_left: %f %f %f\n", vp.lower_left.x, vp.lower_left.y, vp.lower_left.z);
+	printf("ori: %f %f %f\n", vp.ori.x, vp.ori.y, vp.ori.z);
 	printf("hrz: %f %f %f \n", vp.hrz.x, vp.hrz.y, vp.hrz.z);
 	printf("vrt: %f %f %f \n", vp.vrt.x, vp.vrt.y, vp.vrt.z);
-	printf("delta_u: %f %f %f\n", vp.delta_u.x, vp.delta_u.y, vp.delta_u.z);
-	printf("delta_v: %f %f %f\n", vp.delta_v.x, vp.delta_v.y, vp.delta_v.z);
-	printf("viewport width: %f\n", vp.vp_width);
-	printf("viewport height: %f\n", vp.vp_height);
-}
-
-void	print_camera(t_camera cam)
-{
-	printf("CAMERA :\n");
-	print_vec3("origin", cam.ori);
-	print_vec3("orientation", cam.dir);
-	printf("fov : %f\n", cam.fov);
-	printf("right vec: %f %f %f\n", cam.right.x, cam.right.y, cam.right.z);
-	printf("up vec: %f %f %f\n\n", cam.up.x, cam.up.y, cam.up.z);
+	printf("delta_h: %f\n", vp.delta_h);
+	printf("delta_v: %f\n", vp.delta_v);
+	printf("viewport width: %f\n", vp.width);
+	printf("viewport height: %f\n", vp.height);
 }
 
 void	print_properties(t_mini_rt mini_rt)
 {
+	t_camera	cam;
+
+	cam = mini_rt.scene.cam;
 	printf("AMBIENT LIGHT :\n");
 	printf("intensity : %.2f\n", mini_rt.scene.amb.i);
 	print_color("color", mini_rt.scene.amb.c);
 	printf("\n\n");
 	printf("intensity : %.2f\n", mini_rt.scene.amb.i);
 	print_color("color", mini_rt.scene.amb.c);
-	print_camera(mini_rt.scene.cam);
+	printf("CAMERA :\n");
+	print_vec3("origin", cam.ori);
+	print_vec3("orientation", cam.dir);
+	printf("fov : %f\n", cam.fov);
+	printf("right vec: %f %f %f\n", cam.right.x, cam.right.y, cam.right.z);
+	printf("up vec: %f %f %f\n\n", cam.up.x, cam.up.y, cam.up.z);
 	print_viewport(mini_rt.scene.cam.vp);
 	printf("\n\n");
 }

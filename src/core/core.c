@@ -37,7 +37,7 @@ void	init_mini_rt(t_mini_rt *mini_rt)
 	mini_rt->mlx.mlx = NULL;
 	mini_rt->mlx.win = NULL;
 	mini_rt->mlx.img = (t_data){0};
-	mini_rt->mode = (t_hooks) {1 << RENDER};
+	mini_rt->mode = (t_hooks){1 << RENDER};
 	mini_rt->scene.lights = create_vector(1, sizeof(t_light), NULL);
 	mini_rt->scene.objects = create_vector(1, sizeof(t_object), NULL);
 	mini_rt->scene.cam = (t_camera){0};
@@ -57,23 +57,24 @@ void	clean_exit(t_mini_rt *mini_rt, int exit_code)
 	exit(exit_code);
 }
 
-void	init_vp(t_camera *cam)
+void	init_vp(t_camera *cam, int scale)
 {
 	const double	aspect_ratio = (double)WIDTH / (double)HEIGHT;
+	const double	w_ratio = (double)W / scale;
+	const double	h_ratio = (double)H / scale;
 	t_viewport		*vp;
-	t_vec3			world_up;
 
 	vp = &(cam->vp);
-	cam->wup = (t_vec3) {0, 1, 0};
+	cam->wup = (t_vec3){0, 1, 0};
 	if (fabs(vec3_dot(cam->dir, cam->wup)) > 0.999)
-		world_up = (t_vec3){0,0,1};
+		cam->wup = (t_vec3){0, 0, 1};
 	cam->right = vec3_normalize(vec3_cross(cam->wup, cam->dir));
 	cam->up = vec3_cross(cam->dir, cam->right);
-	vp->vp_width = 2 * tan(cam->fov / 2) * VP_DISTANCE;
-	vp->vp_height = vp->vp_width / aspect_ratio;
-	vp->hrz = vec3_scale(cam->right, cam->vp.vp_width);
-	vp->vrt = vec3_scale(cam->up, cam->vp.vp_height);
-	vp->lower_left = vec3_add((cam->ori), cam->dir);
-	vp->lower_left = vec3_sub(vp->lower_left, vec3_scale(vp->hrz, 0.5));
-	vp->lower_left = vec3_sub(vp->lower_left, vec3_scale(vp->vrt, 0.5));
+	vp->width = 2 * tan(cam->fov / 2) * VP_DISTANCE;
+	vp->height = vp->width / aspect_ratio;
+	vp->hrz = vec3_scale(cam->right, cam->vp.width / w_ratio);
+	vp->vrt = vec3_scale(cam->up, cam->vp.height / (h_ratio));
+	vp->ori = vec3_add(cam->ori, cam->dir);
+	vp->delta_h = vp->width / W;
+	vp->delta_v = vp->height / H;
 }

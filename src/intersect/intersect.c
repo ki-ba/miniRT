@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/14 16:24:56 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/19 15:01:14 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/02/03 13:52:11 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 #include <math.h>
 #include "core.h"
 #include "intersect.h"
+
+double	intersect_cone(t_object *co, t_ray ray)
+{
+	double		root;
+
+	(void)co;
+	(void)ray;
+	root = 0;
+	return (root);
+}
 
 /**
 	* @brief takes a ray and a sphere and determines where the to meet
@@ -37,29 +47,6 @@ double	intersect_sphere(t_object *sp, t_ray ray)
 	b = 2 * vec3_dot(ray.dir, oc);
 	c = vec3_dot(oc, oc) - (sp->diam / 2) * (sp->diam / 2);
 	if (resolve_eq2(a, b, c, &root))
-		return (root);
-	return (0);
-}
-
-double	intersect_cylinder(t_object *cy, t_ray ray)
-{
-	const t_vec3	oc = vec3_sub(ray.ori, cy->center);
-	const double	dir_norm = vec3_dot(ray.dir, cy->n);
-	const double	oc_norm = vec3_dot(oc, cy->n);
-	const double	r = cy->diam / 2;
-	double	root;
-	double	a;
-	double	b;
-	double	c;
-
-	a = vec3_dot(ray.dir, ray.dir) - (dir_norm * dir_norm);
-	b = 2 * (vec3_dot(oc, ray.dir) - dir_norm * oc_norm);
-	c = vec3_dot(oc, oc) - (oc_norm * oc_norm) - (r * r);
-	if (!resolve_eq2(a, b, c, &root))
-		return (0);
-	t_vec3	p = vec3_add(ray.ori, vec3_scale(ray.dir, root));
-	double	h = fabs(vec3_dot(vec3_sub(p, cy->center), cy->n));
-	if (h <= cy->h / 2)
 		return (root);
 	return (0);
 }
@@ -90,16 +77,17 @@ t_inter	check_intersect_obj(t_vector *objects, t_ray ray)
 {
 	double		t;
 	size_t		i;
-	double		(*f_i[3])(t_object *, t_ray);
+	double		(*f_i[4])(t_object *, t_ray);
 	t_inter		inter;
 	t_object	*cur_object;
 
 	f_i[0] = intersect_sphere;
 	f_i[1] = intersect_plane;
 	f_i[2] = intersect_cylinder;
-	i = 0;
+	f_i[3] = intersect_cone;
+	i = -1;
 	inter.t = INFINITY;
-	while (i < objects->nb_elements)
+	while (++i < objects->nb_elements)
 	{
 		cur_object = get_ith_obj(objects, i);
 		t = f_i[cur_object->type](cur_object, ray);
@@ -108,7 +96,6 @@ t_inter	check_intersect_obj(t_vector *objects, t_ray ray)
 			inter.t = t;
 			inter.obj = cur_object;
 		}
-		++i;
 	}
 	if (inter.t < INFINITY)
 		inter.p = vec3_add(ray.ori, vec3_scale(ray.dir, inter.t));

@@ -7,7 +7,7 @@ DEPS = $(OBJ:.o=.d)
 
 # COMPILATION FLAGS #
 
-CFLAGS = -Wall -Wextra -Werror -g3 -MMD -O3 -pg
+CFLAGS = -Wall -Wextra -Werror -g3 -MMD -O3
 INCLUDES = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR) -I$(VECTORS_DIR)/inc/
 TEST_INCLUDES = -IUnity/src/
 LIBS = -L$(MLX_DIR) -lmlx -lX11 -lXext -L$(LIBFT_DIR) -lft -lm -L$(VECTORS_DIR) -lvectors
@@ -48,7 +48,7 @@ GRAPHICS_FILENAMES	= graphics.c
 CORE_FILENAMES		= core.c hooks.c hooks_utils.c math.c core_utils.c
 RENDER_FILENAMES	= render.c render_utils.c
 COLOR_FILENAMES		= color.c
-INTERSECT_FILENAMES = intersect.c normal.c
+INTERSECT_FILENAMES = intersect.c intersect_cylinder.c normal.c
 
 # CATEGORY_FILENAMES = filename.c
 
@@ -109,6 +109,10 @@ objdirs:
 	mkdir -p $(addprefix $(OBJ_DIR), $(SUBDIRS))
 	mkdir -p $(addprefix $(OBJ_DIR), $(TEST_SUBDIRS))
 
+.PHONY : lowres
+lowres: CFLAGS += -DHQ_SCALE=20
+lowres: re
+
 # LIBRARIES #
 
 MLX_LIB = $(MLX_DIR)libmlx.a
@@ -128,7 +132,7 @@ ${VECTORS_LIB}:
 
 $(TEST_NAME): $(TEST_OBJ) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o | $(MLX_LIB) $(LIBFT_LIB) objdirs
 	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDES) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o $(TEST_OBJ) $(LIBS) -o $(TEST_NAME)
-	./$(TEST_NAME)
+	# ./$(TEST_NAME)
 
 
 $(NAME) : $(OBJ) .obj/main.o $(MLX_LIB) $(LIBFT_LIB) $(VECTORS_LIB) |  objdirs

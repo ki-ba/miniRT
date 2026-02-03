@@ -12,7 +12,6 @@
 
 #include "miniRT.h"
 #include "mlx.h"
-#include "debug.h"
 #include "render.h"
 #include "hooks.h"
 
@@ -30,7 +29,7 @@ void	handle_hook_mode(t_mini_rt *mrt, int keysym)
 				mrt->mode.v ^= (1 << i);
 			else
 				mrt->mode.v |= (1 << i);
-			shoot_rays(mrt);
+			render_scene(mrt);
 		}
 		++i;
 	}
@@ -43,29 +42,28 @@ extern inline t_bool	is_set_bit(unsigned int v, unsigned int flag)
 
 void	lock_mouse(t_mini_rt *mrt, t_vec3 *pos, int x, int y)
 {
-	const int w_deadzone = W * DEADZONE;
-	const int h_deadzone = H * DEADZONE;
+	const int	w_deadzone = W * DEADZONE;
+	const int	h_deadzone = H * DEADZONE;
 
-	*pos = (t_vec3) {x, y, 0};
+	*pos = (t_vec3){x, y, 0};
 	if (x > (W - (w_deadzone)))
 	{
 		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, 1 + (w_deadzone), y);
-		*pos = (t_vec3) {1 + (w_deadzone), y, 0};
+		*pos = (t_vec3){1 + (w_deadzone), y, 0};
 	}
 	else if (x < (0 + (w_deadzone)))
 	{
 		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, W - (w_deadzone), y);
-		*pos = (t_vec3) {W - (w_deadzone), y, 0};
+		*pos = (t_vec3){W - (w_deadzone), y, 0};
 	}
 	if (y > (H - (h_deadzone)))
 	{
 		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, x, 1 + (h_deadzone));
-		*pos = (t_vec3) {x, 1 + (h_deadzone), 0};
+		*pos = (t_vec3){x, 1 + (h_deadzone), 0};
 	}
 	else if (y < (0 + (h_deadzone)))
 	{
 		mlx_mouse_move(mrt->mlx.mlx, mrt->mlx.win, x, H - (h_deadzone));
-		*pos = (t_vec3) {x, H - (h_deadzone), 0};
+		*pos = (t_vec3){x, H - (h_deadzone), 0};
 	}
-
 }

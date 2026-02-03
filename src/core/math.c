@@ -65,3 +65,15 @@ extern inline double	rad_to_deg(double rad)
 {
 	return (rad * (180 / M_PI));
 }
+
+t_bool	is_normalized(t_vec3 vector)
+{
+	if (vector.x < -1 || vector.x > 1)
+		return (FALSE);
+	if (vector.y < -1 || vector.y > 1)
+		return (FALSE);
+	if (vector.z < -1 || vector.z > 1)
+		return (FALSE);
+	return (sqrt(vector.x * vector.x + vector.y * vector.y
+			+ vector.z * vector.z) <= 1.0);
+}

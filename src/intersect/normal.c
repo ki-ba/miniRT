@@ -28,18 +28,45 @@ t_vec3	get_normal_plane(t_inter inter)
 
 t_vec3	get_normal_cylinder(t_inter inter)
 {
-	(void)inter;
-	return ((t_vec3){0});
+	t_vec3	c;
+	t_vec3	v;
+	double	t;
+	t_vec3	axis_point;
+	t_vec3	normal;
+
+	c = inter.obj->center;
+	v = vec3_normalize(inter.obj->n);
+	t = vec3_dot(vec3_sub(inter.p, c), v);
+	axis_point = vec3_add(c, vec3_scale(v, t));
+	normal = vec3_sub(inter.p, axis_point);
+	return (vec3_normalize(normal));
+}
+
+t_vec3	get_normal_cone(t_inter inter)
+{
+	t_vec3	c;
+	t_vec3	v;
+	double	t;
+	t_vec3	axis_point;
+	t_vec3	normal;
+
+	c = inter.obj->center;
+	v = vec3_normalize(inter.obj->n);
+	t = vec3_dot(vec3_sub(inter.p, c), v);
+	axis_point = vec3_add(c, vec3_scale(v, t));
+	normal = vec3_sub(inter.p, axis_point);
+	return (vec3_normalize(normal));
 }
 
 t_vec3	get_normal_at_intersection(t_inter inter)
 {
 	t_vec3	normal;
 
-	t_vec3 (*n[3])(t_inter);
+	t_vec3 (*n[4])(t_inter);
 	(void)normal;
 	n[0] = get_normal_sphere;
 	n[1] = get_normal_plane;
 	n[2] = get_normal_cylinder;
+	n[3] = get_normal_cone;
 	return (n[inter.obj->type](inter));
 }

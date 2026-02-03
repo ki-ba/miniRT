@@ -19,6 +19,8 @@ void	print_obj(t_object obj)
 {
 	if (obj.type == CYLINDER)
 		printf("Type : Cylinder\n");
+	else if (obj.type == CONE)
+		printf("Type : Cone\n");
 	else if (obj.type == PLANE)
 		printf("Type : Plane\n");
 	else if (obj.type == SPHERE)

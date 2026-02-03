@@ -22,6 +22,7 @@
 
 # define PLANE_ID "pl"
 # define CYLINDER_ID "cy"
+# define CONE_ID "co"
 # define SPHERE_ID "sp"
 # define AMBIENT_ID "A"
 # define LIGHT_ID "L"
@@ -45,7 +46,7 @@ size_t			arr_len(char **arr);
 
 int				define_item_type(char *id);
 int				is_property_id(char *id);
-t_bool			is_normalized(t_vec3 vector);
+int				add_item(t_vector **obj, int (*f)(void *, char **), char **arr);
 
 /* STR UTILS */
 
