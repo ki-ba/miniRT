@@ -40,7 +40,6 @@ t_ray	create_ray(t_camera cam, int dth, int dtv)
 
 	d_h = vec3_scale(cam.vp.hrz, dth);
 	d_v = vec3_scale(cam.vp.vrt, -dtv);
-
 	p = vec3_add(vec3_add(cam.vp.ori, d_h), d_v);
 	ray.ori = cam.ori;
 	ray.dir = vec3_normalize(vec3_sub(p, cam.ori));
