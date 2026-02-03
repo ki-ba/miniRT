@@ -16,7 +16,7 @@
 void	clear_vector(t_vector **vec)
 {
 	if (!vec)
-		return;
+		return ;
 	if (*vec && (*vec)->array)
 	{
 		if ((*vec)->clear_array)

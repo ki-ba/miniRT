@@ -61,17 +61,17 @@ t_color	get_diffuse_color(t_light *l, t_inter inter, t_vec3 normal)
 	return (diffuse);
 }
 
-t_color	get_specular_color(t_light *l, t_inter inter, t_camera cam, t_vec3 normal)
+t_color	get_specular_color(t_light *l, t_inter inter, t_camera cam, t_vec3 n)
 {
 	t_vec3	light_dir;
 	t_vec3	view_dir;
 	t_vec3	r_v;
 	double	s_f;
 
-	normal = get_normal_at_intersection(inter);
+	n = get_normal_at_intersection(inter);
 	view_dir = vec3_normalize(vec3_sub(cam.ori, inter.p));
 	light_dir = vec3_normalize(vec3_sub(l->ori, inter.p));
-	r_v = vec3_scale(normal, vec3_dot(normal, light_dir));
+	r_v = vec3_scale(n, vec3_dot(n, light_dir));
 	r_v = vec3_sub(vec3_scale(r_v, 2), light_dir);
 	r_v = vec3_normalize(r_v);
 	s_f = pow(fmax(0, vec3_dot(r_v, view_dir)), SHININESS);

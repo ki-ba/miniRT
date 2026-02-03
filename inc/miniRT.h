@@ -6,7 +6,7 @@
 /*   By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 15:19:48 by kbarru            #+#    #+#             */
-/*   Updated: 2026/01/19 14:54:01 by kbarru           ###   ########lyon.fr   */
+/*   Updated: 2026/02/03 14:44:00 by kbarru           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ struct s_viewport
 	t_vec3	ori;
 	t_vec3	hrz;
 	t_vec3	vrt;
-	double 	delta_h;
-	double 	delta_v;
+	double	delta_h;
+	double	delta_v;
 	double	height;
 	double	width;
 };

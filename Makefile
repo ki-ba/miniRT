@@ -48,7 +48,7 @@ GRAPHICS_FILENAMES	= graphics.c
 CORE_FILENAMES		= core.c hooks.c hooks_utils.c math.c core_utils.c
 RENDER_FILENAMES	= render.c render_utils.c
 COLOR_FILENAMES		= color.c
-INTERSECT_FILENAMES = intersect.c normal.c
+INTERSECT_FILENAMES = intersect.c intersect_cylinder.c normal.c
 
 # CATEGORY_FILENAMES = filename.c
 
@@ -132,7 +132,7 @@ ${VECTORS_LIB}:
 
 $(TEST_NAME): $(TEST_OBJ) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o | $(MLX_LIB) $(LIBFT_LIB) objdirs
 	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDES) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o $(TEST_OBJ) $(LIBS) -o $(TEST_NAME)
-	./$(TEST_NAME)
+	# ./$(TEST_NAME)
 
 
 $(NAME) : $(OBJ) .obj/main.o $(MLX_LIB) $(LIBFT_LIB) $(VECTORS_LIB) |  objdirs

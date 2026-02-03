@@ -37,6 +37,7 @@ t_bool		resolve_eq2(double a, double b, double c, double *root);
 double		deg_to_rad(double deg);
 double		rad_to_deg(double rad);
 t_vec3		vec_to_point(t_ray ray, double t);
+t_bool		is_normalized(t_vec3 vector);
 
 // UTILS
 

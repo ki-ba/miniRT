@@ -53,8 +53,8 @@ void	shoot_rays(t_mini_rt *m_rt, const int h_ratio, const int w_ratio)
 void	render_scene(t_mini_rt *m_rt)
 {
 	t_mlx	*mlx;
-	double	h_ratio;
-	double	w_ratio;
+	int		h_ratio;
+	int		w_ratio;
 
 	mlx = &m_rt->mlx;
 	if (is_set_bit(m_rt->mode.v, RENDER))

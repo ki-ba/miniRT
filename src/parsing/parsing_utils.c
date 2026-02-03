@@ -57,3 +57,23 @@ int	is_property_id(char *id)
 		return (TRUE + 1);
 	return (FALSE);
 }
+
+/**
+	* @brief Generic function to add an item to a vector.
+	* @param lst The linked list to which the item will be added.
+	* @param f The function used to create the item from the specifications.
+	* @param item_arr The array of strings representing the item specifications.
+*/
+int	add_item(t_vector **objects, int (*f)(void *, char **), char **item_arr)
+{
+	t_object	obj;
+
+	if (!objects)
+		return (GENERIC_ERR);
+	obj = (t_object){0};
+	obj.type = define_item_type(item_arr[0]);
+	if (f(&obj, item_arr))
+		return (GENERIC_ERR);
+	add_element(*objects, &obj);
+	return (0);
+}
