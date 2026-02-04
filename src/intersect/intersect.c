@@ -22,7 +22,7 @@
 	* @returns the value of t in the ray that intersects the sphere if it does,
 	* @returns 0 otherwise.
 */
-double	intersect_sphere(t_object *sp, t_ray ray)
+static double	intersect_sphere(t_object *sp, t_ray ray)
 {
 	t_vec3		oc;
 	double		a;
@@ -47,7 +47,7 @@ double	intersect_sphere(t_object *sp, t_ray ray)
 	* @returns the value of t in the ray that intersects the plane if it does,
 	* @returns 0 otherwise.
 */
-double	intersect_plane(t_object *pl, t_ray ray)
+static double	intersect_plane(t_object *pl, t_ray ray)
 {
 	double	denom;
 

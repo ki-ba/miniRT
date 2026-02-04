@@ -13,20 +13,17 @@
 #include "vec3.h"
 #include "intersect.h"
 
-t_vec3	get_normal_sphere(t_inter inter)
+static inline t_vec3	get_normal_sphere(t_inter inter)
 {
-	t_vec3	normal;
-
-	normal = vec3_sub(inter.p, inter.obj->center);
-	return (vec3_normalize(normal));
+	return (vec3_normalize(vec3_sub(inter.p, inter.obj->center)));
 }
 
-t_vec3	get_normal_plane(t_inter inter)
+static inline t_vec3	get_normal_plane(t_inter inter)
 {
 	return (vec3_normalize(inter.obj->n));
 }
 
-t_vec3	get_normal_cylinder(t_inter inter)
+static t_vec3	get_normal_cylinder(t_inter inter)
 {
 	const t_vec3	c = inter.obj->center;
 	const t_vec3	v = vec3_normalize(inter.obj->n);
@@ -41,15 +38,13 @@ t_vec3	get_normal_cylinder(t_inter inter)
 		normal = vec3_sub(inter.p, axis_point);
 	}
 	else
-	{
 		normal = vec3_scale(v, inter.obj->cap);
-	}
 	if (vec3_dot(normal, inter.ray.dir) > 0)
 		normal = vec3_scale(normal, -1);
 	return (vec3_normalize(normal));
 }
 
-t_vec3	get_normal_cone(t_inter inter)
+static t_vec3	get_normal_cone(t_inter inter)
 {
 	t_vec3	c;
 	t_vec3	v;

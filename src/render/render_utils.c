@@ -46,7 +46,7 @@ t_ray	create_ray(t_camera cam, int dth, int dtv)
 	return (ray);
 }
 
-t_color	get_diffuse_color(t_light *l, t_inter inter)
+static t_color	get_diffuse_color(t_light *l, t_inter inter)
 {
 	double	ndotl;
 	t_vec3	light_dir;
@@ -60,7 +60,7 @@ t_color	get_diffuse_color(t_light *l, t_inter inter)
 	return (diffuse);
 }
 
-t_color	get_specular_color(t_light *l, t_inter inter, t_camera cam)
+static t_color	get_specular_color(t_light *l, t_inter inter, t_camera cam)
 {
 	t_vec3	light_dir;
 	t_vec3	view_dir;
@@ -86,7 +86,6 @@ t_color	get_color(t_inter inter, t_scene *scene)
 	t_color	c;
 	t_light	*light;
 	t_vec3	view_dir;
-	// t_vec3	normal;
 	size_t	i;
 
 	view_dir = vec3_normalize(vec3_sub(scene->cam.ori, inter.p));
