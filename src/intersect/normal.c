@@ -62,10 +62,8 @@ static t_vec3	get_normal_cone(t_inter inter)
 
 t_vec3	get_normal_at_intersection(t_inter inter)
 {
-	t_vec3	normal;
 
 	t_vec3 (*n[4])(t_inter);
-	(void)normal;
 	n[0] = get_normal_sphere;
 	n[1] = get_normal_plane;
 	n[2] = get_normal_cylinder;

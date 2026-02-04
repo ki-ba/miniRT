@@ -104,7 +104,7 @@ int is_in_shadow(t_vector *objects, t_light *light, t_inter inter)
     normal = get_normal_at_intersection(inter);
     to_light = vec3_sub(light->ori, inter.p);
     dist_light = vec3_magnitude(to_light);
-    ray.ori = vec3_add(inter.p, vec3_scale(normal, 1e-4));
+    ray.ori = vec3_add(inter.p, vec3_scale(normal, 1e-6));
     ray.dir = vec3_normalize(vec3_sub(light->ori, inter.p));
     shadow_hit = check_intersect_obj(objects, ray);
 	return (shadow_hit.t > EPSILON && shadow_hit.t < dist_light);

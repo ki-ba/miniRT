@@ -15,13 +15,17 @@
 
 # include "color.h"
 
-# define WIDTH 960
-# define HEIGHT 540
+// # define WIDTH 2560
+// # define HEIGHT 1440
+# define WIDTH 1920
+# define HEIGHT 1080
+// # define WIDTH 960
+// # define HEIGHT 540
 
 # define W WIDTH
 # define H HEIGHT
 
-# define LQ_SCALE 20
+# define LQ_SCALE 40
 # ifndef HQ_SCALE
 #  define HQ_SCALE 1
 # endif

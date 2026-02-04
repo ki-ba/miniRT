@@ -14,17 +14,33 @@
 #include <math.h>
 #include "core.h"
 
-#define N_CAP 0 // cap normal
-#define C_CAP 1 // cap center
-#define P_CAP 2 // point of intersection
-
 double	intersect_cone(t_object *co, t_ray ray)
 {
-	double		root;
+	const t_vec3	tip = vec3_add(co->center, vec3_scale(co->n, co->h));
+	const t_vec3	ot = vec3_sub(ray.ori, tip);
+	const double	dn = vec3_dot(ray.dir, co->n);
+	const double	otn = vec3_dot(ot, co->n);
+	const double	k = (co->diam / 2) / co->h;
+	const double	m = 1 + (k * k);
+	t_vec3			p;
+	t_vec3			v;
+	double			h;
+	double			numbers[3];
+	double			root;
 
-	(void)co;
-	(void)ray;
-	root = 1;
-	return (root);
+	root = 0;
+	numbers[0] = vec3_dot(ray.dir, ray.dir) - m * (dn * dn);
+	numbers[1] = 2 * (vec3_dot(ot, ray.dir) - m * (dn * otn));
+	numbers[2] = vec3_dot(ot, ot) - m * (otn * otn);
+	if (!resolve_eq2(numbers[0], numbers[1], numbers[2], &root))
+		return (0);
+
+	p = vec3_add(ray.ori, vec3_scale(ray.dir, root));
+	v = vec3_sub(p, tip);
+	h = vec3_dot(vec3_sub(p, co->center), co->n);
+	if (h > EPSILON && h <= co->h)
+		return (root);
+
+	return (0);
 }
 
