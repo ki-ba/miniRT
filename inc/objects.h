@@ -32,6 +32,7 @@ struct s_object
 	t_item_type	type;
 	t_vec3		center;
 	t_vec3		n;
+	int			cap;
 	t_vec3		p;
 	t_color		c;
 	double		diam;

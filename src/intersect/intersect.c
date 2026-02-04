@@ -77,6 +77,7 @@ t_inter	check_intersect_obj(t_vector *objects, t_ray ray)
 	f_i[3] = intersect_cone;
 	i = -1;
 	inter.t = INFINITY;
+	inter.ray = ray;
 	while (++i < objects->nb_elements)
 	{
 		cur_object = get_ith_obj(objects, i);
@@ -92,19 +93,19 @@ t_inter	check_intersect_obj(t_vector *objects, t_ray ray)
 	return (inter);
 }
 
-int	is_in_shadow(t_vector *objects, t_light *light, t_vec3 point)
+int is_in_shadow(t_vector *objects, t_light *light, t_inter inter)
 {
-	t_ray	ray;
-	double	dist_light;
-	t_inter	shadow_hit;
-	t_vec3	to_light;
+    t_vec3  normal;
+    t_vec3  to_light;
+    t_ray   ray;
+    double  dist_light;
+    t_inter shadow_hit;
 
-	to_light = vec3_sub(light->ori, point);
-	dist_light = vec3_magnitude(to_light);
-	ray.ori = vec3_add(point, vec3_scale(vec3_normalize(to_light), 1e-4));
-	ray.dir = vec3_normalize(to_light);
-	shadow_hit = check_intersect_obj(objects, ray);
-	if (shadow_hit.t > EPSILON && shadow_hit.t < dist_light)
-		return (TRUE);
-	return (FALSE);
+    normal = get_normal_at_intersection(inter);
+    to_light = vec3_sub(light->ori, inter.p);
+    dist_light = vec3_magnitude(to_light);
+    ray.ori = vec3_add(inter.p, vec3_scale(normal, 1e-4));
+    ray.dir = vec3_normalize(vec3_sub(light->ori, inter.p));
+    shadow_hit = check_intersect_obj(objects, ray);
+	return (shadow_hit.t > EPSILON && shadow_hit.t < dist_light);
 }

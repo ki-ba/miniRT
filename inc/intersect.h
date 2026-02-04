@@ -21,12 +21,14 @@ struct s_inter
 {
 	t_vec3			p;
 	t_vec3			n;
+	t_ray			ray;
 	struct s_object	*obj;
 	double			t;
 };
 
 t_inter	check_intersect_obj(t_vector *objects, t_ray ray);
-int		is_in_shadow(t_vector *objects, t_light *light, t_vec3 point);
+// int		is_in_shadow(t_vector *objects, t_light *light, t_vec3 point);
+int		is_in_shadow(t_vector *objects, t_light *light, t_inter inter);
 t_vec3	get_normal_sphere(t_inter inter);
 t_vec3	get_normal_plane(t_inter inter);
 t_vec3	get_normal_cylinder(t_inter inter);
@@ -35,8 +37,8 @@ t_vec3	get_normal_at_intersection(t_inter inter);
 
 // Intersect cone 
 
-double	inter_cyl_caps(t_object *cy, t_ray ray, const double r, const bool tb);
-double	inter_cyl_body(t_object *cy, t_ray ray, double dir_norm, double r);
+// double	inter_cyl_caps(t_object *cy, t_ray ray, const double r, const bool tb);
+// double	inter_cyl_body(t_object *cy, t_ray ray, double dir_norm, double r);
 double	intersect_cylinder(t_object *cy, t_ray ray);
 double	intersect_cone(t_object *co, t_ray ray);
 
