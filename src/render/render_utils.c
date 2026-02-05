@@ -55,7 +55,9 @@ static t_color	get_diffuse_color(t_light *l, t_inter inter)
 
 	obj_c = inter.obj->c;
 	light_dir = vec3_normalize(vec3_sub(l->ori, inter.p));
-	ndotl = fmax(0, vec3_dot(inter.n, light_dir));
+	ndotl = vec3_dot(inter.n, light_dir);
+	if (ndotl < 0)
+		return ((t_color){0});
 	diffuse = scale_color(scale_color(mul_color(obj_c, l->c), ndotl), l->i);
 	return (diffuse);
 }

@@ -132,7 +132,7 @@ ${VECTORS_LIB}:
 
 $(TEST_NAME): $(TEST_OBJ) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o | $(MLX_LIB) $(LIBFT_LIB) objdirs
 	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDES) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o $(TEST_OBJ) $(LIBS) -o $(TEST_NAME)
-	# ./$(TEST_NAME)
+	./$(TEST_NAME)
 
 
 $(NAME) : $(OBJ) .obj/main.o $(MLX_LIB) $(LIBFT_LIB) $(VECTORS_LIB) |  objdirs
