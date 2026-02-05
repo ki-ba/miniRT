@@ -46,17 +46,22 @@ static t_vec3	get_normal_cylinder(t_inter inter)
 
 static t_vec3	get_normal_cone(t_inter inter)
 {
-	t_vec3	c;
-	t_vec3	v;
-	double	t;
-	t_vec3	axis_point;
-	t_vec3	normal;
+	const t_vec3	c = inter.obj->center;
+	const t_vec3	v = vec3_normalize(inter.obj->n);
+	double			t;
+	t_vec3			axis_point;
+	t_vec3			normal;
 
-	c = inter.obj->center;
-	v = vec3_normalize(inter.obj->n);
-	t = vec3_dot(vec3_sub(inter.p, c), v);
-	axis_point = vec3_add(c, vec3_scale(v, t));
-	normal = vec3_sub(inter.p, axis_point);
+	if (inter.obj->cap == 0)
+	{
+		t = vec3_dot(vec3_sub(inter.p, c), v);
+		axis_point = vec3_add(c, vec3_scale(v, t));
+		normal = vec3_sub(inter.p, axis_point);
+	}
+	else
+		normal = vec3_scale(v, inter.obj->cap);
+	if (vec3_dot(normal, inter.ray.dir) > 0)
+		normal = vec3_scale(normal, -1);
 	return (vec3_normalize(normal));
 }
 
