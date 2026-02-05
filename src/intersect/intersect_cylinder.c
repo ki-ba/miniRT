@@ -30,7 +30,6 @@ static double	inter_cyl_caps(t_object *cy, t_ray ray,
 	double	fraction[2];
 	double	root;
 
-	return (0);
 	cap[N_CAP] = vec3_scale(cy->n, -1);
 	cap[C_CAP] = vec3_sub(cy->center, vec3_scale(cy->n, cy->h / 2));
 	if (tb)

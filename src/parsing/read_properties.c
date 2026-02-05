@@ -108,7 +108,7 @@ int	read_normalized_vec(t_vec3 *v, char *string)
 		write(2, VECTOR_NOT_NORMALIZED, ft_strlen(VECTOR_NOT_NORMALIZED));
 		return (INVALID_VAL_ERR);
 	}
-	// else if (is_normalized(*v) == FALSE)
-	*v = vec3_normalize(*v);
+	else if (is_normalized(*v) == FALSE)
+		*v = vec3_normalize(*v);
 	return (SUCCESS);
 }

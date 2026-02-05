@@ -66,11 +66,15 @@ static t_color	get_specular_color(t_light *l, t_inter inter, t_camera cam)
 {
 	t_vec3	light_dir;
 	t_vec3	view_dir;
+	double	ndotl;
 	t_vec3	r_v;
 	double	s_f;
 
 	view_dir = vec3_normalize(vec3_sub(cam.ori, inter.p));
 	light_dir = vec3_normalize(vec3_sub(l->ori, inter.p));
+	ndotl = vec3_dot(inter.n, light_dir);
+	if (ndotl < 0)
+		return ((t_color){0});
 	r_v = vec3_scale(inter.n, vec3_dot(inter.n, light_dir));
 	r_v = vec3_sub(vec3_scale(r_v, 2), light_dir);
 	r_v = vec3_normalize(r_v);
@@ -92,8 +96,8 @@ t_color	get_color(t_inter inter, t_scene *scene)
 
 	view_dir = vec3_normalize(vec3_sub(scene->cam.ori, inter.p));
 	inter.n = get_normal_at_intersection(inter);
-	// if (vec3_dot(inter.n, view_dir) < 0)
-	// 	inter.n = vec3_scale(inter.n, -1);
+	if (vec3_dot(inter.n, view_dir) < 0)
+		inter.n = vec3_scale(inter.n, -1);
 	i = 0;
 	c = mul_color(scale_color(scene->amb.c, scene->amb.i), inter.obj->c);
 	while (i < scene->lights->nb_elements)

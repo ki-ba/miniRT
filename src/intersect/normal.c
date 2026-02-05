@@ -27,9 +27,9 @@ static t_vec3	get_normal_cylinder(t_inter inter)
 {
 	const t_vec3	c = inter.obj->center;
 	const t_vec3	v = vec3_normalize(inter.obj->n);
-	double	t;
-	t_vec3	axis_point;
-	t_vec3	normal;
+	double			t;
+	t_vec3			axis_point;
+	t_vec3			normal;
 
 	if (inter.obj->cap == 0)
 	{
@@ -62,7 +62,6 @@ static t_vec3	get_normal_cone(t_inter inter)
 
 t_vec3	get_normal_at_intersection(t_inter inter)
 {
-
 	t_vec3 (*n[4])(t_inter);
 	n[0] = get_normal_sphere;
 	n[1] = get_normal_plane;
