@@ -1,0 +1,43 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    divided.rt                                         :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: kbarru <kbarru@student.42lyon.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/01/19 13:03:09 by kbarru            #+#    #+#              #
+#    Updated: 2026/01/19 15:04:53 by kbarru           ###   ########lyon.fr    #
+#                                                                              #
+# **************************************************************************** #
+
+# this maps is composed of 4 sphere in the top left, top right, bottom left, and bottom right of the scene.
+# 2 planes cut the map in the middle : one horizontally, one vertically.
+# each division has a light that aligns with the sphere on the same division and the center of the scene.
+
+
+C 0,0,0 0,0,1 60
+A .0 255,255,255
+
+# bottom left corner
+L -5,5,99 1 255,0,0
+sp -20,20,100 5 255,255,255
+
+# top right corner
+L 5,-5,99 1 0,255,0
+sp 20,-20,100 5 255,255,255
+
+# bottom right corner
+L 5,5,99 1 0,0,255
+sp 20,20,100 5 255,255,255
+
+
+# top left corner
+L -5,-5,99 1 255,255,255
+sp -20,-20,100 5 255,255,255
+
+pl 0,0,100 1,0,0 0,0,0
+pl 0,0,100 0,1,0 0,0,0
+
+# background
+pl 0,0,115 0,0,1 100,170,255
+

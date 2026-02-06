@@ -141,6 +141,5 @@ int	parse_items_in_file(t_mini_rt *mini_rt, int fd)
 		free(line);
 		line = get_next_line(fd, &status);
 	}
-	printf("STATUS: %d\n", status);
 	return (status);
 }

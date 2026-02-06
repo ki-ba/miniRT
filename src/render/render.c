@@ -64,7 +64,8 @@ void	render_scene(t_mini_rt *m_rt)
 	h_ratio = H / m_rt->scale;
 	w_ratio = W / m_rt->scale;
 	init_vp(&m_rt->scene.cam, m_rt->scale);
-	print_properties(*m_rt);
+	if (DEBUG)
+		print_properties(*m_rt);
 	shoot_rays(m_rt, h_ratio, w_ratio);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 }
