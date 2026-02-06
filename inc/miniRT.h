@@ -104,6 +104,7 @@ struct s_scene
 struct s_mini_rt
 {
 	int			scale;
+	int			fd;
 	t_hooks		mode;
 	t_scene		scene;
 	t_mlx		mlx;

@@ -18,6 +18,8 @@
 
 void	destroy_mini_rt(t_mini_rt *mini_rt)
 {
+	if (mini_rt->fd >= 0)
+		close(mini_rt->fd);
 	clear_vector(&mini_rt->scene.objects);
 	clear_vector(&mini_rt->scene.lights);
 	if (mini_rt->mlx.img.img)
@@ -42,6 +44,7 @@ void	init_mini_rt(t_mini_rt *mini_rt)
 	mini_rt->scene.objects = create_vector(1, sizeof(t_object), NULL);
 	mini_rt->scene.cam = (t_camera){0};
 	mini_rt->scene.amb = (t_ambient){0};
+	mini_rt->fd = -1;
 }
 
 void	print_mini_rt(t_mini_rt *mini_rt)
