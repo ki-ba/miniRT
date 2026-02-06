@@ -1,4 +1,4 @@
-__This project has been created as part of the 42 curriculum by kbarru, abetemps.__
+*This project has been created as part of the 42 curriculum by kbarru, abetemps.*
 
 ## Description
 
