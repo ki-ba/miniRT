@@ -39,14 +39,15 @@ int	main(int argc, char *argv[])
 	}
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
+	{
+		clean_exit(&mini_rt, GENERIC_ERR);
 		return (write(2, FILE_ERR_MSG, ft_strlen(FILE_ERR_MSG)));
+	}
 	if (parse_items_in_file(&mini_rt, fd))
 		clean_exit(&mini_rt, GENERIC_ERR);
 	if (check_properties(&mini_rt))
 		clean_exit(&mini_rt, GENERIC_ERR);
 	ft_init_mlx(&mini_rt);
-	if (DEBUG)
-		print_mini_rt(&mini_rt);
 	render_scene(&mini_rt);
 	mlx_loop(mini_rt.mlx.mlx);
 	destroy_mini_rt(&mini_rt);
