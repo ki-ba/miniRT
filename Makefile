@@ -7,7 +7,7 @@ DEPS = $(OBJ:.o=.d)
 
 # COMPILATION FLAGS #
 
-CFLAGS = -Wall -Wextra -Werror -g3 -MMD -O3
+CFLAGS = -Wall -Wextra -Werror -MMD
 INCLUDES = -I$(INC_DIR) -I$(MLX_DIR) -I$(LIBFT_DIR) -I$(VECTORS_DIR)/inc/
 TEST_INCLUDES = -IUnity/src/
 LIBS = -L$(MLX_DIR) -lmlx -lX11 -lXext -L$(LIBFT_DIR) -lft -lm -L$(VECTORS_DIR) -lvectors
@@ -66,7 +66,7 @@ INTERSECT_SRC	= $(addprefix $(SRC_DIR)$(INTERSECT_DIR), $(INTERSECT_FILENAMES))
 SRC = $(PARSING_SRC) $(OBJECTS_SRC) $(VEC3_SRC) $(DEBUG_SRC) $(DESTROY_SRC) $(GRAPHICS_SRC) $(CORE_SRC) $(RENDER_SRC) $(COLOR_SRC) $(INTERSECT_SRC)
 # add CAT_SRC here if a new category is added
 
-TEST_SRC = $(subst $(SRC_DIR), $(TEST_DIR), $(SRC:%.c=%_test.c))
+# TEST_SRC = $(subst $(SRC_DIR), $(TEST_DIR), $(SRC:%.c=%_test.c))
 
 #NOTE: SRC and TEST_SRC do NOT contain main.c and test runner files. They have to be added separately in the rules.
 #NOTE: Consequently, OBJ and TEST_OBJ also do not contain main.o and test.o files.
@@ -84,7 +84,7 @@ TEST_OBJ = $(TEST_SRC:$(TEST_DIR)%.c=$(OBJ_DIR)$(TEST_DIR)%.o) $(OBJ_DIR)$(TEST_
 # PHONY RULES #
 
 .PHONY : all
-all: objdirs $(NAME) $(TEST_NAME)
+all: objdirs $(NAME) #$(TEST_NAME)
 
 .PHONY : clean
 clean:
@@ -96,9 +96,9 @@ clean:
 
 .PHONY : fclean
 fclean: clean
-	$(MAKE) -j4 -C $(LIBFT_DIR) fclean
-	$(MAKE) -j4 -C $(MLX_DIR) clean
-	$(MAKE) -j4 -C $(VECTORS_DIR) fclean
+	$(MAKE) -C $(LIBFT_DIR) fclean
+	$(MAKE) -C $(MLX_DIR) clean
+	$(MAKE) -C $(VECTORS_DIR) fclean
 	rm -f $(NAME)
 
 .PHONY : re
@@ -112,6 +112,9 @@ objdirs:
 .PHONY : lowres
 lowres: CFLAGS += -DHQ_SCALE=20
 lowres: re
+
+.PHONY : bonus
+bonus: all
 
 # LIBRARIES #
 
@@ -132,7 +135,7 @@ ${VECTORS_LIB}:
 
 $(TEST_NAME): $(TEST_OBJ) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o | $(MLX_LIB) $(LIBFT_LIB) objdirs
 	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDES) $(OBJ) $(OBJ_DIR)$(TEST_DIR)test.o $(TEST_OBJ) $(LIBS) -o $(TEST_NAME)
-	# ./$(TEST_NAME)
+	./$(TEST_NAME)
 
 
 $(NAME) : $(OBJ) .obj/main.o $(MLX_LIB) $(LIBFT_LIB) $(VECTORS_LIB) |  objdirs
@@ -142,11 +145,5 @@ $(NAME) : $(OBJ) .obj/main.o $(MLX_LIB) $(LIBFT_LIB) $(VECTORS_LIB) |  objdirs
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-$(OBJ_DIR)tests/%.o : $(TEST_DIR)%.c
-	$(CC) $(CFLAGS) $(INCLUDES) $(TEST_INCLUDES) -c $< -o $@
-
-$(OBJ_DIR)tests/unity.o : Unity/src/unity.c Unity/src/unity.h
-	$(CC) $(CFLAGS) $(TEST_INCLUDES) -c $< -o $@
 
 -include $(DEPS)

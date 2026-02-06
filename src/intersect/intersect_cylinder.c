@@ -18,7 +18,12 @@
 #define C_CAP 1 // cap center
 #define P_CAP 2 // point of intersection
 
-double	inter_cyl_caps(t_object *cy, t_ray ray, const double r, const bool tb)
+#define T_CAP 1
+#define BODY 2
+#define B_CAP 3
+
+static double	inter_cyl_caps(t_object *cy, t_ray ray,
+		const double r, const bool tb)
 {
 	t_vec3	cap[3];
 	t_vec3	v;
@@ -46,46 +51,89 @@ double	inter_cyl_caps(t_object *cy, t_ray ray, const double r, const bool tb)
 	return (0);
 }
 
-double	inter_cyl_body(t_object *cy, t_ray ray, double dir_norm, double r)
+/**	@brief puts both roots of the equation into root[0] and root[1]
+ *	@brief in ascending order.
+**/
+t_bool	cyl_resolve_eq2(double a, double b, double c, double root[2])
+{
+	double	discriminant;
+	double	temp[2];
+
+	root[0] = 0;
+	root[1] = 0;
+	if (!root || a == 0)
+		return (FALSE);
+	discriminant = b * b - 4 * a * c;
+	if (discriminant < 0)
+		return (FALSE);
+	else
+	{
+		temp[0] = (-b - sqrt(discriminant)) / (2 * a);
+		temp[1] = (-b + sqrt(discriminant)) / (2 * a);
+	}
+	root[0] = fmin(temp[0], temp[1]);
+	root[1] = fmax(temp[0], temp[1]);
+	return (TRUE);
+}
+
+double	define_root(t_ray ray, t_object *cy, double roots[2])
+{
+	size_t	i;
+	t_vec3	p;
+
+	i = 0;
+	while (i < 2)
+	{
+		if (roots[i] > EPSILON)
+		{
+			p = vec3_add(ray.ori, vec3_scale(ray.dir, roots[i]));
+			if (fabs(vec3_dot(vec3_sub(p, cy->center), cy->n)) <= cy->h / 2)
+				return (roots[i]);
+		}
+		++i;
+	}
+	return (0);
+}
+
+static double	inter_cyl_body(t_object *cy, t_ray ray,
+		const double dir_dot, const double r)
 {
 	const t_vec3	oc = vec3_sub(ray.ori, cy->center);
-	const double	oc_norm = vec3_dot(oc, cy->n);
+	const double	oc_dot = vec3_dot(oc, cy->n);
 	double			numbers[3];
-	t_vec3			p;
-	double			root;
+	double			root[2];
 
-	root = 0;
-	numbers[0] = vec3_dot(ray.dir, ray.dir) - (dir_norm * dir_norm);
-	numbers[1] = 2 * (vec3_dot(oc, ray.dir) - dir_norm * oc_norm);
-	numbers[2] = vec3_dot(oc, oc) - (oc_norm * oc_norm) - (r * r);
-	if (!resolve_eq2(numbers[0], numbers[1], numbers[2], &root))
+	numbers[0] = vec3_dot(ray.dir, ray.dir) - (dir_dot * dir_dot);
+	numbers[1] = 2 * (vec3_dot(oc, ray.dir) - dir_dot * oc_dot);
+	numbers[2] = vec3_dot(oc, oc) - (oc_dot * oc_dot) - (r * r);
+	if (!cyl_resolve_eq2(numbers[0], numbers[1], numbers[2], root))
 		return (0);
-	p = vec3_add(ray.ori, vec3_scale(ray.dir, root));
-	if (fabs(vec3_dot(vec3_sub(p, cy->center), cy->n)) <= cy->h / 2)
-		return (root);
-	return (0);
+	return (define_root(ray, cy, root));
 }
 
 double	intersect_cylinder(t_object *cy, t_ray ray)
 {
-	const double	dir_norm = vec3_dot(ray.dir, cy->n);
-	double			body_root;
-	double			caps_root;
-	double			root;
+	const double	dir_dot = vec3_dot(ray.dir, cy->n);
+	const double	r = cy->diam / 2;
+	double			roots[4];
+	int				i;
 
-	caps_root = inter_cyl_caps(cy, ray, cy->diam / 2, TRUE);
-	if (caps_root <= EPSILON)
-		caps_root = inter_cyl_caps(cy, ray, cy->diam / 2, FALSE);
-	else
+	roots[0] = INFINITY;
+	roots[T_CAP] = inter_cyl_caps(cy, ray, r, TRUE);
+	roots[BODY] = inter_cyl_body(cy, ray, dir_dot, r);
+	roots[B_CAP] = inter_cyl_caps(cy, ray, r, FALSE);
+	i = 1;
+	while (i < 4)
 	{
-		root = inter_cyl_caps(cy, ray, cy->diam / 2, FALSE);
-		if (root > EPSILON)
-			caps_root = fmin(caps_root, root);
+		if (roots[i] > EPSILON && roots[0] > roots[i])
+			roots[0] = roots[i];
+		++i;
 	}
-	body_root = inter_cyl_body(cy, ray, dir_norm, cy->diam / 2);
-	if (body_root <= EPSILON || caps_root <= EPSILON)
-		root = fmax(body_root, caps_root);
+	if (roots[0] == roots[T_CAP])
+		cy->cap = 1;
+	else if (roots[0] == roots[B_CAP])
+		cy->cap = -1;
 	else
-		root = fmin(body_root, caps_root);
-	return (root);
+		cy->cap = 0;
+	return (roots[0]);
 }

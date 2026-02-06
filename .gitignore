@@ -4,6 +4,5 @@
 miniRT
 *.d
 run_tests
-maps/
 libs/*/*.a
 *.out

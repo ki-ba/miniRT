@@ -22,18 +22,17 @@
 
 # define PLANE_ID "pl"
 # define CYLINDER_ID "cy"
-# define CONE_ID "co"
 # define SPHERE_ID "sp"
 # define AMBIENT_ID "A"
 # define LIGHT_ID "L"
 # define CAMERA_ID "C"
 
-# define USAGE_ERR_MSG "usage : ./miniRT filename.rt\n"
-# define FILE_ERR_MSG "Error while reading file\n"
-# define MISSING_PROPERTY_MSG "Error: Missing required property (A or C)\n"
-# define TOO_MUCH_ELEMENTS_MSG "Error: More than 1 [C]amera, [L]ight, or \
+# define USAGE_ERR_MSG		"Error\nusage : ./miniRT filename.rt\n"
+# define FILE_ERR_MSG		"Error\nError while reading file\n"
+# define MISSING_PROPERTY_MSG	"Error\nMissing required property (A or C)\n"
+# define TOO_MUCH_ELEMENTS_MSG	"Error\nMore than 1 [C]amera, [L]ight, or \
 [A]mbiant light\n"
-# define VECTOR_NOT_NORMALIZED "Error: The vector is not normalized\n"
+# define VECTOR_NOT_NORMALIZED	"Error\nVector is not normalized\n"
 
 /* PARSING */
 

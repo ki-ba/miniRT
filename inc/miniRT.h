@@ -23,6 +23,10 @@
 # define VP_DISTANCE 1
 # define SHININESS 50
 
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
+
 /* ENUMS */
 enum e_error_code
 {

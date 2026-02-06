@@ -49,28 +49,6 @@ int	create_cylinder(void *cyl, char **specs)
 	return (0);
 }
 
-int	create_cone(void *cone, char **specs)
-{
-	char		*n;
-	char		*n2;
-	t_object	*c_cone;
-
-	c_cone = (t_object *)cone;
-	if (arr_len(specs) < 6)
-		return (INVALID_VAL_ERR);
-	if (!cone || read_normalized_vec(&c_cone->n, specs[2]))
-		return (INVALID_VAL_ERR);
-	if (read_point(&c_cone->center, specs[1]))
-		return (INVALID_VAL_ERR);
-	if (read_color(&c_cone->c, specs[5]))
-		return (INVALID_VAL_ERR);
-	c_cone->diam = ft_strtod(specs[3], &n);
-	c_cone->h = ft_strtod(specs[4], &n2);
-	if (*n != '\0' || *n2 != '\0')
-		return (INVALID_VAL_ERR);
-	return (0);
-}
-
 int	create_sphere(void *sp, char **specs)
 {
 	char		*n;
