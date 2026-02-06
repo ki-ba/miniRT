@@ -29,7 +29,6 @@ int	main(int argc, char *argv[])
 
 {
 	t_mini_rt	mini_rt;
-	int			fd;
 
 	init_mini_rt(&mini_rt);
 	if (argc != 2 || !check_extension(argv[1], EXTENSION))
@@ -37,13 +36,13 @@ int	main(int argc, char *argv[])
 		write(2, USAGE_ERR_MSG, ft_strlen(USAGE_ERR_MSG));
 		clean_exit(&mini_rt, GENERIC_ERR);
 	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
+	mini_rt.fd = open(argv[1], O_RDONLY);
+	if (mini_rt.fd < 0)
 	{
 		clean_exit(&mini_rt, GENERIC_ERR);
 		return (write(2, FILE_ERR_MSG, ft_strlen(FILE_ERR_MSG)));
 	}
-	if (parse_items_in_file(&mini_rt, fd))
+	if (parse_items_in_file(&mini_rt, mini_rt.fd))
 		clean_exit(&mini_rt, GENERIC_ERR);
 	if (check_properties(&mini_rt))
 		clean_exit(&mini_rt, GENERIC_ERR);
