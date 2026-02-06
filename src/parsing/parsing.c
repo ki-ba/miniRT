@@ -109,9 +109,8 @@ int	handle_line(t_mini_rt *mini_rt, char *line)
 	p[0] = &create_sphere;
 	p[1] = &create_plane;
 	p[2] = &create_cylinder;
-	p[3] = &create_cone;
-	p[4] = &create_light;
-	p[5] = NULL;
+	p[3] = &create_light;
+	p[4] = NULL;
 	type = define_item_type(object_arr[0]);
 	status = INVALID_VAL_ERR;
 	if (is_property_id(object_arr[0]))

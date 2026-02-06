@@ -67,14 +67,13 @@ t_inter	check_intersect_obj(t_vector *objects, t_ray ray)
 {
 	double		t;
 	size_t		i;
-	double		(*f_i[4])(t_object *, t_ray);
+	double		(*f_i[N_HITTABLE_TYPES])(t_object *, t_ray);
 	t_inter		inter;
 	t_object	*cur_object;
 
 	f_i[0] = intersect_sphere;
 	f_i[1] = intersect_plane;
 	f_i[2] = intersect_cylinder;
-	f_i[3] = intersect_cone;
 	i = -1;
 	inter.t = INFINITY;
 	inter.ray = ray;

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "objects.h"
+#include "core.h"
 
 t_object	*get_ith_obj(t_vector *vector, size_t index)
 {

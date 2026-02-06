@@ -12,7 +12,8 @@
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
-# include "miniRT.h"
+# include "vec3.h"
+# include "color.h"
 
 typedef struct s_object		t_object;
 typedef enum e_item_type	t_item_type;
@@ -22,7 +23,6 @@ enum e_item_type
 	SPHERE = 0,
 	PLANE,
 	CYLINDER,
-	CONE,
 	LIGHT,
 	E_ITEM_TYPE_QTY
 };
@@ -42,7 +42,7 @@ struct s_object
 
 int	create_plane(void *plane, char **specs);
 int	create_cylinder(void *cyl, char **specs);
-int	create_cone(void *cone, char **specs);
+// int	create_cone(void *cone, char **specs);
 int	create_sphere(void *sp, char **specs);
 int	create_light(void *light, char **light_arr);
 

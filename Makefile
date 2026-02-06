@@ -48,7 +48,7 @@ GRAPHICS_FILENAMES	= graphics.c
 CORE_FILENAMES		= core.c hooks.c hooks_utils.c math.c core_utils.c
 RENDER_FILENAMES	= render.c render_utils.c
 COLOR_FILENAMES		= color.c
-INTERSECT_FILENAMES = intersect.c intersect_cylinder.c intersect_cone.c normal.c
+INTERSECT_FILENAMES = intersect.c intersect_cylinder.c normal.c
 
 # CATEGORY_FILENAMES = filename.c
 

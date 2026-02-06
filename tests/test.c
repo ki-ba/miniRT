@@ -84,7 +84,7 @@ int	main(void)
 	// NORMAL TESTS
 	RUN_TEST(test_get_normal_sphere);
 	RUN_TEST(test_inter_cyl);
-	RUN_TEST(test_inter_cone);
+	// RUN_TEST(test_inter_cone);
 
 
 	// HOOKS UTILS TESTS

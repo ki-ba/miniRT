@@ -14,6 +14,9 @@
 # define INTERSECT_H
 
 # include "objects.h"
+# include "miniRT.h"
+
+# define N_HITTABLE_TYPES 3
 
 typedef struct s_inter		t_inter;
 
@@ -30,6 +33,5 @@ int		is_in_shadow(t_vector *objects, t_light *light, t_inter inter);
 t_inter	check_intersect_obj(t_vector *objects, t_ray ray);
 t_vec3	get_normal_at_intersection(t_inter inter);
 double	intersect_cylinder(t_object *cy, t_ray ray);
-double	intersect_cone(t_object *co, t_ray ray);
 
 #endif
