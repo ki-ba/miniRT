@@ -80,7 +80,6 @@ void	test_scale_color(void);
 
 void	test_check_intersect_sphere(void);
 void	test_inter_cyl(void);
-// void	test_inter_cone(void);
 
 // UTILS
 

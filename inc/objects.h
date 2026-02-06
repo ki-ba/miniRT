@@ -42,7 +42,6 @@ struct s_object
 
 int	create_plane(void *plane, char **specs);
 int	create_cylinder(void *cyl, char **specs);
-// int	create_cone(void *cone, char **specs);
 int	create_sphere(void *sp, char **specs);
 int	create_light(void *light, char **light_arr);
 
